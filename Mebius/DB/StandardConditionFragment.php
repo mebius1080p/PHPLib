@@ -24,7 +24,7 @@ class StandardConditionFragment extends SQLConditionFragment
 			}
 		}
 		if (!$isValidOperator) {
-			throw new Exception("オペレーターが間違っています", 1);
+			throw new \Exception("オペレーターが間違っています", 1);
 		}
 	}
 	private function checkValue($mustBeStrOrNumber){
@@ -32,7 +32,7 @@ class StandardConditionFragment extends SQLConditionFragment
 			if (gettype($mustBeStrOrNumber) === "integer" || gettype($mustBeStrOrNumber) === "double") {
 				return strval($mustBeStrOrNumber);
 			} else {
-				throw new Exception("引数は文字列か数値でなくてはなりません", 1);
+				throw new \Exception("引数は文字列か数値でなくてはなりません", 1);
 			}
 		} else{
 			return $mustBeStrOrNumber;

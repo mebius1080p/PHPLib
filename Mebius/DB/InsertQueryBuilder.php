@@ -13,7 +13,7 @@ class InsertQueryBuilder extends QueryBuilder
 	public function __construct($tableName, array $column)
 	{
 		if (count($column) === 0) {
-			throw new Exception("カラムがありません");
+			throw new \Exception("カラムがありません");
 		}
 		$temp = [];
 		$ques = [];

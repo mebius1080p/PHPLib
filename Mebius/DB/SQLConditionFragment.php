@@ -16,7 +16,7 @@ abstract class SQLConditionFragment
 	}
 	protected function checkString($mustBeStr){
 		if (gettype($mustBeStr) !== "string") {
-			throw new Exception("引数は文字列でなくてはなりません", 1);
+			throw new \Exception("引数は文字列でなくてはなりません", 1);
 		}
 	}
 }
