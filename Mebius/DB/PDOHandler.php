@@ -46,7 +46,7 @@ class PDOHandler
 			$this->pdo->beginTransaction();
 			$data = $qb->getData();//二次元配列「
 			foreach ($data as $key) {
-				$this->pdo->execute($key);
+				$sth->execute($key);
 			}
 			$this->pdo->commit();
 		} catch (\Exception $e) {
