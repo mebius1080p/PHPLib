@@ -26,7 +26,7 @@ class SelectQueryBuilder extends QueryBuilder
 	}
 	public function stashCurrentCondition(){
 		$conditionMatch = [];
-		$r = preg_match("/WHERE (.+)/", $this->sql, $conditionMatch);
+		preg_match("/WHERE (.+)/", $this->sql, $conditionMatch);
 		$currentCondition = $conditionMatch[1];
 		$this->sql = str_replace($currentCondition, "($currentCondition)", $this->sql);
 	}
