@@ -1,0 +1,10 @@
+language: php
+php:
+ - "7.0"
+script: phpunit
+notifications:
+ email:
+  recipients:
+   - mebius1080p@gmail.com
+  on_success: always
+  on_failure: always
