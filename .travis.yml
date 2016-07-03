@@ -12,3 +12,5 @@ notifications:
    - mebius1080p@gmail.com #a
   on_success: always
   on_failure: always
+after_success:
+ - travis_retry php vendor/bin/coveralls -v
