@@ -52,11 +52,15 @@ class InputChecker
 		$retObj = new \stdClass();
 		$retObj->result = true;
 		$retObj->message = "";
+<<<<<<< HEAD
 		//no need to check control string???
 		// if (preg_match('/\A[[:^cntrl:]]{0,50}\z/u', $aMail) !== 1) {
 		// 	$retObj->result = false;
 		// 	$retObj->message = "including controll string";
 		// }
+=======
+		//use /\A[[:^cntrl:]]{0,50}\z/u if you need to check control string
+>>>>>>> b82286c746528724ca9842726e1ea44641f3eeb0
 		if (!filter_var($aMail, FILTER_VALIDATE_EMAIL)) {
 			$retObj->result = false;
 			$retObj->message = "不正なメールアドレスです。";
