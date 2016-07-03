@@ -6,5 +6,7 @@
 			<file>test/InputCheckerTest.php</file>
 		</testsuite>
 	</testsuites>
-	<!--hoge-->
+	<logging>
+		<log type="coverage-clover" target="build/logs/clover.xml"/>
+	</logging>
 </phpunit>
