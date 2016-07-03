@@ -9,4 +9,13 @@
 	<logging>
 		<log type="coverage-clover" target="build/logs/clover.xml"/>
 	</logging>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">Mebius/IO</directory>
+			<exclude>
+				<file>Mebius/IO/CountFileHandler.php</file>
+				<file>Mebius/IO/FileHandler.php</file>
+			</exclude>
+		</whitelist>
+	</filter>
 </phpunit>
