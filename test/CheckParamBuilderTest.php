@@ -3,12 +3,11 @@ require_once(__DIR__ . "/../Mebius/IO/CheckParamBuilder.php");
 if (file_exists("PHPUnit\Framework\TestCase.php")) {
 	require_once("../vendor/autoload.php");
 }
-use PHPUnit\Framework\TestCase;
 
 /**
  * CheckParamBuilderTest
  */
-class CheckParamBuilderTest extends TestCase
+class CheckParamBuilderTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	*エラーなしの通常テスト
