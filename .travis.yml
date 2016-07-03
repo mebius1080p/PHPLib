@@ -5,6 +5,6 @@ script: phpunit
 notifications:
  email:
   recipients:
-   - mebius1080p@gmail.com
+   - mebius1080p@gmail.com #a
   on_success: always
   on_failure: always

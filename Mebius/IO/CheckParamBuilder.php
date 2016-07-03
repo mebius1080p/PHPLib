@@ -2,7 +2,7 @@
 namespace Mebius\IO;
 
 /**
-*InputChecker に渡すデータをまとめるだけのクラス for php7
+*InputChecker に渡すデータをまとめるだけのクラス for php7 a
 */
 class CheckParamBuilder
 {

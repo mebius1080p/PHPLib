@@ -2,7 +2,7 @@
 namespace Mebius\IO;
 
 /**
-*InputChecker クラス for php7
+*InputChecker クラス for php7 a
 */
 class InputChecker
 {

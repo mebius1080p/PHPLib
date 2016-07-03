@@ -6,4 +6,5 @@
 			<file>test/InputCheckerTest.php</file>
 		</testsuite>
 	</testsuites>
+	<!--hoge-->
 </phpunit>
