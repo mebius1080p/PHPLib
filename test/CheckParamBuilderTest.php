@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__ . "/../Mebius/IO/CheckParamBuilder.php");
-if (file_exists("PHPUnit\Framework\TestCase.php")) {
-	require_once("../vendor/autoload.php");
+if (!class_exists("\PHPUnit\Framework\TestCase")) {
+	require_once(__DIR__ . "/../vendor/autoload.php");
 }
 
 /**
