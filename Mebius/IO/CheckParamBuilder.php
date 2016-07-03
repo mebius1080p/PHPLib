@@ -1,56 +1,47 @@
 <?php
 namespace Mebius\IO;
 
-//パラメーターチェック用の配列を作るクラス
+/**
+*InputChecker に渡すデータをまとめるだけのクラス for php7
+*/
 class CheckParamBuilder
 {
-	const GET_POST = 0;
-	const QUERY_STRING = 1;
-	const INCLUDE_MATCH = true;
-	const EXCLUDE_MATCH = false;
+	/**
+	*パラメーター格納配列
+	*/
 	private $param = [];
-	private $mode;
-	public function __construct($aMode = 0)
+	public function __construct()
 	{
-		if($aMode !== self::GET_POST &&
-			$aMode !== self::QUERY_STRING)
-		{
-			throw new \Exception("引数は 0 or 1 です");
-		}
-		$this->mode = $aMode;
+		//do nothing
 	}
-	public function add($aTag, $aReg, $aIEFlag = self::INCLUDE_MATCH)
+	/**
+	*チェックするパラメーターを追加するメソッド
+	*@param {string} $aInputStr 入力文字列
+	*@param {string} $aRegExpStr チェック用の正規表現文字列。
+	*@param {boolean} $aIsInclude 正規表現通りなら OK なのか、そうでないかのフラグ。false の時は除外文字列をチェックできる
+	*/
+	public function add(string $aInputStr, string $aRegExpStr, $aIsInclude = true)
 	{
-		if (is_string($aTag) === false ||
-			is_string($aReg) === false ||
-			is_bool($aIEFlag) === false)
+		if(preg_match("/^\/.+\/$/", $aRegExpStr) !== 1)//スラッシュで始まり何か入ってスラッシュで終わる文字列
 		{
-			throw new \Exception("CheckParamBuilder.add : 第一、第二引数は文字列、第三引数は bool です");
+			throw new \Exception("CheckParamBuilder2->add : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
 		}
-		if ($this->mode === 0 && $aTag === "")
-		{//mode が 1 のときは空文字を許可する
-			throw new \Exception("CheckParamBuilder.add : 第一引数が空文字です");
-		}
-		if ($aReg !== "")
-		{//から文字を許可。そうでないときは regexp 表現
-			if(preg_match("/^\/.+\/$/", $aReg) !== 1)
-			{
-				throw new \Exception("CheckParamBuilder.add : 第二引数はスラッシュで囲んでください");
-			}
+		if (!is_bool($aIsInclude)) {
+			throw new \Exception("CheckParamBuilder2->add : 第三引数は boolean にしてください");
 		}
 		$temp = [
-			"name" => $aTag,
-			"regex" => $aReg,
-			"ieFlag" => $aIEFlag//include, exclude flag
+			"value" => $aInputStr,
+			"regex" => $aRegExpStr,
+			"isInclude" => $aIsInclude
 		];
 		$this->param[] = $temp;//追加
 	}
+	/**
+	*param を返すメソッド
+	*@return {array} インスタンスが保持する param
+	*/
 	public function getParam()
 	{
 		return $this->param;
-	}
-	public function getMode()
-	{
-		return $this->mode;
 	}
 }
