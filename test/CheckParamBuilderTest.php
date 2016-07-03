@@ -1,5 +1,8 @@
 <?php
 require_once(__DIR__ . "/../Mebius/IO/CheckParamBuilder.php");
+if (file_exists("PHPUnit\Framework\TestCase.php")) {
+	require_once("../vendor/autoload.php");
+}
 use PHPUnit\Framework\TestCase;
 
 /**
