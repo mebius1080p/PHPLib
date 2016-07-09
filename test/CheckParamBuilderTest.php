@@ -31,7 +31,7 @@ class CheckParamBuilderTest extends \PHPUnit\Framework\TestCase
 	{
 		$cpb = new \Mebius\IO\CheckParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("CheckParamBuilder2->add : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
+		$this->expectExceptionMessage("CheckParamBuilder->add : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
 		$cpb->add("hoge", "piyo");
 	}
 	/**
@@ -41,7 +41,7 @@ class CheckParamBuilderTest extends \PHPUnit\Framework\TestCase
 	{
 		$cpb = new \Mebius\IO\CheckParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("CheckParamBuilder2->add : 第三引数は boolean にしてください");
+		$this->expectExceptionMessage("CheckParamBuilder->add : 第三引数は boolean にしてください");
 		$cpb->add("hoge", "/\A.+\z/", 2);
 	}
 }

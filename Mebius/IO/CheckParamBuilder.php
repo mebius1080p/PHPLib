@@ -22,12 +22,11 @@ class CheckParamBuilder
 	*/
 	public function add(string $aInputStr, string $aRegExpStr, $aIsInclude = true)
 	{
-		if(preg_match("/^\/.+\/$/", $aRegExpStr) !== 1)//スラッシュで始まり何か入ってスラッシュで終わる文字列
-		{
-			throw new \Exception("CheckParamBuilder2->add : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
+		if(preg_match("/^\/.+\/$/", $aRegExpStr) !== 1) {//スラッシュで始まり何か入ってスラッシュで終わる文字列
+			throw new \Exception("CheckParamBuilder->add : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
 		}
 		if (!is_bool($aIsInclude)) {
-			throw new \Exception("CheckParamBuilder2->add : 第三引数は boolean にしてください");
+			throw new \Exception("CheckParamBuilder->add : 第三引数は boolean にしてください");
 		}
 		$temp = [
 			"value" => $aInputStr,

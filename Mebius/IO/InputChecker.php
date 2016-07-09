@@ -2,11 +2,14 @@
 namespace Mebius\IO;
 
 /**
-*InputChecker クラス for php7 a
+*InputChecker クラス for php7
 */
 class InputChecker
 {
 	private $checkArray;//配列
+	/**
+	*@param {CheckParamBuilder} $aCPBObj checkparambulder のインスタンス
+	*/
 	public function __construct(CheckParamBuilder $aCPBObj)
 	{
 		$paramArray = $aCPBObj->getParam();
