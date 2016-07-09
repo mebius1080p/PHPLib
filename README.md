@@ -19,5 +19,3 @@ create composer.json and write below
             "url": "https://github.com/mebius1080p/PHPLib.git"
         }]
     }
-
-add comment to trigger travis
