@@ -89,6 +89,18 @@ class InputValidatorTest extends TestCase
 		$iv = new \Mebius\IO\InputValidator($vpb);
 	}
 	/**
+	*regex での除外キーワード
+	*/
+	public function testRegExclude()
+	{
+		$value = "123w";
+		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb->addWithRegEx($value, "/[a-z]+/", false);
+		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
+		$this->expectExceptionMessage($value . " : 不正な値が含まれています");
+		$iv = new \Mebius\IO\InputValidator($vpb);
+	}
+	/**
 	*不正なメールアドレス1 utf8 非許可
 	*/
 	public function testMailInvalidCase1()
