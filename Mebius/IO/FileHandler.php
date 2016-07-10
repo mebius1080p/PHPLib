@@ -6,23 +6,23 @@ namespace Mebius\IO;
 */
 class FileHandler
 {
-	private $fileName = "";
-	private $fh;
-	private $isLocked = false;
-	private $isOpened = false;
+	private $filePath = "";
 	/**
-	*@param {string} $fileName このクラスで扱うファイル名
+	*@param {string} $filePath このクラスで扱うファイル名
 	*/
-	public function __construct(string $fileName)
+	public function __construct(string $filePath)
 	{
-		if (!file_exists($fileName)) {
-			throw new \Exception($fileName . " が存在しません。");
+		if (!file_exists($filePath)) {
+			throw new \Exception($filePath . " が存在しません。");
 		}
-		$this->fileName = $fileName;
+		$this->filePath = $filePath;
 	}
+	/**
+	*@return {string} ファイルの内容。コンストラクタでファイルの存在をチェックしているので、多少意味のあるメソッド
+	*/
 	public function getString()
 	{
-		return file_get_contents($this->fileName);
+		return file_get_contents($this->filePath);
 	}
 	/**
 	*引数のテキストでファイル内容を丸ごと書き換えるメソッド
@@ -30,27 +30,18 @@ class FileHandler
 	*/
 	public function update(string $aStr)
 	{
-		$this->fh = fopen($this->fileName, "w");
-		$this->isOpened = true;
-		flock($this->fh, LOCK_EX);//書き込みロック
-		$this->isLocked = true;
-		//ftruncate($this->fh, 0);//ファイルサイズ切り詰め：オプション
-		//rewind()???
-		fwrite($this->fh, $aStr);
-		flock($this->fh, LOCK_UN);//ロック解放
-		$this->isLocked = false;
-		fclose($this->fh);//古いバージョンではロックも解除
-		$this->isOpened = false;
+		file_put_contents($this->filePath, $aStr, LOCK_EX);
 	}
-	public function __destruct()
+	/**
+	*カウントアップメソッド
+	*@return {int} カウントアップ後の数値
+	*/
+	public function countUp()
 	{
-		if ($this->isLocked) {
-			flock($this->fh, LOCK_UN);//ロック解放
-			$this->isLocked = false;
-		}
-		if ($this->isOpened) {
-			fclose($this->fh);//確実に閉じる
-			$this->isOpened = false;
-		}
+		$currentStr = file_get_contents($this->filePath);
+		$counter = (int)$currentStr;
+		$counter++;
+		file_put_contents($this->filePath, (string)$counter, LOCK_EX);
+		return $counter;
 	}
 }

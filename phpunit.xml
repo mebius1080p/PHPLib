@@ -4,7 +4,7 @@
 		<testsuite name="test_php7">
 			<file>test/ValidateParamBuilderTest.php</file>
 			<file>test/InputValidatorTest.php</file>
-			<file>test/CountFileHandlerTest.php</file>
+			<file>test/FileHandlerTest.php</file>
 		</testsuite>
 	</testsuites>
 	<logging>
