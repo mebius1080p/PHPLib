@@ -117,12 +117,76 @@ STR;
 		$this->expectExceptionMessage($val2 . " : 不正なメールアドレスです。");
 		$iv2 = new \Mebius\IO\InputValidator($vpb2);
 	}
-	public function testInclude1()
+	/**
+	*include 異常系 1
+	*/
+	public function testInvalidInclude1()
 	{
 		$vpb = new \Mebius\IO\ValidateParamBuilder();
 		$vpb->addBetweenInt("2", 3, 8);
+		$param = $vpb->getParam();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("2 は 3 と 8 の間にありません");
+		$iv = new \Mebius\IO\InputValidator($vpb);
+	}
+	/**
+	*include 異常系 2
+	*/
+	public function testInvalidInclude2()
+	{
+		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb->addBetweenInt("2", 3);
+		$param = $vpb->getParam();
+		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
+		$this->expectExceptionMessage("2 は 3 より大きくありません");
+		$iv = new \Mebius\IO\InputValidator($vpb);
+	}
+	/**
+	*include 異常系 3
+	*/
+	public function testInvalidInclude3()
+	{
+		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb->addBetweenInt("10", null, 8);
+		$param = $vpb->getParam();
+		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
+		$this->expectExceptionMessage("10 は 8 より小さくありません");
+		$iv = new \Mebius\IO\InputValidator($vpb);
+	}
+	/**
+	*exclude 異常系 1
+	*/
+	public function testInvalidExclude1()
+	{
+		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb->addBetweenInt("5", 3, 8, false);
+		$param = $vpb->getParam();
+		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
+		$this->expectExceptionMessage("5 は 3 と 8 の間にあります");
+		$iv = new \Mebius\IO\InputValidator($vpb);
+	}
+	/**
+	*exclude 異常系 2
+	*/
+	public function testInvalidExclude2()
+	{
+		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb->addBetweenInt("5", 3, null, false);
+		$param = $vpb->getParam();
+		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
+		$this->expectExceptionMessage("5 は 3 より小さくありません");
+		$iv = new \Mebius\IO\InputValidator($vpb);
+	}
+	/**
+	*exclude 異常系 3
+	*/
+	public function testInvalidExclude3()
+	{
+		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb->addBetweenInt("5", null, 8, false);
+		$param = $vpb->getParam();
+		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
+		$this->expectExceptionMessage("5 は 8 より大きくありません");
 		$iv = new \Mebius\IO\InputValidator($vpb);
 	}
 }

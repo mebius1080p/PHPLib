@@ -31,8 +31,19 @@ class InputValidator
 		$len = count($this->checkArray);
 		for ($i = 0; $i < $len; $i++) {
 			$mode = $this->checkArray[$i]["mode"];
-			if (method_exists($this, $mode)) {
-				$this->$mode($this->checkArray[$i]);
+			switch ($mode) {
+				case 'regex':
+					$this->regex($this->checkArray[$i]);
+					break;
+				case 'mail':
+					$this->mail($this->checkArray[$i]);
+					break;
+				case 'mailutf8':
+					$this->mailutf8($this->checkArray[$i]);
+					break;
+				case 'compare':
+					$this->compare($this->checkArray[$i]);
+					break;
 			}
 		}
 	}
