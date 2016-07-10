@@ -2,8 +2,8 @@
 <phpunit>
 	<testsuites>
 		<testsuite name="test_php7">
-			<file>test/CheckParamBuilderTest.php</file>
-			<file>test/InputCheckerTest.php</file>
+			<file>test/ValidateParamBuilderTest.php</file>
+			<file>test/InputValidatorTest.php</file>
 		</testsuite>
 	</testsuites>
 	<logging>
