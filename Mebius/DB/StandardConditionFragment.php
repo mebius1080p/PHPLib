@@ -11,9 +11,8 @@ class StandardConditionFragment extends SQLConditionFragment
 	*@param {string} $operator where 句で用いられる演算子の文字列
 	*@param {string|int|double} $value placeholder で当てはめられる値
 	*/
-	public function __construct($column, $operator, $value)
+	public function __construct(string $column, string $operator, $value)
 	{
-		$this->checkString($column);
 		$this->checkOperator($operator);
 		$this->value = $this->checkValue($value);
 		$this->fragment = sprintf("%s %s ?", $column, $operator);
@@ -22,9 +21,8 @@ class StandardConditionFragment extends SQLConditionFragment
 	*演算子が規定の文字であるかをチェックするメソッド
 	*@param {string} $op 演算子の文字列
 	*/
-	private function checkOperator($op)
+	private function checkOperator(string $op)
 	{
-		$this->checkString($op);
 		$isValidOperator = false;
 		$validOperator = ["=", "<", ">", "<=", ">=", "LIKE", "NOT LIKE"];
 		foreach ($validOperator as $key) {

@@ -24,15 +24,4 @@ abstract class SQLConditionFragment
 	{
 		return $this->value;
 	}
-	/**
-	*値が文字列かどうかを判定するメソッド。
-	*@param {mixed} $mustBeStr チェックする変数
-	*@throws {Exception} 引数が文字列でなかったときに例外
-	*/
-	protected function checkString($mustBeStr)
-	{
-		if (gettype($mustBeStr) !== "string") {
-			throw new \Exception("引数は文字列でなくてはなりません", 1);
-		}
-	}
 }
