@@ -8,7 +8,8 @@ class InsertQueryBuilder extends QueryBuilder
 {
 	const BASE_SQL = "INSERT INTO %s (%s) VALUES (%s)";
 	/**
-	* @param {array} $column 連想配列。
+	*@param {string} $tableName テーブル名
+	*@param {array} $column 連想配列。
 	*/
 	public function __construct($tableName, array $column)
 	{
@@ -26,9 +27,11 @@ class InsertQueryBuilder extends QueryBuilder
 		$this->sql = sprintf(self::BASE_SQL, $tableName, implode(",", $temp), implode(",", $ques));
 	}
 	/**
-	* @param {array} $data 二次元配列。値チェックはしないので注意して使用する
+	*複数 insert などで executeTransactionWithMultipleData の前に使用するメソッド
+	*@param {array} $data 二次元配列。値チェックはしないので注意して使用する
 	*/
-	public function setMultipleData(array $data){
+	public function setMultipleData(array $data)
+	{
 		$this->data = $data;
 	}
 }
