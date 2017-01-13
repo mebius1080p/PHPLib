@@ -24,7 +24,11 @@ class PDOHandler
 	{
 		$dsnArray = [self::DSN_MYSQL, self::DSN_SQLITE];
 		$dsn = sprintf($dsnArray[$dbType], $dbName);
-		$this->pdo = new \PDO($dsn, $user, $pass);
+		$pdoOption = [];
+		if (defined('PDO::MYSQL_ATTR_MULTI_STATEMENTS')) {
+			$pdoOption[PDO::MYSQL_ATTR_MULTI_STATEMENTS] = false;
+		}
+		$this->pdo = new \PDO($dsn, $user, $pass, $pdoOption);
 		$this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false); // 静的プレースホルダを指定
 		$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); //: 例外を投げる
 	}
