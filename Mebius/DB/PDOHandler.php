@@ -26,7 +26,7 @@ class PDOHandler
 		$dsn = sprintf($dsnArray[$dbType], $dbName);
 		$pdoOption = [];
 		if (defined('PDO::MYSQL_ATTR_MULTI_STATEMENTS')) {
-			$pdoOption[PDO::MYSQL_ATTR_MULTI_STATEMENTS] = false;
+			$pdoOption[\PDO::MYSQL_ATTR_MULTI_STATEMENTS] = false;
 		}
 		$this->pdo = new \PDO($dsn, $user, $pass, $pdoOption);
 		$this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false); // 静的プレースホルダを指定
