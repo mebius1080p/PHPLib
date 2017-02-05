@@ -65,6 +65,7 @@ class InputValidatorTest extends TestCase
 		$vpb->addBetweenInt("1", 2, null, false);
 		$vpb->addBetweenInt("8", null, 6, false);
 		$iv = new \Mebius\IO\InputValidator($vpb);
+		$this->assertTrue(true);//例外が出ないことのみテストする
 	}
 	/**
 	*バリデーターパラムが 0 のとき
