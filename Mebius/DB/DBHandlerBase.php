@@ -33,4 +33,16 @@ abstract class DBHandlerBase
 	{
 		$this->pdo = null;
 	}
+	/**
+	*select 系クエリを実行するメソッド
+	*@param string $sql sql 文
+	*@param string $classname 完全修飾クラス名
+	*@return $classname のインスタンス配列
+	*/
+	public function executeSelectQuery(string $sql, string $classname)
+	{
+		$sth = $this->pdo->prepare($sql);
+		$sth->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $classname);
+		return $sth->fetchAll();
+	}
 }
