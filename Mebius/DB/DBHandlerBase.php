@@ -9,7 +9,7 @@ abstract class DBHandlerBase
 	/**
 	*@var PDO pdo のインスタンス
 	*/
-	private $pdo = null;
+	protected $pdo = null;
 	/**
 	*コンストラクタ
 	*@param string $dsn DB 接続の DSN 文字列
