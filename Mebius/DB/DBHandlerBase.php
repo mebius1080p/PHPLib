@@ -37,12 +37,14 @@ abstract class DBHandlerBase
 	*select 系クエリを実行するメソッド
 	*@param string $sql sql 文
 	*@param string $classname 完全修飾クラス名
+	*@param array $placeHolder プレースホルダーに割り当てる配列
 	*@return $classname のインスタンス配列
 	*/
-	public function executeSelectQuery(string $sql, string $classname)
+	public function executeSelectQuery(string $sql, string $classname, array $placeHolder = [])
 	{
 		$sth = $this->pdo->prepare($sql);
 		$sth->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $classname);
+		$sth->execute($placeHolder);
 		return $sth->fetchAll();
 	}
 }
