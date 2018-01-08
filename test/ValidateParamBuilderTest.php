@@ -1,14 +1,12 @@
 <?php
-require_once(__DIR__ . "/../Mebius/IO/ValidateParamBuilder.php");
-require_once(__DIR__ . "/../Mebius/IO/ValidatorUtil.php");
-if (!class_exists("\PHPUnit\Framework\TestCase")) {
-	require_once(__DIR__ . "/../vendor/autoload.php");
-}
+use Mebius\IO\ValidateParamBuilder;
+use Mebius\IO\ValidatorUtil;
+use PHPUnit\Framework\TestCase;
 
 /**
  * ValidateParamBuilderTest
  */
-class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
+class ValidateParamBuilderTest extends TestCase
 {
 	/**
 	*regex 通常テスト
@@ -17,7 +15,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 	{
 		$origStr = "hoge";
 		$origReg = "/\A.+\z/";
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addWithRegEx($origStr, $origReg);
 		$param = $vpb->getParam();
 		$this->assertEquals(1, count($param));
@@ -28,7 +26,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals("regex", $param[0]["mode"]);
 		$this->assertEquals(true, $param[0]["isInclude"]);
 		//exclude
-		$vpb2 = new \Mebius\IO\ValidateParamBuilder();
+		$vpb2 = new ValidateParamBuilder();
 		$vpb2->addWithRegEx($origStr, $origReg, false);
 		$param2 = $vpb2->getParam();
 		$this->assertEquals(false, $param2[0]["isInclude"]);
@@ -40,7 +38,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 	{
 		$str = "ほげまつ";
 		$sjisStr = mb_convert_encoding($str, "sjis");
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("パラメーターが UTF-8 ではありません");
 		$vpb->addWithRegEx($sjisStr, "/\A.+\z/");
@@ -50,7 +48,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 	*/
 	public function testInvalidRegEx()
 	{
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("addWithRegEx : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
 		$vpb->addWithRegEx("hoge", "piyo");
@@ -60,7 +58,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 	*/
 	public function testInvalidInclude()
 	{
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("addWithRegEx : 第三引数は boolean にしてください");
 		$vpb->addWithRegEx("hoge", "/\A.+\z/", 2);
@@ -72,7 +70,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 	public function testMail()
 	{
 		$mail = "hoge@dd.com";
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addMail($mail);
 		$param = $vpb->getParam();
 		$this->assertEquals(1, count($param));
@@ -83,7 +81,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals("mailutf8", $param[0]["mode"]);
 		$this->assertEquals(true, $param[0]["isInclude"]);
 		//非 utf8 チェックの場合
-		$vpb2 = new \Mebius\IO\ValidateParamBuilder();
+		$vpb2 = new ValidateParamBuilder();
 		$vpb2->addMail($mail, false);
 		$param2 = $vpb2->getParam();
 		$this->assertEquals(1, count($param2));
@@ -97,7 +95,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 	public function testMailInvalidFlag()
 	{
 		$mail = "hoge@dd.com";
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("addMail : 第二引数は boolean にしてください");
 		$vpb->addMail($mail, 2);
@@ -109,7 +107,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 	{
 		$mail = "ほげ@dd.com";
 		$sjisMail = mb_convert_encoding($mail, "sjis");
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("パラメーターが UTF-8 ではありません");
 		$vpb->addMail($sjisMail);
@@ -123,7 +121,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 		$val1 = "2";
 		$val2 = 1;
 		$val3 = 5;
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt($val1, $val2, $val3);
 		$param = $vpb->getParam();
 		$this->assertEquals(1, count($param));
@@ -143,7 +141,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 		$sjisVal = mb_convert_encoding($val1, "sjis");
 		$val2 = 1;
 		$val3 = 5;
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("パラメーターが UTF-8 ではありません");
 		$vpb->addBetweenInt($sjisVal, $val2, $val3);
@@ -156,7 +154,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 		$val1 = "2";
 		$val2 = "もげら";
 		$val3 = 5;
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage($val2 . " : は数値ではありません");
 		$vpb->addBetweenInt($val1, $val2);
@@ -169,7 +167,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 		$val1 = "2";
 		$val2 = 1;
 		$val3 = "ほげ";
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage($val3 . " : は数値ではありません");
 		$vpb->addBetweenInt($val1, $val2, $val3);
@@ -182,7 +180,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 		$val1 = "2";
 		$val2 = null;
 		$val3 = null;
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("比較数値は最低でも片方は設定してください");
 		$vpb->addBetweenInt($val1, $val2, $val3);
@@ -192,7 +190,7 @@ class ValidateParamBuilderTest extends \PHPUnit\Framework\TestCase
 		$val1 = "2";
 		$val2 = 5;
 		$val3 = 2;
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage($val2 . " は " . $val3 . "よりも小さくしてください");
 		$vpb->addBetweenInt($val1, $val2, $val3);

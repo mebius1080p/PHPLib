@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<phpunit>
+<phpunit bootstrap="test/boot.php">
 	<testsuites>
 		<testsuite name="test_php7">
-			<file>test/ValidateParamBuilderTest.php</file>
-			<file>test/InputValidatorTest.php</file>
-			<file>test/FileHandlerTest.php</file>
+			<directory>test</directory>
 		</testsuite>
 	</testsuites>
 	<logging>
@@ -13,10 +11,7 @@
 	</logging>
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">Mebius/IO</directory>
-			<exclude>
-				<file>Mebius/IO/FileHandler.php</file>
-			</exclude>
+			<directory suffix=".php">Mebius</directory>
 		</whitelist>
 	</filter>
 </phpunit>

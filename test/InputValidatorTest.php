@@ -1,7 +1,7 @@
 <?php
-require_once(__DIR__ . "/../Mebius/IO/ValidateParamBuilder.php");
-require_once(__DIR__ . "/../Mebius/IO/InputValidator.php");
-require_once(__DIR__ . "/../Mebius/IO/ValidatorUtil.php");
+use Mebius\IO\ValidateParamBuilder;
+use Mebius\IO\InputValidator;
+use Mebius\IO\ValidatorUtil;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,7 +16,7 @@ class InputValidatorTest extends TestCase
 	{
 		$origStr = "hoge";
 		$origReg = "/\A.+\z/";
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addWithRegEx($origStr, $origReg);
 		$vpb->addWithRegEx("hoge", "/\A[a-z]+\z/");
 		$vpb->addWithRegEx("12", "/\A[0-9]+\z/");
@@ -64,7 +64,7 @@ class InputValidatorTest extends TestCase
 		$vpb->addBetweenInt("8", 2, 5, false);
 		$vpb->addBetweenInt("1", 2, null, false);
 		$vpb->addBetweenInt("8", null, 6, false);
-		$iv = new \Mebius\IO\InputValidator($vpb);
+		$iv = new InputValidator($vpb);
 		$this->assertTrue(true);//例外が出ないことのみテストする
 	}
 	/**
@@ -72,10 +72,10 @@ class InputValidatorTest extends TestCase
 	*/
 	public function testEmpty()
 	{
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("ValidateParamBuilder オブジェクトの中身が空です");
-		$iv = new \Mebius\IO\InputValidator($vpb);
+		$iv = new InputValidator($vpb);
 	}
 	/**
 	*正規表現と一致しない場合
@@ -83,11 +83,11 @@ class InputValidatorTest extends TestCase
 	public function testRegInvalidCase1()
 	{
 		$value = "123w";
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addWithRegEx($value, "/\A[a-z]+\z/");
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage($value . " : 値が不正です");
-		$iv = new \Mebius\IO\InputValidator($vpb);
+		$iv = new InputValidator($vpb);
 	}
 	/**
 	*regex での除外キーワード
@@ -95,11 +95,11 @@ class InputValidatorTest extends TestCase
 	public function testRegExclude()
 	{
 		$value = "123w";
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addWithRegEx($value, "/[a-z]+/", false);
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage($value . " : 不正な値が含まれています");
-		$iv = new \Mebius\IO\InputValidator($vpb);
+		$iv = new InputValidator($vpb);
 	}
 	/**
 	*不正なメールアドレス1 utf8 非許可
@@ -107,11 +107,11 @@ class InputValidatorTest extends TestCase
 	public function testMailInvalidCase1()
 	{
 		$value = "ほげ@dd.com";
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addMail($value, false);
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage($value . " : 不正なメールアドレスです。");
-		$iv = new \Mebius\IO\InputValidator($vpb);
+		$iv = new InputValidator($vpb);
 	}
 	/**
 	*制御文字入りメールアドレス
@@ -124,82 +124,82 @@ hoge@a
 aa.com
 
 STR;
-		$vpb2 = new \Mebius\IO\ValidateParamBuilder();
+		$vpb2 = new ValidateParamBuilder();
 		$vpb2->addMail($val2);
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage($val2 . " : 不正なメールアドレスです。");
-		$iv2 = new \Mebius\IO\InputValidator($vpb2);
+		$iv2 = new InputValidator($vpb2);
 	}
 	/**
 	*include 異常系 1
 	*/
 	public function testInvalidInclude1()
 	{
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("2", 3, 8);
 		$param = $vpb->getParam();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("2 は 3 と 8 の間にありません");
-		$iv = new \Mebius\IO\InputValidator($vpb);
+		$iv = new InputValidator($vpb);
 	}
 	/**
 	*include 異常系 2
 	*/
 	public function testInvalidInclude2()
 	{
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("2", 3);
 		$param = $vpb->getParam();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("2 は 3 より大きくありません");
-		$iv = new \Mebius\IO\InputValidator($vpb);
+		$iv = new InputValidator($vpb);
 	}
 	/**
 	*include 異常系 3
 	*/
 	public function testInvalidInclude3()
 	{
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("10", null, 8);
 		$param = $vpb->getParam();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("10 は 8 より小さくありません");
-		$iv = new \Mebius\IO\InputValidator($vpb);
+		$iv = new InputValidator($vpb);
 	}
 	/**
 	*exclude 異常系 1
 	*/
 	public function testInvalidExclude1()
 	{
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("5", 3, 8, false);
 		$param = $vpb->getParam();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("5 は 3 と 8 の間にあります");
-		$iv = new \Mebius\IO\InputValidator($vpb);
+		$iv = new InputValidator($vpb);
 	}
 	/**
 	*exclude 異常系 2
 	*/
 	public function testInvalidExclude2()
 	{
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("5", 3, null, false);
 		$param = $vpb->getParam();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("5 は 3 より小さくありません");
-		$iv = new \Mebius\IO\InputValidator($vpb);
+		$iv = new InputValidator($vpb);
 	}
 	/**
 	*exclude 異常系 3
 	*/
 	public function testInvalidExclude3()
 	{
-		$vpb = new \Mebius\IO\ValidateParamBuilder();
+		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("5", null, 8, false);
 		$param = $vpb->getParam();
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
 		$this->expectExceptionMessage("5 は 8 より大きくありません");
-		$iv = new \Mebius\IO\InputValidator($vpb);
+		$iv = new InputValidator($vpb);
 	}
 }
