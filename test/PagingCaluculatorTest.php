@@ -1,6 +1,7 @@
 <?php
 use PHPUnit\Framework\TestCase;
 use Mebius\Paging\PagingCaluculator;
+use Mebius\Paging\PagingSearchResult;
 
 class PagingCaluculatorTest extends TestCase
 {
@@ -10,9 +11,17 @@ class PagingCaluculatorTest extends TestCase
 		$perPage = 10;
 		$page = 2;
 		$pc = new PagingCaluculator($count, $perPage, $page);
+		$psr = $pc->getPagingSearchResult();
 		$this->assertEquals(2, $pc->getOutPage());
 		$this->assertEquals(10, $pc->getOffset());
 		$this->assertEquals(3, $pc->getTotalPage());
+
+		$this->assertTrue($psr instanceof PagingSearchResult);
+		$this->assertEquals(25, $psr->total);
+		$this->assertEquals(0, count($psr->data));
+		$this->assertEquals(2, $psr->page);
+		$this->assertEquals(10, $psr->perpage);
+		$this->assertEquals(3, $psr->totalpage);
 	}
 	public function testCountLessThanPerpage()
 	{

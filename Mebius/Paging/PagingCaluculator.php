@@ -77,6 +77,19 @@ class PagingCaluculator
 	{
 		return $this->totalPage;
 	}
+	/**
+	 * PagingSearchResult のインスタンスを返すメソッド
+	 * @return PagingSearchResult PagingSearchResult のインスタンス
+	 */
+	public function getPagingSearchResult()
+	{
+		$psr = new PagingSearchResult();
+		$psr->total = $this->recordCount;
+		$psr->page = $this->outPage;
+		$psr->perpage = $this->perPage;
+		$psr->totalpage = $this->totalPage;
+		return $psr;
+	}
 	//--------------------------
 	/**
 	 * トータルページ数やレコード取り出しに使う sql のオフセットの値を計算するメソッド
