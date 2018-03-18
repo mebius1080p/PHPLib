@@ -6,8 +6,17 @@ namespace Mebius\Data;
 */
 class JsonObj
 {
+	/**
+	 * @var string サーバーでの処理結果を表す bad|ok
+	 */
 	public $status = "bad";
+	/**
+	 * @var string 追加のメッセージを保持するフィールド
+	 */
 	public $message = "";
+	/**
+	 * @var mixed 配列にかかわらずその他データを格納するフィールド
+	 */
 	public $data = [];
 	public function __construct()
 	{
