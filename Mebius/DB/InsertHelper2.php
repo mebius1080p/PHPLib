@@ -8,6 +8,7 @@ class InsertHelper2
 {
 	const INSERT_SQL = "INSERT INTO %s (%s) VALUES(%s)";
 	const INSERT_ON_UPDATE_SQL = "INSERT INTO %s (%s) VALUES(%s) ON DUPLICATE KEY UPDATE %s";
+	const DUPLICATE_TEMPLATE = "%s=VALUES(%s)";
 	private $table = "";
 	private $columns = [];
 	private $placeHolders = [];
@@ -87,7 +88,7 @@ class InsertHelper2
 	{
 		foreach ($this->columns as $col) {
 			$this->placeHolders[] = "?";
-			$this->updates[] = $col . "=?";
+			$this->updates[] = sprintf(self::DUPLICATE_TEMPLATE, $col, $col);
 		}
 	}
 }

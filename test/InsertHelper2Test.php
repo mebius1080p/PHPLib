@@ -15,9 +15,9 @@ class InsertHelper2Test extends TestCase
 		$ih = new InsertHelper2($table, $columns);
 		$this->assertEquals("hoge,fuga,piyo", $ih->getColumnStr());
 		$this->assertEquals("?,?,?", $ih->getPlaceHolderStr());
-		$this->assertEquals("hoge=?,fuga=?,piyo=?", $ih->getUpdateStr());
+		$this->assertEquals("hoge=VALUES(hoge),fuga=VALUES(fuga),piyo=VALUES(piyo)", $ih->getUpdateStr());
 		$this->assertEquals("INSERT INTO ttx (hoge,fuga,piyo) VALUES(?,?,?)", $ih->getInsertSQL());
-		$this->assertEquals("INSERT INTO ttx (hoge,fuga,piyo) VALUES(?,?,?) ON DUPLICATE KEY UPDATE hoge=?,fuga=?,piyo=?", $ih->getOnDuplicateSQL());
+		$this->assertEquals("INSERT INTO ttx (hoge,fuga,piyo) VALUES(?,?,?) ON DUPLICATE KEY UPDATE hoge=VALUES(hoge),fuga=VALUES(fuga),piyo=VALUES(piyo)", $ih->getOnDuplicateSQL());
 	}
 	/**
 	 * @expectedException Exception
