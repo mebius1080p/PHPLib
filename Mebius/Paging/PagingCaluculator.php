@@ -104,7 +104,7 @@ class PagingCaluculator
 		if ($this->recordCount % $this->perPage !== 0) {
 			$totalPage++;
 		}
-		$this->totalPage = $totalPage;
+		$this->totalPage = (int)$totalPage;
 
 		if ($this->totalPage >= $this->postedPage) {//トータルページ以内
 			$this->outPage = $this->postedPage;
