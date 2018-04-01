@@ -7,22 +7,34 @@ use PHPUnit\Framework\TestCase;
  */
 class FileHandlerTest extends TestCase
 {
+	private static $countFile = "";
+	private static $sampleFile = "";
+	public static function setUpBeforeClass()
+	{
+		self::$countFile = __DIR__ . "/count.txt";
+		self::$sampleFile = __DIR__ . "/sample.txt";
+		file_put_contents(self::$countFile, "1");
+		file_put_contents(self::$sampleFile, "サンプル");
+	}
+	public static function tearDownAfterClass()
+	{
+		file_put_contents(self::$countFile, "1");
+		file_put_contents(self::$sampleFile, "サンプル");
+	}
 	/**
-	*regex 通常テスト
-	*/
+	 * regex 通常テスト
+	 */
 	public function testFileCount()
 	{
-		$file = __DIR__ . "/count.txt";
-		$file2 = __DIR__ . "/sample.txt";
-		$currentCount = file_get_contents($file);
-		$fh = new FileHandler($file);
+		$beforeCount = file_get_contents(self::$countFile);
+		$fh = new FileHandler(self::$countFile);
 		$fh->countUp();
-		$newCount = file_get_contents($file);
-		$intOld = (int)$currentCount;
+		$newCount = file_get_contents(self::$countFile);
+		$intBefore = (int)$beforeCount;
 		$intNew = (int)$newCount;
-		$this->assertEquals($intOld + 1, $intNew);
+		$this->assertEquals($intBefore + 1, $intNew);
 		//その 2
-		$fh2 = new FileHandler($file2);
+		$fh2 = new FileHandler(self::$sampleFile);
 		$string = $fh2->getString();
 		$orig = "サンプル";
 		$this->assertEquals($orig, $string);
@@ -30,10 +42,10 @@ class FileHandlerTest extends TestCase
 		$change = "書き換えテスト";
 		$fh2->update($change);
 		$this->assertEquals($change, $fh2->getString());
-		//後始末
-		$fh->update("1");
-		$fh2->update($orig);
 	}
+	/**
+	 * ファイルなし
+	 */
 	public function testNoFile()
 	{
 		$file = __DIR__ . "/hoge.txt";
