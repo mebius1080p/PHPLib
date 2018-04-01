@@ -22,7 +22,7 @@ class FileHandlerTest extends TestCase
 		file_put_contents(self::$sampleFile, "サンプル");
 	}
 	/**
-	 * regex 通常テスト
+	 * カウントアップ 通常テスト
 	 */
 	public function testFileCount()
 	{
@@ -33,7 +33,12 @@ class FileHandlerTest extends TestCase
 		$intBefore = (int)$beforeCount;
 		$intNew = (int)$newCount;
 		$this->assertEquals($intBefore + 1, $intNew);
-		//その 2
+	}
+	/**
+	 * 中身書き換えテスト
+	 */
+	public function testContentUpdate()
+	{
 		$fh2 = new FileHandler(self::$sampleFile);
 		$string = $fh2->getString();
 		$orig = "サンプル";
