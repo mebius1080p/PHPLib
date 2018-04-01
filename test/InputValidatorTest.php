@@ -66,13 +66,13 @@ class InputValidatorTest extends TestCase
 		$this->assertTrue(true);//例外が出ないことのみテストする
 	}
 	/**
-	*バリデーターパラムが 0 のとき
-	*/
+	 * バリデーターパラムが 0 のとき
+	 * @expectedException Exception
+	 * @expectedExceptionMessage ValidateParamBuilder オブジェクトの中身が空です
+	 */
 	public function testEmpty()
 	{
 		$vpb = new ValidateParamBuilder();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("ValidateParamBuilder オブジェクトの中身が空です");
 		$iv = new InputValidator($vpb);
 	}
 	/**
@@ -129,75 +129,75 @@ STR;
 		$iv2 = new InputValidator($vpb2);
 	}
 	/**
-	*include 異常系 1
-	*/
+	 * include 異常系 1
+	 * @expectedException Exception
+	 * @expectedExceptionMessage 2 は 3 と 8 の間にありません
+	 */
 	public function testInvalidInclude1()
 	{
 		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("2", 3, 8);
 		$param = $vpb->getParam();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("2 は 3 と 8 の間にありません");
 		$iv = new InputValidator($vpb);
 	}
 	/**
-	*include 異常系 2
-	*/
+	 * include 異常系 2
+	 * @expectedException Exception
+	 * @expectedExceptionMessage 2 は 3 より大きくありません
+	 */
 	public function testInvalidInclude2()
 	{
 		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("2", 3);
 		$param = $vpb->getParam();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("2 は 3 より大きくありません");
 		$iv = new InputValidator($vpb);
 	}
 	/**
-	*include 異常系 3
-	*/
+	 * include 異常系 3
+	 * @expectedException Exception
+	 * @expectedExceptionMessage 10 は 8 より小さくありません
+	 */
 	public function testInvalidInclude3()
 	{
 		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("10", null, 8);
 		$param = $vpb->getParam();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("10 は 8 より小さくありません");
 		$iv = new InputValidator($vpb);
 	}
 	/**
-	*exclude 異常系 1
-	*/
+	 * exclude 異常系 1
+	 * @expectedException Exception
+	 * @expectedExceptionMessage 5 は 3 と 8 の間にあります
+	 */
 	public function testInvalidExclude1()
 	{
 		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("5", 3, 8, false);
 		$param = $vpb->getParam();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("5 は 3 と 8 の間にあります");
 		$iv = new InputValidator($vpb);
 	}
 	/**
-	*exclude 異常系 2
-	*/
+	 * exclude 異常系 2
+	 * @expectedException Exception
+	 * @expectedExceptionMessage 5 は 3 より小さくありません
+	 */
 	public function testInvalidExclude2()
 	{
 		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("5", 3, null, false);
 		$param = $vpb->getParam();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("5 は 3 より小さくありません");
 		$iv = new InputValidator($vpb);
 	}
 	/**
-	*exclude 異常系 3
-	*/
+	 * exclude 異常系 3
+	 * @expectedException Exception
+	 * @expectedExceptionMessage 5 は 8 より大きくありません
+	 */
 	public function testInvalidExclude3()
 	{
 		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt("5", null, 8, false);
 		$param = $vpb->getParam();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("5 は 8 より大きくありません");
 		$iv = new InputValidator($vpb);
 	}
 }

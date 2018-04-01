@@ -31,35 +31,35 @@ class ValidateParamBuilderTest extends TestCase
 		$this->assertEquals(false, $param2[0]["isInclude"]);
 	}
 	/**
-	*regex 文字が utf8 意外だったとき
-	*/
+	 * regex 文字が utf8 意外だったとき
+	 * @expectedException Exception
+	 * @expectedExceptionMessage パラメーターが UTF-8 ではありません
+	 */
 	public function testNotUtf8()
 	{
 		$str = "ほげまつ";
 		$sjisStr = mb_convert_encoding($str, "sjis");
 		$vpb = new ValidateParamBuilder();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("パラメーターが UTF-8 ではありません");
 		$vpb->addWithRegEx($sjisStr, "/\A.+\z/");
 	}
 	/**
-	*regex が不正な値だった場合
-	*/
+	 * regex が不正な値だった場合
+	 * @expectedException Exception
+	 * @expectedExceptionMessage addWithRegEx : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください
+	 */
 	public function testInvalidRegEx()
 	{
 		$vpb = new ValidateParamBuilder();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("addWithRegEx : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
 		$vpb->addWithRegEx("hoge", "piyo");
 	}
 	/**
-	*addWithRegEx 第三引数が不正な値だった場合
-	*/
+	 * addWithRegEx 第三引数が不正な値だった場合
+	 * @expectedException Exception
+	 * @expectedExceptionMessage addWithRegEx : 第三引数は boolean にしてください
+	 */
 	public function testInvalidInclude()
 	{
 		$vpb = new ValidateParamBuilder();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("addWithRegEx : 第三引数は boolean にしてください");
 		$vpb->addWithRegEx("hoge", "/\A.+\z/", 2);
 	}
 	//mail------------------------------------------
@@ -91,24 +91,26 @@ class ValidateParamBuilderTest extends TestCase
 		$this->assertEquals("mail", $param2[0]["mode"]);
 		$this->assertEquals(true, $param2[0]["isInclude"]);
 	}
+	/**
+	 * @expectedException Exception
+	 * @expectedExceptionMessage addMail : 第二引数は boolean にしてください
+	 */
 	public function testMailInvalidFlag()
 	{
 		$mail = "hoge@dd.com";
 		$vpb = new ValidateParamBuilder();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("addMail : 第二引数は boolean にしてください");
 		$vpb->addMail($mail, 2);
 	}
 	/**
-	*sjis のメールアドレス
-	*/
+	 * sjis のメールアドレス
+	 * @expectedException Exception
+	 * @expectedExceptionMessage パラメーターが UTF-8 ではありません
+	 */
 	public function testSjisMail()
 	{
 		$mail = "ほげ@dd.com";
 		$sjisMail = mb_convert_encoding($mail, "sjis");
 		$vpb = new ValidateParamBuilder();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("パラメーターが UTF-8 ではありません");
 		$vpb->addMail($sjisMail);
 	}
 	//between---------------------------------
@@ -132,8 +134,10 @@ class ValidateParamBuilderTest extends TestCase
 		$this->assertEquals(true, $param[0]["isInclude"]);
 	}
 	/**
-	*between 第一引数が utf8 以外
-	*/
+	 * between 第一引数が utf8 以外
+	 * @expectedException Exception
+	 * @expectedExceptionMessage パラメーターが UTF-8 ではありません
+	 */
 	public function testNotUtf8Between()
 	{
 		$val1 = "ほげ";
@@ -141,8 +145,6 @@ class ValidateParamBuilderTest extends TestCase
 		$val2 = 1;
 		$val3 = 5;
 		$vpb = new ValidateParamBuilder();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("パラメーターが UTF-8 ではありません");
 		$vpb->addBetweenInt($sjisVal, $val2, $val3);
 	}
 	/**
@@ -174,14 +176,16 @@ class ValidateParamBuilderTest extends TestCase
 	/**
 	*between 比較数値が両方 null だった場合
 	*/
+	/**
+	 * @expectedException Exception
+	 * @expectedExceptionMessage 比較数値は最低でも片方は設定してください
+	 */
 	public function testDualNull()
 	{
 		$val1 = "2";
 		$val2 = null;
 		$val3 = null;
 		$vpb = new ValidateParamBuilder();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage("比較数値は最低でも片方は設定してください");
 		$vpb->addBetweenInt($val1, $val2, $val3);
 	}
 	public function testInvalidCompare()
