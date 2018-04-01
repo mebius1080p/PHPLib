@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Mebius\IO;
 
 /**
@@ -8,7 +9,7 @@ class FileHandler
 {
 	private $filePath = "";
 	/**
-	*@param {string} $filePath このクラスで扱うファイル名
+	*@param string $filePath このクラスで扱うファイル名
 	*/
 	public function __construct(string $filePath)
 	{
@@ -18,17 +19,17 @@ class FileHandler
 		$this->filePath = $filePath;
 	}
 	/**
-	*@return {string} ファイルの内容。コンストラクタでファイルの存在をチェックしているので、多少意味のあるメソッド
+	*@return string ファイルの内容。コンストラクタでファイルの存在をチェックしているので、多少意味のあるメソッド
 	*/
-	public function getString()
+	public function getString(): string
 	{
 		return file_get_contents($this->filePath);
 	}
 	/**
 	*引数のテキストでファイル内容を丸ごと書き換えるメソッド
-	*@param {string} $aStr 新たに書き込むテキスト
+	*@param string $aStr 新たに書き込むテキスト
 	*/
-	public function update(string $aStr)
+	public function update(string $aStr): void
 	{
 		file_put_contents($this->filePath, $aStr, LOCK_EX);
 	}
@@ -36,7 +37,7 @@ class FileHandler
 	*カウントアップメソッド
 	*@return {int} カウントアップ後の数値
 	*/
-	public function countUp()
+	public function countUp(): int
 	{
 		$currentStr = file_get_contents($this->filePath);
 		$counter = (int)$currentStr;
