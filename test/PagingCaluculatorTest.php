@@ -1,7 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use Mebius\Paging\PagingCaluculator;
-use Mebius\Paging\PagingSearchResult;
+use Mebius\Paging\{PagingCaluculator, PagingSearchResult};
 
 class PagingCaluculatorTest extends TestCase
 {

@@ -1,7 +1,5 @@
 <?php
-use Mebius\IO\ValidateParamBuilder;
-use Mebius\IO\InputValidator;
-use Mebius\IO\ValidatorUtil;
+use Mebius\IO\{ValidateParamBuilder, InputValidator, ValidatorUtil};
 use PHPUnit\Framework\TestCase;
 
 /**
