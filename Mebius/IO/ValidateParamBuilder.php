@@ -31,7 +31,7 @@ class ValidateParamBuilder
 	 */
 	public function addWithRegEx(string $aInputStr, string $aRegExpStr, bool $aIsInclude = true): void
 	{
-		ValidatorUtil::checkUTF8($aInputStr);
+		self::checkUTF8($aInputStr);
 		if(preg_match("/^\/.+\/$/", $aRegExpStr) !== 1) {//スラッシュで始まり何か入ってスラッシュで終わる文字列
 			throw new \Exception("addWithRegEx : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
 		}
@@ -52,7 +52,7 @@ class ValidateParamBuilder
 	 */
 	public function addMail(string $mayBeMail, bool $checkAsUtf8 = true): void
 	{
-		ValidatorUtil::checkUTF8($mayBeMail);
+		self::checkUTF8($mayBeMail);
 		$temp = [
 			"value1" => $mayBeMail,
 			"value2" => "",
@@ -88,5 +88,17 @@ class ValidateParamBuilder
 			"isInclude" => $aIsInclude
 		];
 		$this->param[] = $temp;//追加
+	}
+	//---------------------------
+	/**
+	 * 文字列が utf8 かどうか調べるメソッド。
+	 * @param string $str チェックする文字列
+	 * @throws Exception 文字コードが utf8 でなければ例外
+	 */
+	public static function checkUTF8($str): void
+	{
+		if (!mb_check_encoding($str, 'UTF-8')) {//攻撃の可能性
+			throw new \Exception("パラメーターが UTF-8 ではありません");
+		}
 	}
 }

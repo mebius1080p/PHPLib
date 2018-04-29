@@ -124,4 +124,19 @@ class ValidateParamBuilderTest extends TestCase
 		$this->expectExceptionMessage($val2 . " は " . $val3 . " よりも小さくしてください");
 		$vpb->addBetweenInt($val1, $val2, $val3);
 	}
+	public function testCheckUTF8()
+	{
+		$str = "ほげ123abc漢字";
+		ValidateParamBuilder::checkUTF8($str);
+		$this->assertTrue(true);//例外が出ないこと
+	}
+	/**
+	 * @expectedException Exception
+	 * @expectedExceptionMessage パラメーターが UTF-8 ではありません
+	 */
+	public function testShiftjisToCheckUTF8()
+	{
+		$str = "ほげ123abc漢字";
+		ValidateParamBuilder::checkUTF8(mb_convert_encoding($str, "sjis", "UTF-8"));
+	}
 }
