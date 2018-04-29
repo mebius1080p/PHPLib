@@ -8,12 +8,12 @@ namespace Mebius\IO;
 class ValidateParamBuilder
 {
 	/**
-	 * パラメーター格納配列
+	 * @var ValidatorObj[] バリデートオブジェクト配列
 	 */
 	private $param = [];
 	/**
 	 * param を返すメソッド
-	 * @return array インスタンスが保持する param
+	 * @return ValidatorObj[] バリデートオブジェクト配列
 	 */
 	public function getParam(): array
 	{
@@ -35,15 +35,13 @@ class ValidateParamBuilder
 		if(preg_match("/^\/.+\/$/", $aRegExpStr) !== 1) {//スラッシュで始まり何か入ってスラッシュで終わる文字列
 			throw new \Exception("addWithRegEx : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
 		}
-		$temp = [
-			"value1" => $aInputStr,
-			"value2" => "",//between 用の第二パラメータ
-			"value3" => "",//between 用の第三パラメータ
-			"mode" => "regex",
-			"regex" => $aRegExpStr,
-			"isInclude" => $aIsInclude
-		];
-		$this->param[] = $temp;//追加
+
+		$vo = new ValidatorObj();
+		$vo->stringValue = $aInputStr;
+		$vo->mode = InputValidator::MODE_REGEX;
+		$vo->regex = $aRegExpStr;
+		$vo->isInclude = $aIsInclude;
+		$this->param[] = $vo;//追加
 	}
 	/**
 	 * メールとしてパラメーターを追加するメソッド exclude はまず使わないだろう……
@@ -53,41 +51,35 @@ class ValidateParamBuilder
 	public function addMail(string $mayBeMail, bool $checkAsUtf8 = true): void
 	{
 		self::checkUTF8($mayBeMail);
-		$temp = [
-			"value1" => $mayBeMail,
-			"value2" => "",
-			"value3" => "",
-			"mode" => $checkAsUtf8 ? "mailutf8" : "mail",
-			"regex" => "",
-			"isInclude" => true
-		];
-		$this->param[] = $temp;//追加
+		$mode = $checkAsUtf8 ? InputValidator::MODE_MAIL_UTF8 : InputValidator::MODE_MAIL;
+		$vo = new ValidatorObj();
+		$vo->stringValue = $mayBeMail;
+		$vo->mode = $mode;
+		$this->param[] = $vo;//追加
 	}
 	/**
 	 * 値が指定数値の範囲内かどうかをチェックするパラメーターを追加するメソッド exclude はまず使わないだろう……
 	 * 整数のみ対応
-	 * @param int $aValue1 間を検証する値
-	 * @param int $aValue2 間を検証する小さい方の数値
-	 * @param int $aValue3 間を検証する大きい方の数値
+	 * @param int $aValue 間を検証する値
+	 * @param int $min 間を検証する小さい方の数値
+	 * @param int $max 間を検証する大きい方の数値
 	 * @param bool $aIsInclude 数値が引数の間か、そうでないかのフラグ。false の時は範囲外チェック
 	 */
-	public function addBetweenInt(int $aValue1, int $aValue2, int $aValue3, bool $aIsInclude = true): void
+	public function addBetweenInt(int $aValue, int $min, int $max, bool $aIsInclude = true): void
 	{
-		if ($aValue2 >= $aValue3) {//等しい場合もだめ
+		if ($min >= $max) {//等しい場合もだめ
 			throw new \Exception(
-				sprintf("%d は %d よりも小さくしてください", $aValue2, $aValue3),
+				sprintf("%d は %d よりも小さくしてください", $min, $max),
 				1);
 		}
 
-		$temp = [
-			"value1" => $aValue1,
-			"value2" => $aValue2,
-			"value3" => $aValue3,
-			"mode" => "compare",
-			"regex" => "",
-			"isInclude" => $aIsInclude
-		];
-		$this->param[] = $temp;//追加
+		$vo = new ValidatorObj();
+		$vo->intValue = $aValue;
+		$vo->mode = InputValidator::MODE_BETWEEN;
+		$vo->isInclude = $aIsInclude;
+		$vo->min = $min;
+		$vo->max = $max;
+		$this->param[] = $vo;//追加
 	}
 	//---------------------------
 	/**

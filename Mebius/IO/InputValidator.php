@@ -7,133 +7,131 @@ namespace Mebius\IO;
  */
 class InputValidator
 {
+	public const MODE_REGEX = 0;
+	public const MODE_MAIL_UTF8 = 1;
+	public const MODE_MAIL = 2;
+	public const MODE_BETWEEN = 3;
 	//http://techracho.bpsinc.jp/hachi8833/2013_09_27/13713
 	//https://stackoverflow.com/questions/5219848/how-to-validate-non-english-utf-8-encoded-email-address-in-javascript-and-php
 	const RE_MAIL = "/\A([\p{L}\.\-\d_]+)@([\p{L}\-\.\d_]+)((\.(\p{L}){2,63})+)\z/u";
 	// /\A[[:^cntrl:]]{0,50}\z/u
-	private $checkArray;//配列
+	/**
+	 * @var ValidatorObj[] バリデートオブジェクト配列
+	 */
+	private $checkArray = [];
 	/**
 	 * コンストラクタ
-	 * @param ValidateParamBuilder $aCPBObj ValidateParamBuilder のインスタンス
+	 * @param ValidateParamBuilder $vpb ValidateParamBuilder のインスタンス
+	 * @throws Exception ValidateParamBuilder で値がセットされていない場合に例外
 	 */
-	public function __construct(ValidateParamBuilder $aCPBObj)
+	public function __construct(ValidateParamBuilder $vpb)
 	{
-		$paramArray = $aCPBObj->getParam();
+		$paramArray = $vpb->getParam();
 		if (count($paramArray) === 0) {
 			throw new \Exception("ValidateParamBuilder オブジェクトの中身が空です");
 		}
 		$this->checkArray = $paramArray;
 		$this->validate();
 	}
+	//----------------------------------------------
 	/**
 	 * バリデートメソッド。複数の値を一気にチェックするので、返り値などは返さない
 	 */
 	private function validate(): void
 	{
-		$len = count($this->checkArray);
-		for ($i = 0; $i < $len; $i++) {
-			$mode = $this->checkArray[$i]["mode"];
-			switch ($mode) {
-				case 'regex':
-					$this->regex($this->checkArray[$i]);
+		foreach ($this->checkArray as $vo) {
+			switch ($vo->mode) {
+				case self::MODE_REGEX:
+					$this->regex($vo);
 					break;
-				case 'mail':
-					$this->mail($this->checkArray[$i]);
+				case self::MODE_MAIL:
+					$this->mail($vo);
 					break;
-				case 'mailutf8':
-					$this->mailutf8($this->checkArray[$i]);
+				case self::MODE_MAIL_UTF8:
+					$this->mailutf8($vo);
 					break;
-				case 'compare':
-					$this->compare($this->checkArray[$i]);
+				case self::MODE_BETWEEN:
+					$this->between($vo);
 					break;
 			}
 		}
 	}
 	/**
 	 * 正規表現でパラメータをチェックするメソッド
-	 * @param array $array ValidateParamBuilder の持っていた配列の要素
-	 * @throws Exception マッチしなかった場合、通常例外を投げる
+	 * @param ValidatorObj $vo ValidatorObj のインスタンス
+	 * @throws Exception マッチしなかった場合、除外なのに含まれている例外
 	 */
-	private function regex(array $array): void
+	private function regex(ValidatorObj $vo): void
 	{
-		$value = $array["value1"];//value2 は使わない
-		$reg = $array["regex"];
-		$isInclude = $array["isInclude"];
-		if ($isInclude) {
-			if(preg_match($reg, $value) !== 1) {
-				throw new \Exception($value . " : 値が不正です");
+		$regResult = preg_match($vo->regex, $vo->stringValue);
+		if ($vo->isInclude) {
+			if($regResult !== 1) {//キーワードが含まれていない
+				throw new \Exception($vo->stringValue . " : 値が不正です");
 			}
 		} else {//除外キーワードがないか調べる
-			$result = preg_match($reg, $value);
-			if ($result === 1 || $result === false) {
-				throw new \Exception($value . " : 不正な値が含まれています");
+			if ($regResult === 1 || $regResult === false) {//キーワードが含まれている or エラー
+				throw new \Exception($vo->stringValue . " : 不正な値が含まれています");
 			}
 		}
 	}
 	/**
 	 * メールアドレスをチェックするメソッド
-	 * @param array $array ValidateParamBuilder の持っていた配列の要素
+	 * @param ValidatorObj $vo ValidatorObj のインスタンス
 	 * @throws Exception メールアドレスでなかった場合、通常例外を投げる
 	 */
-	public function mail(array $array): void
+	private function mail(ValidatorObj $vo): void
 	{
-		if (!filter_var($array["value1"], FILTER_VALIDATE_EMAIL)) {
-			throw new \Exception($array["value1"] . " : 不正なメールアドレスです。");
+		if (!filter_var($vo->stringValue, FILTER_VALIDATE_EMAIL)) {
+			throw new \Exception($vo->stringValue . " : 不正なメールアドレスです。");
 		}
 	}
 	/**
 	 * メールアドレスをチェックするメソッド utf8 対応版
-	 * @param array $array ValidateParamBuilder の持っていた配列の要素
+	 * @param ValidatorObj $vo ValidatorObj のインスタンス
 	 * @throws Exception メールアドレスでなかった場合、通常例外を投げる
 	 */
-	public function mailutf8(array $array): void
+	private function mailutf8(ValidatorObj $vo): void
 	{
-		if (preg_match(self::RE_MAIL, $array["value1"]) !== 1) {
-			throw new \Exception($array["value1"] . " : 不正なメールアドレスです。");
+		if (preg_match(self::RE_MAIL, $vo->stringValue) !== 1) {
+			throw new \Exception($vo->stringValue . " : 不正なメールアドレスです。");
 		}
 	}
 	/**
 	 * 数値比較用のメソッド
-	 * @param array $array ValidateParamBuilder の持っていた配列の要素
+	 * @param ValidatorObj $vo ValidatorObj のインスタンス
 	 * @throws Exception 範囲外/内だった場合、通常例外を投げる
 	 */
-	public function compare(array $array): void
+	private function between(ValidatorObj $vo): void
 	{
-		if ($array["isInclude"]) {
-			$this->checkInclude($array);
+		if ($vo->isInclude) {
+			$this->checkInclude($vo);
 		} else {
-			$this->checkExclude($array);
+			$this->checkExclude($vo);
 		}
 
 	}
 	/**
 	 * 範囲内かチェックするメソッド
-	 * @param array $array ValidateParamBuilder の持っていた配列の要素
+	 * @param ValidatorObj $vo ValidatorObj のインスタンス
 	 * @throws Exception 範囲外だった場合、通常例外を投げる
 	 */
-	private function checkInclude(array $array): void
+	private function checkInclude(ValidatorObj $vo): void
 	{
-		$val = $array["value1"];
-		$min = $array["value2"];
-		$max = $array["value3"];
-		$message1 = "%s は %s と %s の間にありません";
-		if ($val < $min || $max < $val) {
-			throw new \Exception(sprintf($message1, $val, $min, $max), 1);
+		$message1 = "%d は %d と %d の間にありません";
+		if ($vo->intValue < $vo->min || $vo->max < $vo->intValue) {
+			throw new \Exception(sprintf($message1, $vo->intValue, $vo->min, $vo->max), 1);
 		}
 	}
 	/**
 	 * 範囲外かチェックするメソッド
-	 * @param array $array ValidateParamBuilder の持っていた配列の要素
+	 * @param ValidatorObj $vo ValidatorObj のインスタンス
 	 * @throws Exception 範囲内だった場合、通常例外を投げる
 	 */
-	private function checkExclude(array $array): void
+	private function checkExclude(ValidatorObj $vo): void
 	{
-		$val = $array["value1"];
-		$min = $array["value2"];
-		$max = $array["value3"];
-		$message1 = "%s は %s と %s の間にあります";
-		if ($min < $val && $val < $max) {
-			throw new \Exception(sprintf($message1, $val, $min, $max), 1);
+		$message1 = "%d は %d と %d の間にあります";
+		if ($vo->min < $vo->intValue && $vo->intValue < $vo->max) {
+			throw new \Exception(sprintf($message1, $vo->intValue, $vo->min, $vo->max), 1);
 		}
 	}
 }

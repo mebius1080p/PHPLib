@@ -1,5 +1,5 @@
 <?php
-use Mebius\IO\{ValidateParamBuilder, InputValidator, ValidatorUtil};
+use Mebius\IO\{ValidateParamBuilder, InputValidator};
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -57,6 +57,8 @@ class InputValidatorTest extends TestCase
 		$vpb->addMail("hoge@dd.com", false);
 		$vpb->addMail("ほげ._-@d_dマッスル.com");//正しい！
 		$vpb->addBetweenInt(3, 2, 5);
+		$vpb->addBetweenInt(2, 2, 5);//エッジ
+		$vpb->addBetweenInt(5, 2, 5);//エッジ
 		$vpb->addBetweenInt(8, 2, 5, false);
 		$iv = new InputValidator($vpb);
 		$this->assertTrue(true);//例外が出ないことのみテストする

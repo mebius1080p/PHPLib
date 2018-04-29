@@ -1,5 +1,5 @@
 <?php
-use Mebius\IO\{ValidateParamBuilder, ValidatorUtil};
+use Mebius\IO\{ValidateParamBuilder, InputValidator};
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -18,17 +18,15 @@ class ValidateParamBuilderTest extends TestCase
 		$vpb->addWithRegEx($origStr, $origReg);
 		$param = $vpb->getParam();
 		$this->assertEquals(1, count($param));
-		$this->assertEquals($origStr, $param[0]["value1"]);
-		$this->assertEquals("", $param[0]["value2"]);
-		$this->assertEquals("", $param[0]["value3"]);
-		$this->assertEquals($origReg, $param[0]["regex"]);
-		$this->assertEquals("regex", $param[0]["mode"]);
-		$this->assertEquals(true, $param[0]["isInclude"]);
+		$this->assertEquals($origStr, $param[0]->stringValue);
+		$this->assertEquals($origReg, $param[0]->regex);
+		$this->assertEquals(InputValidator::MODE_REGEX, $param[0]->mode);
+		$this->assertEquals(true, $param[0]->isInclude);
 		//exclude
 		$vpb2 = new ValidateParamBuilder();
 		$vpb2->addWithRegEx($origStr, $origReg, false);
 		$param2 = $vpb2->getParam();
-		$this->assertEquals(false, $param2[0]["isInclude"]);
+		$this->assertEquals(false, $param2[0]->isInclude);
 	}
 	/**
 	 * regex 文字が utf8 意外だったとき
@@ -63,23 +61,17 @@ class ValidateParamBuilderTest extends TestCase
 		$vpb->addMail($mail);
 		$param = $vpb->getParam();
 		$this->assertEquals(1, count($param));
-		$this->assertEquals($mail, $param[0]["value1"]);
-		$this->assertEquals("", $param[0]["value2"]);
-		$this->assertEquals("", $param[0]["value3"]);
-		$this->assertEquals("", $param[0]["regex"]);
-		$this->assertEquals("mailutf8", $param[0]["mode"]);
-		$this->assertEquals(true, $param[0]["isInclude"]);
+		$this->assertEquals($mail, $param[0]->stringValue);
+		$this->assertEquals(InputValidator::MODE_MAIL_UTF8, $param[0]->mode);
+		$this->assertEquals(true, $param[0]->isInclude);
 		//非 utf8 チェックの場合
 		$vpb2 = new ValidateParamBuilder();
 		$vpb2->addMail($mail, false);
 		$param2 = $vpb2->getParam();
 		$this->assertEquals(1, count($param2));
-		$this->assertEquals($mail, $param2[0]["value1"]);
-		$this->assertEquals("", $param2[0]["value2"]);
-		$this->assertEquals("", $param2[0]["value3"]);
-		$this->assertEquals("", $param2[0]["regex"]);
-		$this->assertEquals("mail", $param2[0]["mode"]);
-		$this->assertEquals(true, $param2[0]["isInclude"]);
+		$this->assertEquals($mail, $param2[0]->stringValue);
+		$this->assertEquals(InputValidator::MODE_MAIL, $param2[0]->mode);
+		$this->assertEquals(true, $param2[0]->isInclude);
 	}
 	/**
 	 * sjis のメールアドレス
@@ -106,12 +98,11 @@ class ValidateParamBuilderTest extends TestCase
 		$vpb->addBetweenInt($val1, $val2, $val3);
 		$param = $vpb->getParam();
 		$this->assertEquals(1, count($param));
-		$this->assertEquals(intval($val1), $param[0]["value1"]);
-		$this->assertEquals($val2, $param[0]["value2"]);
-		$this->assertEquals($val3, $param[0]["value3"]);
-		$this->assertEquals("", $param[0]["regex"]);
-		$this->assertEquals("compare", $param[0]["mode"]);
-		$this->assertEquals(true, $param[0]["isInclude"]);
+		$this->assertEquals($val1, $param[0]->intValue);
+		$this->assertEquals($val2, $param[0]->min);
+		$this->assertEquals($val3, $param[0]->max);
+		$this->assertEquals(InputValidator::MODE_BETWEEN, $param[0]->mode);
+		$this->assertEquals(true, $param[0]->isInclude);
 	}
 	public function testInvalidCompare()
 	{
