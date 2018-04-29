@@ -99,7 +99,7 @@ class ValidateParamBuilderTest extends TestCase
 	*/
 	public function testBetween()
 	{
-		$val1 = "2";
+		$val1 = 2;
 		$val2 = 1;
 		$val3 = 5;
 		$vpb = new ValidateParamBuilder();
@@ -113,69 +113,15 @@ class ValidateParamBuilderTest extends TestCase
 		$this->assertEquals("compare", $param[0]["mode"]);
 		$this->assertEquals(true, $param[0]["isInclude"]);
 	}
-	/**
-	 * between 第一引数が utf8 以外
-	 * @expectedException Exception
-	 * @expectedExceptionMessage パラメーターが UTF-8 ではありません
-	 */
-	public function testNotUtf8Between()
-	{
-		$val1 = "ほげ";
-		$sjisVal = mb_convert_encoding($val1, "sjis");
-		$val2 = 1;
-		$val3 = 5;
-		$vpb = new ValidateParamBuilder();
-		$vpb->addBetweenInt($sjisVal, $val2, $val3);
-	}
-	/**
-	*between 数値以外1
-	*/
-	public function testNotInt1()
-	{
-		$val1 = "2";
-		$val2 = "もげら";
-		$val3 = 5;
-		$vpb = new ValidateParamBuilder();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage($val2 . " : は数値ではありません");
-		$vpb->addBetweenInt($val1, $val2);
-	}
-	/**
-	*between 数値以外2
-	*/
-	public function testNotInt2()
-	{
-		$val1 = "2";
-		$val2 = 1;
-		$val3 = "ほげ";
-		$vpb = new ValidateParamBuilder();
-		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage($val3 . " : は数値ではありません");
-		$vpb->addBetweenInt($val1, $val2, $val3);
-	}
-	/**
-	*between 比較数値が両方 null だった場合
-	*/
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage 比較数値は最低でも片方は設定してください
-	 */
-	public function testDualNull()
-	{
-		$val1 = "2";
-		$val2 = null;
-		$val3 = null;
-		$vpb = new ValidateParamBuilder();
-		$vpb->addBetweenInt($val1, $val2, $val3);
-	}
 	public function testInvalidCompare()
 	{
-		$val1 = "2";
+		$val1 = 2;
 		$val2 = 5;
 		$val3 = 2;
 		$vpb = new ValidateParamBuilder();
+		// メッセージ内容が動的なのでこちらに記述
 		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
-		$this->expectExceptionMessage($val2 . " は " . $val3 . "よりも小さくしてください");
+		$this->expectExceptionMessage($val2 . " は " . $val3 . " よりも小さくしてください");
 		$vpb->addBetweenInt($val1, $val2, $val3);
 	}
 }

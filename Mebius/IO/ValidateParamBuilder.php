@@ -66,21 +66,21 @@ class ValidateParamBuilder
 	/**
 	 * 値が指定数値の範囲内かどうかをチェックするパラメーターを追加するメソッド exclude はまず使わないだろう……
 	 * 整数のみ対応
-	 * @param string $aValue1 間を検証する値
+	 * @param int $aValue1 間を検証する値
 	 * @param int $aValue2 間を検証する小さい方の数値
-	 * @param int $aValue2 間を検証する大きい方の数値
+	 * @param int $aValue3 間を検証する大きい方の数値
 	 * @param bool $aIsInclude 数値が引数の間か、そうでないかのフラグ。false の時は範囲外チェック
 	 */
-	public function addBetweenInt(string $aValue1, $aValue2 = null, $aValue3 = null, bool $aIsInclude = true): void
+	public function addBetweenInt(int $aValue1, int $aValue2, int $aValue3, bool $aIsInclude = true): void
 	{
-		ValidatorUtil::checkUTF8($aValue1);
-		//value1 に関しては validator でチェックする
-		ValidatorUtil::checkNullOrNumber($aValue2);
-		ValidatorUtil::checkNullOrNumber($aValue3);
-		ValidatorUtil::checkBetween($aValue2, $aValue3);
+		if ($aValue2 >= $aValue3) {//等しい場合もだめ
+			throw new \Exception(
+				sprintf("%d は %d よりも小さくしてください", $aValue2, $aValue3),
+				1);
+		}
 
 		$temp = [
-			"value1" => intval($aValue1),
+			"value1" => $aValue1,
 			"value2" => $aValue2,
 			"value3" => $aValue3,
 			"mode" => "compare",

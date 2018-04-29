@@ -56,12 +56,8 @@ class InputValidatorTest extends TestCase
 		$vpb->addMail("hoge@dd.com");
 		$vpb->addMail("hoge@dd.com", false);
 		$vpb->addMail("ほげ._-@d_dマッスル.com");//正しい！
-		$vpb->addBetweenInt("3", 2, 5);
-		$vpb->addBetweenInt("4", 2);
-		$vpb->addBetweenInt("5", null, 6);
-		$vpb->addBetweenInt("8", 2, 5, false);
-		$vpb->addBetweenInt("1", 2, null, false);
-		$vpb->addBetweenInt("8", null, 6, false);
+		$vpb->addBetweenInt(3, 2, 5);
+		$vpb->addBetweenInt(8, 2, 5, false);
 		$iv = new InputValidator($vpb);
 		$this->assertTrue(true);//例外が出ないことのみテストする
 	}
@@ -136,31 +132,7 @@ STR;
 	public function testInvalidInclude1()
 	{
 		$vpb = new ValidateParamBuilder();
-		$vpb->addBetweenInt("2", 3, 8);
-		$param = $vpb->getParam();
-		$iv = new InputValidator($vpb);
-	}
-	/**
-	 * include 異常系 2
-	 * @expectedException Exception
-	 * @expectedExceptionMessage 2 は 3 より大きくありません
-	 */
-	public function testInvalidInclude2()
-	{
-		$vpb = new ValidateParamBuilder();
-		$vpb->addBetweenInt("2", 3);
-		$param = $vpb->getParam();
-		$iv = new InputValidator($vpb);
-	}
-	/**
-	 * include 異常系 3
-	 * @expectedException Exception
-	 * @expectedExceptionMessage 10 は 8 より小さくありません
-	 */
-	public function testInvalidInclude3()
-	{
-		$vpb = new ValidateParamBuilder();
-		$vpb->addBetweenInt("10", null, 8);
+		$vpb->addBetweenInt(2, 3, 8);
 		$param = $vpb->getParam();
 		$iv = new InputValidator($vpb);
 	}
@@ -172,31 +144,7 @@ STR;
 	public function testInvalidExclude1()
 	{
 		$vpb = new ValidateParamBuilder();
-		$vpb->addBetweenInt("5", 3, 8, false);
-		$param = $vpb->getParam();
-		$iv = new InputValidator($vpb);
-	}
-	/**
-	 * exclude 異常系 2
-	 * @expectedException Exception
-	 * @expectedExceptionMessage 5 は 3 より小さくありません
-	 */
-	public function testInvalidExclude2()
-	{
-		$vpb = new ValidateParamBuilder();
-		$vpb->addBetweenInt("5", 3, null, false);
-		$param = $vpb->getParam();
-		$iv = new InputValidator($vpb);
-	}
-	/**
-	 * exclude 異常系 3
-	 * @expectedException Exception
-	 * @expectedExceptionMessage 5 は 8 より大きくありません
-	 */
-	public function testInvalidExclude3()
-	{
-		$vpb = new ValidateParamBuilder();
-		$vpb->addBetweenInt("5", null, 8, false);
+		$vpb->addBetweenInt(5, 3, 8, false);
 		$param = $vpb->getParam();
 		$iv = new InputValidator($vpb);
 	}
