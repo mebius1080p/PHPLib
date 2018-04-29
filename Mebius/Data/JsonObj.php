@@ -3,8 +3,8 @@ declare(strict_types=1);
 namespace Mebius\Data;
 
 /**
-* JsonObj ajax レスポンス用 json オブジェクト
-*/
+ * JsonObj ajax レスポンス用 json オブジェクト
+ */
 class JsonObj
 {
 	/**

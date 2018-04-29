@@ -3,14 +3,16 @@ declare(strict_types=1);
 namespace Mebius\IO;
 
 /**
-*単純なファイル読み書きクラス
-*/
+ * 単純なファイル読み書きクラス
+ */
 class FileHandler
 {
 	private $filePath = "";
 	/**
-	*@param string $filePath このクラスで扱うファイル名
-	*/
+	 * コンストラクタ
+	 * @param string $filePath このクラスで扱うファイル名
+	 * @throws Exception 引数のファイルがないとき例外
+	 */
 	public function __construct(string $filePath)
 	{
 		if (!file_exists($filePath)) {
@@ -19,24 +21,24 @@ class FileHandler
 		$this->filePath = $filePath;
 	}
 	/**
-	*@return string ファイルの内容。コンストラクタでファイルの存在をチェックしているので、多少意味のあるメソッド
-	*/
+	 * @return string ファイルの内容。コンストラクタでファイルの存在をチェックしているので、多少意味のあるメソッド
+	 */
 	public function getString(): string
 	{
 		return file_get_contents($this->filePath);
 	}
 	/**
-	*引数のテキストでファイル内容を丸ごと書き換えるメソッド
-	*@param string $aStr 新たに書き込むテキスト
-	*/
+	 * 引数のテキストでファイル内容を丸ごと書き換えるメソッド
+	 * @param string $aStr 新たに書き込むテキスト
+	 */
 	public function update(string $aStr): void
 	{
 		file_put_contents($this->filePath, $aStr, LOCK_EX);
 	}
 	/**
-	*カウントアップメソッド
-	*@return {int} カウントアップ後の数値
-	*/
+	 * カウントアップメソッド
+	 * @return {int} カウントアップ後の数値
+	 */
 	public function countUp(): int
 	{
 		$currentStr = file_get_contents($this->filePath);

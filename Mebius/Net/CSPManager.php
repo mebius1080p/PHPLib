@@ -3,8 +3,8 @@ declare(strict_types=1);
 namespace Mebius\Net;
 
 /**
-* CSPManager CSP ヘッダーの文字列を作成するクラス
-*/
+ * CSPManager CSP ヘッダーの文字列を作成するクラス
+ */
 class CSPManager
 {
 	private $base = "";
