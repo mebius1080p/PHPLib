@@ -117,20 +117,8 @@ class InputValidator
 		$min = $array["value2"];
 		$max = $array["value3"];
 		$message1 = "%s は %s と %s の間にありません";
-		$message2 = "%s は %s より大きくありません";
-		$message3 = "%s は %s より小さくありません";
-		if ($min !== null && $max !== null) {
-			if ($val < $min || $max < $val) {
-				throw new \Exception(sprintf($message1, $val, $min, $max), 1);
-			}
-		} else if ($min !== null) {
-			if ($val < $min) {
-				throw new \Exception(sprintf($message2, $val, $min), 1);
-			}
-		} else if ($max !== null) {
-			if ($max < $val) {
-				throw new \Exception(sprintf($message3, $val, $max), 1);
-			}
+		if ($val < $min || $max < $val) {
+			throw new \Exception(sprintf($message1, $val, $min, $max), 1);
 		}
 	}
 	/**
@@ -144,20 +132,8 @@ class InputValidator
 		$min = $array["value2"];
 		$max = $array["value3"];
 		$message1 = "%s は %s と %s の間にあります";
-		$message2 = "%s は %s より小さくありません";//使わないだろうが……
-		$message3 = "%s は %s より大きくありません";//使わないだろうが……
-		if ($min !== null && $max !== null) {
-			if ($min < $val && $val < $max) {
-				throw new \Exception(sprintf($message1, $val, $min, $max), 1);
-			}
-		} else if ($min !== null) {
-			if ($min < $val) {
-				throw new \Exception(sprintf($message2, $val, $min), 1);
-			}
-		} else if ($max !== null) {
-			if ($val < $max) {
-				throw new \Exception(sprintf($message3, $val, $max), 1);
-			}
+		if ($min < $val && $val < $max) {
+			throw new \Exception(sprintf($message1, $val, $min, $max), 1);
 		}
 	}
 }
