@@ -3,8 +3,8 @@ declare(strict_types=1);
 namespace Mebius\IO;
 
 /**
-*InputValidator クラス for php7 新実装
-*/
+ * InputValidator クラス for php7 新実装
+ */
 class InputValidator
 {
 	//http://techracho.bpsinc.jp/hachi8833/2013_09_27/13713
@@ -13,8 +13,9 @@ class InputValidator
 	// /\A[[:^cntrl:]]{0,50}\z/u
 	private $checkArray;//配列
 	/**
-	*@param {ValidateParamBuilder} $aCPBObj ValidateParamBuilder のインスタンス
-	*/
+	 * コンストラクタ
+	 * @param ValidateParamBuilder $aCPBObj ValidateParamBuilder のインスタンス
+	 */
 	public function __construct(ValidateParamBuilder $aCPBObj)
 	{
 		$paramArray = $aCPBObj->getParam();
@@ -25,9 +26,9 @@ class InputValidator
 		$this->validate();
 	}
 	/**
-	*バリデートメソッド。複数の値を一気にチェックするので、返り値などは返さない
-	*/
-	private function validate()
+	 * バリデートメソッド。複数の値を一気にチェックするので、返り値などは返さない
+	 */
+	private function validate(): void
 	{
 		$len = count($this->checkArray);
 		for ($i = 0; $i < $len; $i++) {
@@ -49,11 +50,11 @@ class InputValidator
 		}
 	}
 	/**
-	*正規表現でパラメータをチェックするメソッド
-	*@param {array} $array ValidateParamBuilder の持っていた配列の要素
-	*@throws {Exception} マッチしなかった場合、通常例外を投げる
-	*/
-	private function regex(array $array)
+	 * 正規表現でパラメータをチェックするメソッド
+	 * @param array $array ValidateParamBuilder の持っていた配列の要素
+	 * @throws Exception マッチしなかった場合、通常例外を投げる
+	 */
+	private function regex(array $array): void
 	{
 		$value = $array["value1"];//value2 は使わない
 		$reg = $array["regex"];
@@ -70,33 +71,33 @@ class InputValidator
 		}
 	}
 	/**
-	*メールアドレスをチェックするメソッド
-	*@param {string} $array ValidateParamBuilder の持っていた配列の要素
-	*@throws {Exception} メールアドレスでなかった場合、通常例外を投げる
-	*/
-	public function mail(array $array)
+	 * メールアドレスをチェックするメソッド
+	 * @param array $array ValidateParamBuilder の持っていた配列の要素
+	 * @throws Exception メールアドレスでなかった場合、通常例外を投げる
+	 */
+	public function mail(array $array): void
 	{
 		if (!filter_var($array["value1"], FILTER_VALIDATE_EMAIL)) {
 			throw new \Exception($array["value1"] . " : 不正なメールアドレスです。");
 		}
 	}
 	/**
-	*メールアドレスをチェックするメソッド utf8 対応版
-	*@param {string} $array ValidateParamBuilder の持っていた配列の要素
-	*@throws {Exception} メールアドレスでなかった場合、通常例外を投げる
-	*/
-	public function mailutf8(array $array)
+	 * メールアドレスをチェックするメソッド utf8 対応版
+	 * @param array $array ValidateParamBuilder の持っていた配列の要素
+	 * @throws Exception メールアドレスでなかった場合、通常例外を投げる
+	 */
+	public function mailutf8(array $array): void
 	{
 		if (preg_match(self::RE_MAIL, $array["value1"]) !== 1) {
 			throw new \Exception($array["value1"] . " : 不正なメールアドレスです。");
 		}
 	}
 	/**
-	*数値比較用のメソッド
-	*@param {string} $array ValidateParamBuilder の持っていた配列の要素
-	*@throws {Exception} 範囲外/内だった場合、通常例外を投げる
-	*/
-	public function compare(array $array)
+	 * 数値比較用のメソッド
+	 * @param array $array ValidateParamBuilder の持っていた配列の要素
+	 * @throws Exception 範囲外/内だった場合、通常例外を投げる
+	 */
+	public function compare(array $array): void
 	{
 		if ($array["isInclude"]) {
 			$this->checkInclude($array);
@@ -106,11 +107,11 @@ class InputValidator
 
 	}
 	/**
-	*範囲内かチェックするメソッド
-	*@param {string} $array ValidateParamBuilder の持っていた配列の要素
-	*@throws {Exception} 範囲外だった場合、通常例外を投げる
-	*/
-	private function checkInclude(array $array)
+	 * 範囲内かチェックするメソッド
+	 * @param array $array ValidateParamBuilder の持っていた配列の要素
+	 * @throws Exception 範囲外だった場合、通常例外を投げる
+	 */
+	private function checkInclude(array $array): void
 	{
 		$val = $array["value1"];
 		$min = $array["value2"];
@@ -133,11 +134,11 @@ class InputValidator
 		}
 	}
 	/**
-	*範囲外かチェックするメソッド
-	*@param {string} $array ValidateParamBuilder の持っていた配列の要素
-	*@throws {Exception} 範囲内だった場合、通常例外を投げる
-	*/
-	private function checkExclude(array $array)
+	 * 範囲外かチェックするメソッド
+	 * @param array $array ValidateParamBuilder の持っていた配列の要素
+	 * @throws Exception 範囲内だった場合、通常例外を投げる
+	 */
+	private function checkExclude(array $array): void
 	{
 		$val = $array["value1"];
 		$min = $array["value2"];
