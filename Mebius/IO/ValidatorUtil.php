@@ -18,18 +18,6 @@ class ValidatorUtil
 		}
 	}
 	/**
-	*文字列が boolean かどうか調べるメソッド。
-	*@param {any} $param チェックするパラメーター
-	*@param {string} $exMessage 例外で設定するメッセージ
-	*@throws {Exception} bolean でなければ通常例外を投げる
-	*/
-	public static function checkBoolean($param, $exMessage)
-	{
-		if (!is_bool($param)) {
-			throw new \Exception($exMessage);
-		}
-	}
-	/**
 	*引数が数値かどうかチェックする。null を許可。
 	*@param {any} $value 数値と思われる変数
 	*@throws {Exception} 数値でも null でなければ通常例外を投げる

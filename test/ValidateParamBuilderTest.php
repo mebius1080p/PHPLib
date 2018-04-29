@@ -52,16 +52,6 @@ class ValidateParamBuilderTest extends TestCase
 		$vpb = new ValidateParamBuilder();
 		$vpb->addWithRegEx("hoge", "piyo");
 	}
-	/**
-	 * addWithRegEx 第三引数が不正な値だった場合
-	 * @expectedException Exception
-	 * @expectedExceptionMessage addWithRegEx : 第三引数は boolean にしてください
-	 */
-	public function testInvalidInclude()
-	{
-		$vpb = new ValidateParamBuilder();
-		$vpb->addWithRegEx("hoge", "/\A.+\z/", 2);
-	}
 	//mail------------------------------------------
 	/**
 	*メール通常テスト
@@ -90,16 +80,6 @@ class ValidateParamBuilderTest extends TestCase
 		$this->assertEquals("", $param2[0]["regex"]);
 		$this->assertEquals("mail", $param2[0]["mode"]);
 		$this->assertEquals(true, $param2[0]["isInclude"]);
-	}
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage addMail : 第二引数は boolean にしてください
-	 */
-	public function testMailInvalidFlag()
-	{
-		$mail = "hoge@dd.com";
-		$vpb = new ValidateParamBuilder();
-		$vpb->addMail($mail, 2);
 	}
 	/**
 	 * sjis のメールアドレス

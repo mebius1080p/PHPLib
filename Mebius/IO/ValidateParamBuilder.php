@@ -29,13 +29,12 @@ class ValidateParamBuilder
 	 * @param string $aRegExpStr チェック用の正規表現文字列。
 	 * @param bool $aIsInclude 正規表現通りなら OK なのか、そうでないかのフラグ。false の時は除外文字列をチェックできる
 	 */
-	public function addWithRegEx(string $aInputStr, string $aRegExpStr, $aIsInclude = true): void
+	public function addWithRegEx(string $aInputStr, string $aRegExpStr, bool $aIsInclude = true): void
 	{
 		ValidatorUtil::checkUTF8($aInputStr);
 		if(preg_match("/^\/.+\/$/", $aRegExpStr) !== 1) {//スラッシュで始まり何か入ってスラッシュで終わる文字列
 			throw new \Exception("addWithRegEx : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
 		}
-		ValidatorUtil::checkBoolean($aIsInclude, "addWithRegEx : 第三引数は boolean にしてください");
 		$temp = [
 			"value1" => $aInputStr,
 			"value2" => "",//between 用の第二パラメータ
@@ -51,10 +50,9 @@ class ValidateParamBuilder
 	 * @param string $mayBeMail メールと思われる文字列
 	 * @param bool $checkAsUtf8 メールアドレスを utf8 としてチェックするかどうかのフラグ
 	 */
-	public function addMail(string $mayBeMail, $checkAsUtf8 = true): void
+	public function addMail(string $mayBeMail, bool $checkAsUtf8 = true): void
 	{
 		ValidatorUtil::checkUTF8($mayBeMail);
-		ValidatorUtil::checkBoolean($checkAsUtf8, "addMail : 第二引数は boolean にしてください");
 		$temp = [
 			"value1" => $mayBeMail,
 			"value2" => "",
@@ -73,7 +71,7 @@ class ValidateParamBuilder
 	 * @param int $aValue2 間を検証する大きい方の数値
 	 * @param bool $aIsInclude 数値が引数の間か、そうでないかのフラグ。false の時は範囲外チェック
 	 */
-	public function addBetweenInt(string $aValue1, $aValue2 = null, $aValue3 = null, $aIsInclude = true): void
+	public function addBetweenInt(string $aValue1, $aValue2 = null, $aValue3 = null, bool $aIsInclude = true): void
 	{
 		ValidatorUtil::checkUTF8($aValue1);
 		//value1 に関しては validator でチェックする
