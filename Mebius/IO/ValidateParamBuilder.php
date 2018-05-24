@@ -32,7 +32,7 @@ class ValidateParamBuilder
 	public function addWithRegEx(string $aInputStr, string $aRegExpStr, bool $aIsInclude = true): void
 	{
 		self::checkUTF8($aInputStr);
-		if(preg_match("/^\/.+\/$/", $aRegExpStr) !== 1) {//スラッシュで始まり何か入ってスラッシュで終わる文字列
+		if (preg_match("/^\/.+\/$/", $aRegExpStr) !== 1) {//スラッシュで始まり何か入ってスラッシュで終わる文字列
 			throw new \Exception("addWithRegEx : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
 		}
 
@@ -70,7 +70,8 @@ class ValidateParamBuilder
 		if ($min >= $max) {//等しい場合もだめ
 			throw new \Exception(
 				sprintf("%d は %d よりも小さくしてください", $min, $max),
-				1);
+				1
+			);
 		}
 
 		$vo = new ValidatorObj();

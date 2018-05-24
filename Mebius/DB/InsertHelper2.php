@@ -38,10 +38,12 @@ class InsertHelper2
 	 */
 	public function getInsertSQL(): string
 	{
-		$sql = sprintf(self::INSERT_SQL,
+		$sql = sprintf(
+			self::INSERT_SQL,
 			$this->table,
 			$this->getColumnStr(),
-			$this->getPlaceHolderStr());
+			$this->getPlaceHolderStr()
+		);
 		return $sql;
 	}
 	/**
@@ -50,11 +52,13 @@ class InsertHelper2
 	 */
 	public function getOnDuplicateSQL(): string
 	{
-		$sql = sprintf(self::INSERT_ON_UPDATE_SQL,
+		$sql = sprintf(
+			self::INSERT_ON_UPDATE_SQL,
 			$this->table,
 			$this->getColumnStr(),
 			$this->getPlaceHolderStr(),
-			$this->getUpdateStr());
+			$this->getUpdateStr()
+		);
 		return $sql;
 	}
 	/**

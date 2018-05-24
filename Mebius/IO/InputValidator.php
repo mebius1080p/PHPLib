@@ -65,7 +65,7 @@ class InputValidator
 	{
 		$regResult = preg_match($vo->regex, $vo->stringValue);
 		if ($vo->isInclude) {
-			if($regResult !== 1) {//キーワードが含まれていない
+			if ($regResult !== 1) {//キーワードが含まれていない
 				throw new \Exception($vo->stringValue . " : 値が不正です");
 			}
 		} else {//除外キーワードがないか調べる
@@ -108,7 +108,6 @@ class InputValidator
 		} else {
 			$this->checkExclude($vo);
 		}
-
 	}
 	/**
 	 * 範囲内かチェックするメソッド
