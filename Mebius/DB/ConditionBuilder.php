@@ -7,8 +7,17 @@ namespace Mebius\DB;
  */
 abstract class ConditionBuilder
 {
+	/**
+	 * @var \stdClass 投稿データをまとめたオブジェクト
+	 */
 	protected $inputObj = null;
+	/**
+	 * @var string where 文の文字列
+	 */
 	protected $condition = "";
+	/**
+	 * @var array プレースホルダーとして使用する値を入れる配列
+	 */
 	protected $placeholder = [];
 	/**
 	 * コンストラクタ
@@ -26,7 +35,7 @@ abstract class ConditionBuilder
 	abstract public function build();
 	/**
 	 * 検索条件など、where 文を取得するメソッド
-	 * @param string where 文
+	 * @return string where 文
 	 */
 	public function getCondition(): string
 	{

@@ -8,7 +8,7 @@ namespace Mebius\DB;
 abstract class DBHandlerBase
 {
 	/**
-	 * @var PDO pdo のインスタンス
+	 * @var ?\PDO pdo のインスタンス
 	 */
 	protected $pdo = null;
 	/**

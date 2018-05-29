@@ -7,11 +7,14 @@ namespace Mebius\IO;
  */
 class FileHandler
 {
+	/**
+	 * @var string ファイルパス
+	 */
 	private $filePath = "";
 	/**
 	 * コンストラクタ
 	 * @param string $filePath このクラスで扱うファイル名
-	 * @throws Exception 引数のファイルがないとき例外
+	 * @throws \Exception 引数のファイルがないとき例外
 	 */
 	public function __construct(string $filePath)
 	{
@@ -21,6 +24,7 @@ class FileHandler
 		$this->filePath = $filePath;
 	}
 	/**
+	 * ファイルの内容を返すメソッド
 	 * @return string ファイルの内容。コンストラクタでファイルの存在をチェックしているので、多少意味のあるメソッド
 	 */
 	public function getString(): string
@@ -37,7 +41,7 @@ class FileHandler
 	}
 	/**
 	 * カウントアップメソッド
-	 * @return {int} カウントアップ後の数値
+	 * @return int カウントアップ後の数値
 	 */
 	public function countUp(): int
 	{

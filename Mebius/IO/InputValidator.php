@@ -13,16 +13,16 @@ class InputValidator
 	public const MODE_BETWEEN = 3;
 	//http://techracho.bpsinc.jp/hachi8833/2013_09_27/13713
 	//https://stackoverflow.com/questions/5219848/how-to-validate-non-english-utf-8-encoded-email-address-in-javascript-and-php
-	const RE_MAIL = "/\A([\p{L}\.\-\d_]+)@([\p{L}\-\.\d_]+)((\.(\p{L}){2,63})+)\z/u";
+	private const RE_MAIL = "/\A([\p{L}\.\-\d_]+)@([\p{L}\-\.\d_]+)((\.(\p{L}){2,63})+)\z/u";
 	// /\A[[:^cntrl:]]{0,50}\z/u
 	/**
-	 * @var ValidatorObj[] バリデートオブジェクト配列
+	 * @var array ValidatorObj[] バリデートオブジェクト配列
 	 */
 	private $checkArray = [];
 	/**
 	 * コンストラクタ
 	 * @param ValidateParamBuilder $vpb ValidateParamBuilder のインスタンス
-	 * @throws Exception ValidateParamBuilder で値がセットされていない場合に例外
+	 * @throws \Exception ValidateParamBuilder で値がセットされていない場合に例外
 	 */
 	public function __construct(ValidateParamBuilder $vpb)
 	{
@@ -36,6 +36,7 @@ class InputValidator
 	//----------------------------------------------
 	/**
 	 * バリデートメソッド。複数の値を一気にチェックするので、返り値などは返さない
+	 * @throws \Exception バリデートエラーで例外
 	 */
 	private function validate(): void
 	{
@@ -59,7 +60,7 @@ class InputValidator
 	/**
 	 * 正規表現でパラメータをチェックするメソッド
 	 * @param ValidatorObj $vo ValidatorObj のインスタンス
-	 * @throws Exception マッチしなかった場合、除外なのに含まれている例外
+	 * @throws \Exception マッチしなかった場合、除外なのに含まれている例外
 	 */
 	private function regex(ValidatorObj $vo): void
 	{
@@ -77,7 +78,7 @@ class InputValidator
 	/**
 	 * メールアドレスをチェックするメソッド
 	 * @param ValidatorObj $vo ValidatorObj のインスタンス
-	 * @throws Exception メールアドレスでなかった場合、通常例外を投げる
+	 * @throws \Exception メールアドレスでなかった場合、通常例外を投げる
 	 */
 	private function mail(ValidatorObj $vo): void
 	{
@@ -88,7 +89,7 @@ class InputValidator
 	/**
 	 * メールアドレスをチェックするメソッド utf8 対応版
 	 * @param ValidatorObj $vo ValidatorObj のインスタンス
-	 * @throws Exception メールアドレスでなかった場合、通常例外を投げる
+	 * @throws \Exception メールアドレスでなかった場合、通常例外を投げる
 	 */
 	private function mailutf8(ValidatorObj $vo): void
 	{
@@ -99,7 +100,7 @@ class InputValidator
 	/**
 	 * 数値比較用のメソッド
 	 * @param ValidatorObj $vo ValidatorObj のインスタンス
-	 * @throws Exception 範囲外/内だった場合、通常例外を投げる
+	 * @throws \Exception 範囲外/内だった場合、通常例外を投げる
 	 */
 	private function between(ValidatorObj $vo): void
 	{
@@ -112,7 +113,7 @@ class InputValidator
 	/**
 	 * 範囲内かチェックするメソッド
 	 * @param ValidatorObj $vo ValidatorObj のインスタンス
-	 * @throws Exception 範囲外だった場合、通常例外を投げる
+	 * @throws \Exception 範囲外だった場合、通常例外を投げる
 	 */
 	private function checkInclude(ValidatorObj $vo): void
 	{
@@ -124,7 +125,7 @@ class InputValidator
 	/**
 	 * 範囲外かチェックするメソッド
 	 * @param ValidatorObj $vo ValidatorObj のインスタンス
-	 * @throws Exception 範囲内だった場合、通常例外を投げる
+	 * @throws \Exception 範囲内だった場合、通常例外を投げる
 	 */
 	private function checkExclude(ValidatorObj $vo): void
 	{

@@ -7,18 +7,31 @@ namespace Mebius\DB;
  */
 class InsertHelper2
 {
-	const INSERT_SQL = "INSERT INTO %s (%s) VALUES(%s)";
-	const INSERT_ON_UPDATE_SQL = "INSERT INTO %s (%s) VALUES(%s) ON DUPLICATE KEY UPDATE %s";
-	const DUPLICATE_TEMPLATE = "%s=VALUES(%s)";
+	private const INSERT_SQL = "INSERT INTO %s (%s) VALUES(%s)";
+	private const INSERT_ON_UPDATE_SQL = "INSERT INTO %s (%s) VALUES(%s) ON DUPLICATE KEY UPDATE %s";
+	private const DUPLICATE_TEMPLATE = "%s=VALUES(%s)";
+
+	/**
+	 * @var string テーブル名
+	 */
 	private $table = "";
+	/**
+	 * @var array カラム名の文字列配列
+	 */
 	private $columns = [];
+	/**
+	 * @var array プレースホルダー部分の文字列配列
+	 */
 	private $placeHolders = [];
-	private $updates = [];//on duplicate 以降の文をいれる
+	/**
+	 * @var array on duplicate 以降の文をいれる文字列配列
+	 */
+	private $updates = [];
 	/**
 	 * コンストラクタ
 	 * @param string $table テーブル名
 	 * @param array $columns カラムの文字列をつめた配列
-	 * @throws Exception テーブル名が空文字の時や、カラムがない場合に例外
+	 * @throws \Exception テーブル名が空文字の時や、カラムがない場合に例外
 	 */
 	public function __construct(string $table, array $columns)
 	{

@@ -8,12 +8,12 @@ namespace Mebius\IO;
 class ValidateParamBuilder
 {
 	/**
-	 * @var ValidatorObj[] バリデートオブジェクト配列
+	 * @var array ValidatorObj[] バリデートオブジェクト配列
 	 */
 	private $param = [];
 	/**
 	 * param を返すメソッド
-	 * @return ValidatorObj[] バリデートオブジェクト配列
+	 * @return array ValidatorObj[] バリデートオブジェクト配列
 	 */
 	public function getParam(): array
 	{
@@ -28,6 +28,7 @@ class ValidateParamBuilder
 	 * @param string $aInputStr 入力文字列
 	 * @param string $aRegExpStr チェック用の正規表現文字列。
 	 * @param bool $aIsInclude 正規表現通りなら OK なのか、そうでないかのフラグ。false の時は除外文字列をチェックできる
+	 * @throws \Exception 正規表現に一致しなければ例外
 	 */
 	public function addWithRegEx(string $aInputStr, string $aRegExpStr, bool $aIsInclude = true): void
 	{
@@ -47,6 +48,7 @@ class ValidateParamBuilder
 	 * メールとしてパラメーターを追加するメソッド exclude はまず使わないだろう……
 	 * @param string $mayBeMail メールと思われる文字列
 	 * @param bool $checkAsUtf8 メールアドレスを utf8 としてチェックするかどうかのフラグ
+	 * @throws \Exception メールアドレスの文字コード不正で例外
 	 */
 	public function addMail(string $mayBeMail, bool $checkAsUtf8 = true): void
 	{
@@ -64,6 +66,7 @@ class ValidateParamBuilder
 	 * @param int $min 間を検証する小さい方の数値
 	 * @param int $max 間を検証する大きい方の数値
 	 * @param bool $aIsInclude 数値が引数の間か、そうでないかのフラグ。false の時は範囲外チェック
+	 * @throws \Exception 範囲エラーで例外
 	 */
 	public function addBetweenInt(int $aValue, int $min, int $max, bool $aIsInclude = true): void
 	{
@@ -86,7 +89,7 @@ class ValidateParamBuilder
 	/**
 	 * 文字列が utf8 かどうか調べるメソッド。
 	 * @param string $str チェックする文字列
-	 * @throws Exception 文字コードが utf8 でなければ例外
+	 * @throws \Exception 文字コードが utf8 でなければ例外
 	 */
 	public static function checkUTF8($str): void
 	{
