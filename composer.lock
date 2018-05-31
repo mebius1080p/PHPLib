@@ -4,8 +4,9 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "01c2252e4a1d1c22620a4e8dbae8b0a4",
-    "packages": [
+    "content-hash": "b6078928c6806e31809e28eabe54f6a2",
+    "packages": [],
+    "packages-dev": [
         {
             "name": "composer/semver",
             "version": "1.4.2",
@@ -238,16 +239,16 @@
         },
         {
             "name": "phan/phan",
-            "version": "0.12.10",
+            "version": "0.12.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phan/phan.git",
-                "reference": "f209e2c10e187eb7e27ed067c867432fec0df5a6"
+                "reference": "f088e608abe654e6d24c32088d7bb73d801e72aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phan/phan/zipball/f209e2c10e187eb7e27ed067c867432fec0df5a6",
-                "reference": "f209e2c10e187eb7e27ed067c867432fec0df5a6",
+                "url": "https://api.github.com/repos/phan/phan/zipball/f088e608abe654e6d24c32088d7bb73d801e72aa",
+                "reference": "f088e608abe654e6d24c32088d7bb73d801e72aa",
                 "shasum": ""
             },
             "require": {
@@ -262,6 +263,9 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "^6.3.0"
+            },
+            "suggest": {
+                "ext-tokenizer": "Needed for non-AST support and file/line-based suppressions"
             },
             "bin": [
                 "phan",
@@ -295,7 +299,7 @@
                 "php",
                 "static"
             ],
-            "time": "2018-05-27T19:45:14+00:00"
+            "time": "2018-05-31T03:00:02+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -734,7 +738,6 @@
             "time": "2018-01-29T19:49:41+00:00"
         }
     ],
-    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],
