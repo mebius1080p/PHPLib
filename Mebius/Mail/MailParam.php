@@ -155,8 +155,9 @@ class MailParam
 			];
 			foreach ($this->attaches as $attach) {
 				$fileName = basename($attach);
+				$mime = mime_content_type($attach);
 				$content = chunk_split(base64_encode(file_get_contents($attach)));
-				$bodies[] = "Content-Type: text/plain; name=\"{$fileName}\"";
+				$bodies[] = "Content-Type: {$mime}; name=\"{$fileName}\"";
 				$bodies[] = "Content-Disposition: attachment; filename=\"{$fileName}\"";
 				$bodies[] = "Content-Transfer-Encoding: base64" . $this->lineBreak;//改行 2 回
 				$bodies[] = $content;
