@@ -54,11 +54,11 @@ class MailParam
 	 * @param string $from from メールアドレス
 	 * @param string $to to メールアドレス
 	 * @param string $subject メールタイトル
-	 * @param string $templateTilePath メール本文のテンプレートとなるファイルパス
+	 * @param string $templateFilePath メール本文のテンプレートとなるファイルパス
 	 * @param array $templateParam メール本文作成用のテンプレートパラメーターを納めた連想配列
 	 * @throws \Exception 引数エラーで例外
 	 */
-	public function __construct(string $from, string $to, string $subject, string $templateTilePath, array $templateParam)
+	public function __construct(string $from, string $to, string $subject, string $templateFilePath, array $templateParam)
 	{
 		if (filter_var($from, FILTER_VALIDATE_EMAIL) === false
 			|| filter_var($to, FILTER_VALIDATE_EMAIL) === false
@@ -68,21 +68,21 @@ class MailParam
 		if ($subject === "") {
 			throw new \Exception("empty subject", 1);
 		}
-		if (!file_exists($templateTilePath)) {
+		if (!file_exists($templateFilePath)) {
 			throw new \Exception("template file does not exist", 1);
 		}
-		if (!is_file($templateTilePath)) {
+		if (!is_file($templateFilePath)) {
 			throw new \Exception("template path is not file", 1);
 		}
 
 		$this->to = $to;
 		$this->subject = $subject;
 
-		$loader = new Twig_Loader_Filesystem(dirname($templateTilePath));
+		$loader = new Twig_Loader_Filesystem(dirname($templateFilePath));
 		$twig = new Twig_Environment($loader);
 
 		//こちらは空でもよしとする
-		$this->message = $twig->render(basename($templateTilePath), $templateParam);
+		$this->message = $twig->render(basename($templateFilePath), $templateParam);
 
 		$this->headers[] = "From: " . $from;
 	}
