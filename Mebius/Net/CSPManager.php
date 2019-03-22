@@ -4,6 +4,7 @@ namespace Mebius\Net;
 
 /**
  * CSPManager CSP ヘッダーの文字列を作成するクラス
+ * @deprecated
  */
 class CSPManager
 {
