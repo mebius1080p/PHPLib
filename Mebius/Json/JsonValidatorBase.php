@@ -15,6 +15,10 @@ abstract class JsonValidatorBase
 	 */
 	private $validator;
 	/**
+	 * @var mixed
+	 */
+	private $json;
+	/**
 	 * コンストラクタ
 	 * @param mixed $json デコード済み json
 	 * @param mixed $schemaJson デコード済み json schema
@@ -22,8 +26,8 @@ abstract class JsonValidatorBase
 	 */
 	public function __construct($json, $schemaJson)
 	{
-		$jsonObj = \json_decode($json);
-		if ($jsonObj === null) {
+		$this->json = \json_decode($json);
+		if ($this->json === null) {
 			throw new \Exception("invalid json string", 1);
 		}
 		$schemaObj = \json_decode($schemaJson);
@@ -31,7 +35,7 @@ abstract class JsonValidatorBase
 			throw new \Exception("invalid JSON SCHEMA", 1);
 		}
 		$this->validator = new Validator();
-		$this->validator->validate($jsonObj, $schemaObj);
+		$this->validator->validate($this->json, $schemaObj);
 	}
 	/**
 	 * 結果取り出しメソッド
@@ -48,5 +52,13 @@ abstract class JsonValidatorBase
 	public function getErrors(): array
 	{
 		return $this->validator->getErrors();
+	}
+	/**
+	 * デコード済み json を取り出すメソッド
+	 * @return mixed
+	 */
+	public function getJson()
+	{
+		return $this->json;
 	}
 }
