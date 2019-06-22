@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 namespace Mebius\Mail;
 
-use Twig_Loader_Filesystem;
-use Twig_Environment;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 /**
  * MailParam メール送信のためのパラメーターを保持するクラス
@@ -78,8 +79,8 @@ class MailParam
 		$this->to = $to;
 		$this->subject = $subject;
 
-		$loader = new Twig_Loader_Filesystem(dirname($templateFilePath));
-		$twig = new Twig_Environment($loader);
+		$loader = new FilesystemLoader(dirname($templateFilePath));
+		$twig = new Environment($loader);
 
 		//こちらは空でもよしとする
 		$this->message = $twig->render(basename($templateFilePath), $templateParam);
@@ -141,6 +142,7 @@ class MailParam
 	/**
 	 * メール本文を返すメソッド
 	 * @return string
+	 * @throws \Exception 添付ファイルが読めないとき例外
 	 */
 	public function getBody(): string
 	{
@@ -156,7 +158,11 @@ class MailParam
 			foreach ($this->attaches as $attach) {
 				$fileName = basename($attach);
 				$mime = mime_content_type($attach);
-				$content = chunk_split(base64_encode(file_get_contents($attach)));
+				$attachContents = file_get_contents($attach);
+				if ($attachContents === false) {
+					throw new \Exception("attach file cannot be read", 1);
+				}
+				$content = chunk_split(base64_encode($attachContents));
 				$bodies[] = "Content-Type: {$mime}; name=\"{$fileName}\"";
 				$bodies[] = "Content-Disposition: attachment; filename=\"{$fileName}\"";
 				$bodies[] = "Content-Transfer-Encoding: base64" . $this->lineBreak;//改行 2 回

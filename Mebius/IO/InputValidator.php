@@ -16,7 +16,7 @@ class InputValidator
 	private const RE_MAIL = "/\A([\p{L}\.\-\d_]+)@([\p{L}\-\.\d_]+)((\.(\p{L}){2,63})+)\z/u";
 	// /\A[[:^cntrl:]]{0,50}\z/u
 	/**
-	 * @var array ValidatorObj[] バリデートオブジェクト配列
+	 * @var ValidatorObj[] バリデートオブジェクト配列
 	 */
 	private $checkArray = [];
 	/**

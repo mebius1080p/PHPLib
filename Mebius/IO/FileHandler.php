@@ -29,7 +29,11 @@ class FileHandler
 	 */
 	public function getString(): string
 	{
-		return file_get_contents($this->filePath);
+		$contents = file_get_contents($this->filePath);
+		if ($contents === false) {
+			$contents = "";
+		}
+		return $contents;
 	}
 	/**
 	 * 引数のテキストでファイル内容を丸ごと書き換えるメソッド

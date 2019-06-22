@@ -16,15 +16,15 @@ class InsertHelper2
 	 */
 	private $table = "";
 	/**
-	 * @var array カラム名の文字列配列
+	 * @var string[] カラム名の文字列配列
 	 */
 	private $columns = [];
 	/**
-	 * @var array プレースホルダー部分の文字列配列
+	 * @var string[] プレースホルダー部分の文字列配列
 	 */
 	private $placeHolders = [];
 	/**
-	 * @var array on duplicate 以降の文をいれる文字列配列
+	 * @var string[] on duplicate 以降の文をいれる文字列配列
 	 */
 	private $updates = [];
 	/**

@@ -26,7 +26,7 @@ class CSPManager2
 	{
 		$rc = new \ReflectionClass(CSPManager2::class);
 		$constants = $rc->getConstants();
-		foreach ($constants as $key => $value) {
+		foreach ($constants as $key => $value) {//@phan-suppress-current-line PhanUnusedVariable
 			$this->directives[] = new DirectiveItem($value);
 		}
 	}
