@@ -30,11 +30,12 @@ class ValidateParamBuilderTest extends TestCase
 	}
 	/**
 	 * regex 文字が utf8 意外だったとき
-	 * @expectedException Exception
-	 * @expectedExceptionMessage パラメーターが UTF-8 ではありません
 	 */
 	public function testNotUtf8()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("パラメーターが UTF-8 ではありません");
+
 		$str = "ほげまつ";
 		$sjisStr = mb_convert_encoding($str, "sjis");
 		$vpb = new ValidateParamBuilder();
@@ -42,11 +43,12 @@ class ValidateParamBuilderTest extends TestCase
 	}
 	/**
 	 * regex が不正な値だった場合
-	 * @expectedException Exception
-	 * @expectedExceptionMessage addWithRegEx : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください
 	 */
 	public function testInvalidRegEx()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("addWithRegEx : 第二引数はスラッシュで囲まれた正規表現リテラルにしてください");
+
 		$vpb = new ValidateParamBuilder();
 		$vpb->addWithRegEx("hoge", "piyo");
 	}
@@ -75,11 +77,12 @@ class ValidateParamBuilderTest extends TestCase
 	}
 	/**
 	 * sjis のメールアドレス
-	 * @expectedException Exception
-	 * @expectedExceptionMessage パラメーターが UTF-8 ではありません
 	 */
 	public function testSjisMail()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("パラメーターが UTF-8 ではありません");
+
 		$mail = "ほげ@dd.com";
 		$sjisMail = mb_convert_encoding($mail, "sjis");
 		$vpb = new ValidateParamBuilder();
@@ -121,12 +124,11 @@ class ValidateParamBuilderTest extends TestCase
 		ValidateParamBuilder::checkUTF8($str);
 		$this->assertTrue(true);//例外が出ないこと
 	}
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage パラメーターが UTF-8 ではありません
-	 */
 	public function testShiftjisToCheckUTF8()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("パラメーターが UTF-8 ではありません");
+
 		$str = "ほげ123abc漢字";
 		ValidateParamBuilder::checkUTF8(mb_convert_encoding($str, "sjis", "UTF-8"));
 	}

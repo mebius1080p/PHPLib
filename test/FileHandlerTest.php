@@ -9,14 +9,14 @@ class FileHandlerTest extends TestCase
 {
 	private static $countFile = "";
 	private static $sampleFile = "";
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		self::$countFile = __DIR__ . "/count.txt";
 		self::$sampleFile = __DIR__ . "/sample.txt";
 		file_put_contents(self::$countFile, "1");
 		file_put_contents(self::$sampleFile, "サンプル");
 	}
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass(): void
 	{
 		file_put_contents(self::$countFile, "1");
 		file_put_contents(self::$sampleFile, "サンプル");

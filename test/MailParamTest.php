@@ -110,12 +110,11 @@ class MailParamTest extends TestCase
 		$this->assertEquals("", $splitBody[19]);
 		$this->assertEquals("--__BOUNDARY__", $splitBody[20]);
 	}
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage invalid mail address
-	 */
 	public function testInvalidFrom()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("invalid mail address");
+
 		$from = "ohno";
 		$to = "aa@aa.com";
 		$subject = "ほげー";
@@ -123,12 +122,11 @@ class MailParamTest extends TestCase
 		$param = [];
 		$mp = new MailParam($from, $to, $subject, $filepath, $param);
 	}
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage invalid mail address
-	 */
 	public function testInvalidTo()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("invalid mail address");
+
 		$from = "dd@dd.com";
 		$to = "hey";
 		$subject = "ほげー";
@@ -136,12 +134,11 @@ class MailParamTest extends TestCase
 		$param = [];
 		$mp = new MailParam($from, $to, $subject, $filepath, $param);
 	}
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage empty subject
-	 */
 	public function testEmptySubject()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("empty subject");
+
 		$from = "dd@dd.com";
 		$to = "aa@aa.com";
 		$subject = "";
@@ -149,12 +146,11 @@ class MailParamTest extends TestCase
 		$param = [];
 		$mp = new MailParam($from, $to, $subject, $filepath, $param);
 	}
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage template file does not exist
-	 */
 	public function testInvalidFilePath1()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("template file does not exist");
+
 		$from = "dd@dd.com";
 		$to = "aa@aa.com";
 		$subject = "ほげー";
@@ -162,12 +158,11 @@ class MailParamTest extends TestCase
 		$param = [];
 		$mp = new MailParam($from, $to, $subject, $filepath, $param);
 	}
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage template path is not file
-	 */
 	public function testInvalidFilePath2()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("template path is not file");
+
 		$from = "dd@dd.com";
 		$to = "aa@aa.com";
 		$subject = "ほげー";

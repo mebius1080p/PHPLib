@@ -63,13 +63,10 @@ class InputValidatorTest extends TestCase
 		$iv = new InputValidator($vpb);
 		$this->assertTrue(true);//例外が出ないことのみテストする
 	}
-	/**
-	 * バリデーターパラムが 0 のとき
-	 * @expectedException Exception
-	 * @expectedExceptionMessage ValidateParamBuilder オブジェクトの中身が空です
-	 */
 	public function testEmpty()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("ValidateParamBuilder オブジェクトの中身が空です");
 		$vpb = new ValidateParamBuilder();
 		$iv = new InputValidator($vpb);
 	}
@@ -128,11 +125,12 @@ STR;
 	}
 	/**
 	 * include 異常系 1
-	 * @expectedException Exception
-	 * @expectedExceptionMessage 2 は 3 と 8 の間にありません
 	 */
 	public function testInvalidInclude1()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("2 は 3 と 8 の間にありません");
+
 		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt(2, 3, 8);
 		$param = $vpb->getParam();
@@ -140,11 +138,12 @@ STR;
 	}
 	/**
 	 * exclude 異常系 1
-	 * @expectedException Exception
-	 * @expectedExceptionMessage 5 は 3 と 8 の間にあります
 	 */
 	public function testInvalidExclude1()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("5 は 3 と 8 の間にあります");
+
 		$vpb = new ValidateParamBuilder();
 		$vpb->addBetweenInt(5, 3, 8, false);
 		$param = $vpb->getParam();

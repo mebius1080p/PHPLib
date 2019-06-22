@@ -19,12 +19,11 @@ class InsertHelper2Test extends TestCase
 		$this->assertEquals("INSERT INTO ttx (hoge,fuga,piyo) VALUES(?,?,?)", $ih->getInsertSQL());
 		$this->assertEquals("INSERT INTO ttx (hoge,fuga,piyo) VALUES(?,?,?) ON DUPLICATE KEY UPDATE hoge=VALUES(hoge),fuga=VALUES(fuga),piyo=VALUES(piyo)", $ih->getOnDuplicateSQL());
 	}
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage empty table name
-	 */
 	public function testEmptyTableName()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("empty table name");
+
 		$table = "";
 		$columns = [
 			"hoge",
@@ -33,12 +32,11 @@ class InsertHelper2Test extends TestCase
 		];
 		$ih = new InsertHelper2($table, $columns);
 	}
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage empty columns
-	 */
 	public function testEmptyColumns()
 	{
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("empty columns");
+
 		$table = "tts";
 		$columns = [];
 		$ih = new InsertHelper2($table, $columns);
