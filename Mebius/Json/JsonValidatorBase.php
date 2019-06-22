@@ -11,7 +11,7 @@ use JsonSchema\Validator;
 abstract class JsonValidatorBase
 {
 	/**
-	 * @var JsonSchema\Validator
+	 * @var Validator
 	 */
 	private $validator;
 	/**
