@@ -8,7 +8,7 @@ namespace Mebius\DB;
 abstract class DBHandlerBase
 {
 	/**
-	 * @var ?\PDO pdo のインスタンス
+	 * @var \PDO|null pdo のインスタンス
 	 */
 	protected $pdo = null;
 	/**
@@ -43,9 +43,25 @@ abstract class DBHandlerBase
 	 */
 	public function executeSelectQuery(string $sql, string $classname, array $placeHolder = []): array
 	{
+		if ($this->pdo === null) {
+			throw new \Exception("pdo is null", 1);
+		}
 		$sth = $this->pdo->prepare($sql);
-		$sth->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $classname);
-		$sth->execute($placeHolder);
-		return $sth->fetchAll();
+		if ($sth === false) {
+			throw new \Exception("prepare sql failed", 1);
+		}
+		$hasFetched = $sth->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $classname);
+		if ($hasFetched === false) {
+			throw new \Exception("fetch failed", 1);
+		}
+		$hasExecuted = $sth->execute($placeHolder);
+		if ($hasExecuted === false) {
+			throw new \Exception("statement execution failed", 1);
+		}
+		$fetchedData = $sth->fetchAll();
+		if ($fetchedData === false) {
+			throw new \Exception("fetch all failed", 1);
+		}
+		return $fetchedData;
 	}
 }
