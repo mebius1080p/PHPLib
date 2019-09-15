@@ -4,7 +4,7 @@ use Mebius\Net\CSPManager2;
 
 class CSPManager2Test extends TestCase
 {
-	public function testHoge()
+	public function testNormal()
 	{
 		$csp = new CSPManager2();
 		$this->assertEquals("Content-Security-Policy: default-src 'self';", $csp->getCSPString());

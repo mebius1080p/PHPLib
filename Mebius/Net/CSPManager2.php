@@ -33,18 +33,13 @@ class CSPManager2
 	/**
 	 * ディレクティブ追加メソッド
 	 * @param string $src ディレクティブソース。このクラスの const を使うことを推奨
-	 * @param string $directive 追加するディレクティブの値
+	 * @param string $directiveString 追加するディレクティブの値
 	 */
-	public function addDirective(string $src, string $directive): void
+	public function addDirective(string $src, string $directiveString): void
 	{
-		$filteredDirective = \array_filter($this->directives, function ($directive) use ($src) {
-			return $directive->getSource() === $src;
-		});
-		$trimedDirectives = \array_values($filteredDirective);
-		if (count($trimedDirectives) === 0) {
-			return;
+		foreach ($this->directives as $directive) {
+			$directive->appendDirective($src, $directiveString);//追加できるかどうかは中で決める
 		}
-		$trimedDirectives[0]->appendDirective($directive);
 	}
 	/**
 	 * http ヘッダーに出力する csp 文字列を出力するメソッド
