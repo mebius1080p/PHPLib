@@ -4,6 +4,7 @@ namespace Mebius\Mail;
 
 /**
  * MailSender メール送信クラス
+ * @deprecated
  */
 class MailSender
 {

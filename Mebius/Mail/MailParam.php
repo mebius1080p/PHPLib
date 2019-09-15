@@ -8,6 +8,7 @@ use Twig\Environment;
 /**
  * MailParam メール送信のためのパラメーターを保持するクラス
  * テキストは utf8 メールを想定。添付ファイルを付けるときだけ ISO2022 を指定し、本文は base64 エンコードする
+ * @deprecated
  */
 class MailParam
 {
