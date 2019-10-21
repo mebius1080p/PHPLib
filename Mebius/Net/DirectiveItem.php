@@ -24,7 +24,7 @@ class DirectiveItem
 	 */
 	private $directives = [];
 	/**
-	 * @param string[] $allowedDirectivePatterns ディレクティブで使用可能な正規表現
+	 * @var string[] $allowedDirectivePatterns ディレクティブで使用可能な正規表現
 	 */
 	private $allowedDirectivePatterns = [
 		"/\A'self'\z/",
