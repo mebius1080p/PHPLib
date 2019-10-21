@@ -15,7 +15,7 @@ class MailParamWithTwig extends MailParamCore
 	/**
 	 * コンストラクタ
 	 * @param string $mailTemplatePath メールテンプレートパス
-	 * @param string $templateParam テンプレートパラメーター
+	 * @param array $templateParam テンプレートパラメーター
 	 */
 	public function buildMessage(string $mailTemplatePath, array $templateParam)
 	{
