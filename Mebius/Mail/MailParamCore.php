@@ -9,8 +9,17 @@ namespace Mebius\Mail;
  */
 class MailParamCore
 {
+	/**
+	 * @var string $from from メールアドレス
+	 */
 	private $from = "";
+	/**
+	 * @var string $to to メールアドレス
+	 */
 	private $to = "";
+	/**
+	 * @var string $subject メールアドレス
+	 */
 	private $subject = "";
 	/**
 	 * コンストラクタ
