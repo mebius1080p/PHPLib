@@ -1,4 +1,5 @@
 <?php
+
 use PHPUnit\Framework\TestCase;
 use Mebius\Paging\{PagingCaluculator, PagingSearchResult};
 

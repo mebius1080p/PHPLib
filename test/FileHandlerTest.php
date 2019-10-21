@@ -1,4 +1,5 @@
 <?php
+
 use Mebius\IO\FileHandler;
 use PHPUnit\Framework\TestCase;
 

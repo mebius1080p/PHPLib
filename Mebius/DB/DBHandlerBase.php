@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Mebius\DB;
 
 /**
@@ -50,7 +52,7 @@ abstract class DBHandlerBase
 		if ($sth === false) {
 			throw new \Exception("prepare sql failed", 1);
 		}
-		$hasFetched = $sth->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $classname);
+		$hasFetched = $sth->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $classname);
 		if ($hasFetched === false) {
 			throw new \Exception("fetch failed", 1);
 		}

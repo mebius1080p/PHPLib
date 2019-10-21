@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Mebius\Mail;
 
 use Twig\Loader\FilesystemLoader;
@@ -60,11 +62,17 @@ class MailParam
 	 * @param array $templateParam メール本文作成用のテンプレートパラメーターを納めた連想配列
 	 * @throws \Exception 引数エラーで例外
 	 */
-	public function __construct(string $from, string $to, string $subject, string $templateFilePath, array $templateParam)
-	{
-		if (filter_var($from, FILTER_VALIDATE_EMAIL) === false
+	public function __construct(
+		string $from,
+		string $to,
+		string $subject,
+		string $templateFilePath,
+		array $templateParam
+	) {
+		if (
+			filter_var($from, FILTER_VALIDATE_EMAIL) === false
 			|| filter_var($to, FILTER_VALIDATE_EMAIL) === false
-			) {
+		) {
 			throw new \Exception("invalid mail address", 1);
 		}
 		if ($subject === "") {

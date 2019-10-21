@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Mebius\Paging;
 
 /**
@@ -28,7 +30,7 @@ class PagingCalculator2
 	public function __construct(int $perPage, int $postedPage)
 	{
 		$this->perPage = $perPage <= 0 ? 1 : $perPage;
-		$this->page = $postedPage <= 0 ? 1 :$postedPage;
+		$this->page = $postedPage <= 0 ? 1 : $postedPage;
 	}
 	/**
 	 * sql で使うオフセット値を返す
