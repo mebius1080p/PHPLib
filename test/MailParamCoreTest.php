@@ -14,6 +14,7 @@ class MailParamCoreTest extends TestCase
 		$this->assertEquals($from, $pc->getFrom());
 		$this->assertEquals($to, $pc->getTo());
 		$this->assertEquals($subject, $pc->getSubject());
+		$this->assertEquals("", $pc->getMessage());
 	}
 	public function testInvalidFrom()
 	{

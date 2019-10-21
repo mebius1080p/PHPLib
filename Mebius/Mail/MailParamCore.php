@@ -22,6 +22,10 @@ class MailParamCore
 	 */
 	private $subject = "";
 	/**
+	 * @var string $message メールメッセージ
+	 */
+	protected $message = "";
+	/**
 	 * コンストラクタ
 	 * @param string $from from メールアドレス
 	 * @param string $to to メールアドレス
@@ -65,5 +69,13 @@ class MailParamCore
 	public function getSubject(): string
 	{
 		return $this->subject;
+	}
+	/**
+	 * メール本文を返すメソッド
+	 * @return string
+	 */
+	public function getMessage(): string
+	{
+		return $this->message;
 	}
 }
