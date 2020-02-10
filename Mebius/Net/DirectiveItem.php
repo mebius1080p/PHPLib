@@ -70,7 +70,7 @@ class DirectiveItem
 		if (\count($matchedDirectivePattern) === 0) {
 			return;
 		}
-		if (\in_array($directive, $this->directives)) {
+		if (\in_array($directive, $this->directives, true)) {
 			// 重複登録はさせない
 			return;
 		}
