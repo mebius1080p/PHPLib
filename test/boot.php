@@ -1,4 +1,5 @@
 <?php
+
 require_once(__DIR__ . "/SplClassLoader.php");
 
 $libRoot = dirname(__DIR__);
