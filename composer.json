@@ -12,7 +12,7 @@
     "minimum-stability": "stable",
     "require": {
          "php": ">= 7.4.0",
-        "twig/twig": "^2.0",
+        "twig/twig": "^3.0",
         "justinrainbow/json-schema": "^5.0",
         "swiftmailer/swiftmailer": "^6.0"
     },
