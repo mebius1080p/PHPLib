@@ -16,7 +16,7 @@ class FileHandler
 	/**
 	 * コンストラクタ
 	 * @param string $filePath このクラスで扱うファイル名
-	 * @throws \Exception 引数のファイルがないとき例外
+	 * @throws \Exception 引数がファイルパスでないとき例外
 	 */
 	public function __construct(string $filePath)
 	{
@@ -30,7 +30,7 @@ class FileHandler
 	}
 	/**
 	 * ファイルの内容を返すメソッド
-	 * @return string ファイルの内容。コンストラクタでファイルの存在をチェックしているので、多少意味のあるメソッド
+	 * @return string ファイルの内容。読み取れない場合は空文字
 	 */
 	public function getString(): string
 	{
@@ -42,22 +42,26 @@ class FileHandler
 	}
 	/**
 	 * 引数のテキストでファイル内容を丸ごと書き換えるメソッド
-	 * @param string $aStr 新たに書き込むテキスト
+	 * @param string $str 新たに書き込むテキスト
 	 */
-	public function update(string $aStr): void
+	public function update(string $str): void
 	{
-		file_put_contents($this->filePath, $aStr, LOCK_EX);
+		file_put_contents($this->filePath, $str, LOCK_EX);
 	}
 	/**
 	 * カウントアップメソッド
 	 * @return int カウントアップ後の数値
+	 * @throws \Exception ファイル書き込み失敗で例外
 	 */
 	public function countUp(): int
 	{
-		$currentStr = file_get_contents($this->filePath);
+		$currentStr = $this->getString();
 		$counter = (int)$currentStr;
 		$counter++;
-		file_put_contents($this->filePath, (string)$counter, LOCK_EX);
+		$writeByte = file_put_contents($this->filePath, (string)$counter, LOCK_EX);
+		if ($writeByte === false) {
+			throw new \Exception("cant update file", 1);
+		}
 		return $counter;
 	}
 }
