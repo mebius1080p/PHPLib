@@ -22,36 +22,36 @@ class MailParam
 	public const UTF8 = "uni";
 	public const ISO2022 = "ja";
 
-	private $to = "";
-	private $subject = "";
-	private $message = "";
+	private string $to = "";
+	private string $subject = "";
+	private string $message = "";
 
-	private $headers = [];
+	private array $headers = [];
 
 	/**
 	 * @var string 改行コード
 	 */
-	private $lineBreak = "\r\n";
+	private string $lineBreak = "\r\n";
 
 	/**
 	 * @var bool 添付ファイルを設定するかのフラグ
 	 */
-	private $hasAttach = false;
+	private bool $hasAttach = false;
 
 	/**
 	 * @var string[] 添付ファイルパス文字列配列
 	 */
-	private $attaches = [];
+	private array $attaches = [];
 
 	/**
 	 * @var string メール本文中の、添付ファイルの境界文字列
 	 */
-	private $boundary = "__BOUNDARY__";
+	private string $boundary = "__BOUNDARY__";
 
 	/**
 	 * @var bool 添付ファイル追加時に必要なヘッダーを追加したかどうかのチェックフラグ
 	 */
-	private $attachHeaderAppended = false;
+	private bool $attachHeaderAppended = false;
 
 	/**
 	 * コンストラクタ

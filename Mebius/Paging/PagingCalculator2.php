@@ -12,15 +12,15 @@ class PagingCalculator2
 	/**
 	 * @var int 一回の検索で取り出す最大件数
 	 */
-	private $perPage = 1;
+	private int $perPage = 1;
 	/**
 	 * @var int 取り出すページ数。取り出すページが異常な値であってもそれを使用する
 	 */
-	private $page = 1;
+	private int $page = 1;
 	/**
 	 * @var int sql で使うデータ取得オフセット値。0 から始まる
 	 */
-	private $offset = 0;
+	private int $offset = 0;
 
 	/**
 	 * コンストラクタ
@@ -45,7 +45,7 @@ class PagingCalculator2
 	 * @param int $recordCount 検索結果数
 	 * @return PagingSearchResult PagingSearchResult のインスタンス
 	 */
-	public function getPagingSearchResult(int $recordCount)
+	public function getPagingSearchResult(int $recordCount): PagingSearchResult
 	{
 		$count = $recordCount < 0 ? 0 : $recordCount;
 		$totalPage = ceil($count / $this->perPage);

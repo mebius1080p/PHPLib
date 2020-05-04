@@ -12,31 +12,31 @@ class ValidatorObj
 	/**
 	 * @var string メアドや正規表現チェックの時にチェック元文字列を入れる
 	 */
-	public $stringValue = "";
+	public string $stringValue = "";
 	/**
 	 * @var int between で比較する時用の数値を入れる
 	 */
-	public $intValue = 0;
+	public int $intValue = 0;
 	/**
 	 * @var int バリデートモード InputValidator の const 値を使用
 	 */
-	public $mode = -1;
+	public int $mode = -1;
 	/**
 	 * @var string 正規表現チェック用の正規表現文字列をセット
 	 */
-	public $regex = "";
+	public string $regex = "";
 	/**
 	 * @var bool 正規表現と範囲チェック時に、含むものを探すのか、含まないものを探すのかを表すフラグ。true: だと含むもの(範囲内)を探す
 	 */
-	public $isInclude = true;
+	public bool $isInclude = true;
 	/**
 	 * @var int 範囲チェック時の最小値をセットするためのプロパティ
 	 */
-	public $min = 0;
+	public int $min = 0;
 	/**
 	 * @var int 範囲チェック時の最大値をセットするためのプロパティ
 	 */
-	public $max = 0;
+	public int $max = 0;
 	public function __construct()
 	{
 		//dd;

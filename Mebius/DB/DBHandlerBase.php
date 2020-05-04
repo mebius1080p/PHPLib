@@ -10,9 +10,9 @@ namespace Mebius\DB;
 abstract class DBHandlerBase
 {
 	/**
-	 * @var \PDO|null pdo のインスタンス
+	 * @var ?\PDO pdo のインスタンス
 	 */
-	protected $pdo = null;
+	protected ?\PDO $pdo = null;
 	/**
 	 * コンストラクタ
 	 * @param string $dsn DB 接続の DSN 文字列

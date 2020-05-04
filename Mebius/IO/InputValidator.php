@@ -20,7 +20,7 @@ class InputValidator
 	/**
 	 * @var ValidatorObj[] バリデートオブジェクト配列
 	 */
-	private $checkArray = [];
+	private array $checkArray = [];
 	/**
 	 * コンストラクタ
 	 * @param ValidateParamBuilder $vpb ValidateParamBuilder のインスタンス

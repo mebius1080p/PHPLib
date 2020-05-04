@@ -12,28 +12,28 @@ class PagingCaluculator
 	/**
 	 *@var int 検索したときにヒットする件数
 	 */
-	private $recordCount = 0;
+	private int $recordCount = 0;
 	/**
 	 * @var int 一回の検索で取り出す最大件数
 	 */
-	private $perPage = 1;
+	private int $perPage = 1;
 	/**
 	 * @var int 投稿されてきた、取り出す希望のページ数
 	 */
-	private $postedPage = 1;
+	private int $postedPage = 1;
 
 	/**
 	 * @var int 返すページ数
 	 */
-	private $outPage = 1;
+	private int $outPage = 1;
 	/**
 	 * @var int データのページ数
 	 */
-	private $totalPage = 1;
+	private int $totalPage = 1;
 	/**
 	 * @var int sql で使うデータ取得オフセット値。0 から始まる
 	 */
-	private $offset = 0;
+	private int $offset = 0;
 	/**
 	 * コンストラクタ
 	 * @param int $recordCount 検索してヒットするレコード数 0 でもよい
@@ -84,7 +84,7 @@ class PagingCaluculator
 	 * PagingSearchResult のインスタンスを返すメソッド
 	 * @return PagingSearchResult PagingSearchResult のインスタンス
 	 */
-	public function getPagingSearchResult()
+	public function getPagingSearchResult(): PagingSearchResult
 	{
 		$psr = new PagingSearchResult();
 		$psr->total = $this->recordCount;
@@ -97,7 +97,7 @@ class PagingCaluculator
 	/**
 	 * トータルページ数やレコード取り出しに使う sql のオフセットの値を計算するメソッド
 	 */
-	private function calcPage()
+	private function calcPage(): void
 	{
 		if ($this->perPage >= $this->recordCount) {
 			return;

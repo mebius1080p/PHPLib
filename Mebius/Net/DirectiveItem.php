@@ -18,15 +18,15 @@ class DirectiveItem
 	/**
 	 * @var string $src csp ソースの文字列
 	 */
-	private $src = "";
+	private string $src = "";
 	/**
 	 * @var string[] $directive ディレクティブの値配列
 	 */
-	private $directives = [];
+	private array $directives = [];
 	/**
 	 * @var string[] $allowedDirectivePatterns ディレクティブで使用可能な正規表現
 	 */
-	private $allowedDirectivePatterns = [
+	private array $allowedDirectivePatterns = [
 		"/\A'self'\z/",
 		"/\Ablob:\z/",
 		"/\Adata:\z/",

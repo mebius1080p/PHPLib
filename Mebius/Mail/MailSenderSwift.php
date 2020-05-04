@@ -19,11 +19,11 @@ class MailSenderSwift
 	/**
 	 * @var string $ip IP アドレス or ホスト名
 	 */
-	private $ipOrHost = "";
+	private string $ipOrHost = "";
 	/**
 	 * @var int $port ポート番号
 	 */
-	private $port = 0;
+	private int $port = 0;
 	/**
 	 * コンストラクタ
 	 * @param string $ipOrHost IP アドレス or ホスト名

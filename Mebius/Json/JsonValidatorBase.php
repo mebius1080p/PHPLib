@@ -15,7 +15,7 @@ abstract class JsonValidatorBase
 	/**
 	 * @var Validator
 	 */
-	private $validator;
+	private Validator $validator;
 	/**
 	 * @var mixed
 	 */

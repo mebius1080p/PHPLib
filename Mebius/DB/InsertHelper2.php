@@ -16,19 +16,19 @@ class InsertHelper2
 	/**
 	 * @var string テーブル名
 	 */
-	private $table = "";
+	private string $table = "";
 	/**
 	 * @var string[] カラム名の文字列配列
 	 */
-	private $columns = [];
+	private array $columns = [];
 	/**
 	 * @var string[] プレースホルダー部分の文字列配列
 	 */
-	private $placeHolders = [];
+	private array $placeHolders = [];
 	/**
 	 * @var string[] on duplicate 以降の文をいれる文字列配列
 	 */
-	private $updates = [];
+	private array $updates = [];
 	/**
 	 * コンストラクタ
 	 * @param string $table テーブル名

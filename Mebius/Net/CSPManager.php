@@ -10,13 +10,13 @@ namespace Mebius\Net;
  */
 class CSPManager
 {
-	private $base = "";
-	private $image = [];
-	private $style = [];
-	private $script = [];
-	private $frame = [];
-	private $child = [];
-	private $connect = [];
+	private string $base = "";
+	private array $image = [];
+	private array $style = [];
+	private array $script = [];
+	private array $frame = [];
+	private array $child = [];
+	private array $connect = [];
 	public function __construct()
 	{
 		$this->base = "Content-Security-Policy: default-src 'self';";
@@ -33,7 +33,7 @@ class CSPManager
 	 * image ソースを追加
 	 * @param string $src image ソース
 	 */
-	public function addImage(string $src)
+	public function addImage(string $src): void
 	{
 		$this->image[] = $src;
 	}
@@ -41,7 +41,7 @@ class CSPManager
 	 * style ソースを追加
 	 * @param string $src style ソース
 	 */
-	public function addStyle(string $src)
+	public function addStyle(string $src): void
 	{
 		$this->style[] = $src;
 	}
@@ -49,7 +49,7 @@ class CSPManager
 	 * script ソースを追加
 	 * @param string $src script ソース
 	 */
-	public function addScript(string $src)
+	public function addScript(string $src): void
 	{
 		$this->script[] = $src;
 	}
@@ -57,7 +57,7 @@ class CSPManager
 	 * child ソースを追加 frame にも自動で追加
 	 * @param string $src child ソース
 	 */
-	public function addChild(string $src)
+	public function addChild(string $src): void
 	{
 		$this->child[] = $src;
 		$this->frame[] = $src;
@@ -66,7 +66,7 @@ class CSPManager
 	 * connect ソースを追加
 	 * @param string $src connect ソース
 	 */
-	public function addConnect(string $src)
+	public function addConnect(string $src): void
 	{
 		$this->connect[] = $src;
 	}

@@ -10,17 +10,17 @@ namespace Mebius\DB;
 abstract class ConditionBuilder
 {
 	/**
-	 * @var \stdClass 投稿データをまとめたオブジェクト
+	 * @var ?\stdClass 投稿データをまとめたオブジェクト
 	 */
-	protected $inputObj = null;
+	protected ?\stdClass $inputObj = null;
 	/**
 	 * @var string where 文の文字列
 	 */
-	protected $condition = "";
+	protected string $condition = "";
 	/**
 	 * @var array プレースホルダーとして使用する値を入れる配列
 	 */
-	protected $placeholder = [];
+	protected array $placeholder = [];
 	/**
 	 * コンストラクタ
 	 * @param mixed $inputObj stdClass や入力データをまとめたクラスのインスタンスなど

@@ -22,7 +22,7 @@ class CSPManager2
 	/**
 	 * @var DirectiveItem[] $directiveDec DirectiveItem の配列
 	 */
-	private $directives = [];
+	private array $directives = [];
 
 	public function __construct()
 	{

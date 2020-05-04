@@ -12,7 +12,7 @@ class FileHandler
 	/**
 	 * @var string ファイルパス
 	 */
-	private $filePath = "";
+	private string $filePath = "";
 	/**
 	 * コンストラクタ
 	 * @param string $filePath このクラスで扱うファイル名

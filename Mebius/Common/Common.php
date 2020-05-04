@@ -12,7 +12,7 @@ class Common
 	/**
 	 * @var string $debugFilePath デバッグ用ファイルパス
 	 */
-	private $debugFilePath = "";
+	private string $debugFilePath = "";
 	/**
 	 * コンストラクタ
 	 * @param string $debugFilePath デバッグ用ファイルパス

@@ -12,19 +12,19 @@ class MailParamCore
 	/**
 	 * @var string $from from メールアドレス
 	 */
-	private $from = "";
+	private string $from = "";
 	/**
 	 * @var string $to to メールアドレス
 	 */
-	private $to = "";
+	private string $to = "";
 	/**
 	 * @var string $subject メールアドレス
 	 */
-	private $subject = "";
+	private string $subject = "";
 	/**
 	 * @var string $message メールメッセージ
 	 */
-	protected $message = "";
+	protected string $message = "";
 	/**
 	 * コンストラクタ
 	 * @param string $from from メールアドレス

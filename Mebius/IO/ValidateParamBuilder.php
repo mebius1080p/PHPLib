@@ -10,9 +10,9 @@ namespace Mebius\IO;
 class ValidateParamBuilder
 {
 	/**
-	 * @var array ValidatorObj[] バリデートオブジェクト配列
+	 * @var ValidatorObj[] $param バリデートオブジェクト配列
 	 */
-	private $param = [];
+	private array $param = [];
 	/**
 	 * param を返すメソッド
 	 * @return array ValidatorObj[] バリデートオブジェクト配列

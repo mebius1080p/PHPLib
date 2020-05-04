@@ -17,7 +17,7 @@ class MailParamWithTwig extends MailParamCore
 	 * @param string $mailTemplatePath メールテンプレートパス
 	 * @param array $templateParam テンプレートパラメーター
 	 */
-	public function buildMessage(string $mailTemplatePath, array $templateParam)
+	public function buildMessage(string $mailTemplatePath, array $templateParam): void
 	{
 		if (!file_exists($mailTemplatePath)) {
 			throw new \Exception("template file does not exist", 1);

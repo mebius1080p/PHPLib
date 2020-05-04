@@ -33,7 +33,6 @@ use Phan\Issue;
  * of the phan executable or a path passed in via the CLI
  * '-d' flag.
  */
-
 return [
 
     // Supported values: `'5.6'`, `'7.0'`, `'7.1'`, `'7.2'`, `'7.3'`, `'7.4'`, `null`.
@@ -43,8 +42,8 @@ return [
     //
     // Note that the **only** effect of choosing `'5.6'` is to infer that functions removed in php 7.0 exist.
     // (See `backward_compatibility_checks` for additional options)
-    // Automatically inferred from composer.json requirement for "php" of ">= 7.1.0"
-    'target_php_version' => '7.1',
+    // Automatically inferred from composer.json requirement for "php" of ">= 7.4.0"
+    'target_php_version' => '7.4',
 
     // If enabled, missing properties will be created when
     // they are first seen. If false, we'll report an
@@ -145,6 +144,11 @@ return [
     // [php7cc (no longer maintained)](https://github.com/sstalle/php7cc)
     // and [php7mar](https://github.com/Alexia/php7mar),
     // which have different backwards compatibility checks.
+    //
+    // If you are still using versions of php older than 5.6,
+    // `PHP53CompatibilityPlugin` may be worth looking into if you are not running
+    // syntax checks for php 5.3 through another method such as
+    // `InvokePHPNativeSyntaxCheckPlugin` (see .phan/plugins/README.md).
     'backward_compatibility_checks' => false,
 
     // If true, check to make sure the return type declared
