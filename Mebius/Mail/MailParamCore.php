@@ -6,8 +6,9 @@ namespace Mebius\Mail;
 
 /**
  * MailParamCore シンプルなメールパラメーター所持クラス
+ * message に関しては継承クラスでどうにかして設定することを想定
  */
-class MailParamCore
+abstract class MailParamCore
 {
 	/**
 	 * @var string $from from メールアドレス
