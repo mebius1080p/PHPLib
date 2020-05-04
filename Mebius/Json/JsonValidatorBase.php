@@ -22,11 +22,11 @@ abstract class JsonValidatorBase
 	private $json;
 	/**
 	 * コンストラクタ
-	 * @param mixed $json デコード済み json
-	 * @param mixed $schemaJson デコード済み json schema
+	 * @param string $json json 文字列
+	 * @param string $schemaJson json schema 文字列
 	 * @throws \Exception json デコードエラーで例外
 	 */
-	public function __construct($json, $schemaJson)
+	public function __construct(string $json, string $schemaJson)
 	{
 		$this->json = \json_decode($json);
 		if ($this->json === null) {
