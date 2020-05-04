@@ -341,7 +341,6 @@ return [
         './Mebius',
         'vendor/justinrainbow/json-schema/src/JsonSchema',
         'vendor/swiftmailer/swiftmailer/lib',
-        'vendor/twig/twig/lib',
         'vendor/twig/twig/src',
     ],
 
