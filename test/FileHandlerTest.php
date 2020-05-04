@@ -59,4 +59,11 @@ class FileHandlerTest extends TestCase
 		$this->expectExceptionMessage($file . " が存在しません。");
 		$cfh = new FileHandler($file);
 	}
+	public function testNotFile()
+	{
+		$file = __DIR__;
+		$this->expectException("Exception");//例外発生をテストするときは必ず書く！
+		$this->expectExceptionMessage($file . " が存在しません。");
+		$cfh = new FileHandler($file);
+	}
 }

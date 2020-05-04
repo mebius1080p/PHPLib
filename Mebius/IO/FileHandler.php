@@ -23,6 +23,9 @@ class FileHandler
 		if (!file_exists($filePath)) {
 			throw new \Exception($filePath . " が存在しません。");
 		}
+		if (!\is_file($filePath)) {
+			throw new \Exception($filePath . " が存在しません。");
+		}
 		$this->filePath = $filePath;
 	}
 	/**
