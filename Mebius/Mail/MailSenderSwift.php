@@ -7,8 +7,6 @@ namespace Mebius\Mail;
 use Swift_SmtpTransport;
 use Swift_Transport_Esmtp_EightBitMimeHandler;
 use Swift_Mailer;
-use Swift_Mime_ContentEncoder_PlainContentEncoder;
-use Swift_Message;
 
 /**
  * MailSenderSwift swift mailer を使用した新バージョンのメール送信クラス
@@ -53,12 +51,7 @@ class MailSenderSwift
 		$transport->setExtensionHandlers([$eightBitMime]);
 		$mailer = new Swift_Mailer($transport);
 
-		$message = new Swift_Message($mpc->getSubject());
-		$plainEncoder = new Swift_Mime_ContentEncoder_PlainContentEncoder('8bit');
-		$message->setEncoder($plainEncoder);
-		$message->setFrom($mpc->getFrom());
-		$message->setTo($mpc->getTo());
-		$message->setBody($mpc->getMessage());
+		$message = $mpc->getSwiftMessage();
 
 		$successCount = $mailer->send($message);
 		return $successCount > 0;

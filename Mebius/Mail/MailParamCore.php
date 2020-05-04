@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Mebius\Mail;
 
+use Swift_Message;
+use Swift_Mime_ContentEncoder_PlainContentEncoder;
+
 /**
  * MailParamCore シンプルなメールパラメーター所持クラス
  * message に関しては継承クラスでどうにかして設定することを想定
@@ -78,5 +81,21 @@ abstract class MailParamCore
 	public function getMessage(): string
 	{
 		return $this->message;
+	}
+	/**
+	 * mailsender 側でメッセージ取り出すメソッド
+	 * message に着いては呼び出し前に継承クラスで作っておく
+	 * @return Swift_Message
+	 */
+	public function getSwiftMessage(): Swift_Message
+	{
+		$message = new Swift_Message($this->getSubject());
+		$plainEncoder = new Swift_Mime_ContentEncoder_PlainContentEncoder('8bit');
+		$message->setEncoder($plainEncoder);
+		$message->setFrom($this->getFrom());
+		$message->setTo($this->getTo());
+		$message->setBody($this->getMessage());
+
+		return $message;
 	}
 }
