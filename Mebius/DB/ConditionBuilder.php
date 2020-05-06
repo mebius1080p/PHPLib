@@ -10,9 +10,9 @@ namespace Mebius\DB;
 abstract class ConditionBuilder
 {
 	/**
-	 * @var ?\stdClass 投稿データをまとめたオブジェクト
+	 * @var object 投稿データをまとめたオブジェクト
 	 */
-	protected ?\stdClass $inputObj = null;
+	protected object $inputObj;
 	/**
 	 * @var string where 文の文字列
 	 */
@@ -23,9 +23,9 @@ abstract class ConditionBuilder
 	protected array $placeholder = [];
 	/**
 	 * コンストラクタ
-	 * @param mixed $inputObj stdClass や入力データをまとめたクラスのインスタンスなど
+	 * @param object $inputObj stdClass や入力データをまとめたクラスのインスタンスなど
 	 */
-	public function __construct($inputObj)
+	public function __construct(object $inputObj)
 	{
 		$this->inputObj = $inputObj;
 		$this->build();
