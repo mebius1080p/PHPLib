@@ -27,14 +27,13 @@ abstract class InputValidator
 	}
 	/**
 	 * 日付バリデートメソッド
-	 * @param mixed $descendants このクラスを継承したインスタンス
-	 * @param string $prop descendants でアクセスするプロパティ
+	 * @param string $prop アクセスするプロパティ
 	 * @throws \Exception 例外の可能性あり
 	 */
-	public function date($descendants, string $prop): void
+	public function date(string $prop): void
 	{
-		self::checkProperty($descendants, $prop);
-		$value = $descendants->$prop;
+		$this->checkProperty($prop);
+		$value = $this->$prop;
 		self::checkUTF8($value);
 		try {
 			$dt = new \DateTime($value);//@phan-suppress-current-line PhanUnusedVariable
@@ -44,14 +43,13 @@ abstract class InputValidator
 	}
 	/**
 	 * 必須バリデートメソッド
-	 * @param mixed $descendants このクラスを継承したインスタンス
-	 * @param string $prop descendants でアクセスするプロパティ
+	 * @param string $prop アクセスするプロパティ
 	 * @throws \Exception 例外の可能性あり
 	 */
-	public function mandatory($descendants, string $prop): void
+	public function mandatory(string $prop): void
 	{
-		self::checkProperty($descendants, $prop);
-		$value = $descendants->$prop;
+		$this->checkProperty($prop);
+		$value = $this->$prop;
 		if (\is_string($value)) {
 			self::checkUTF8($value);
 		}
@@ -61,18 +59,17 @@ abstract class InputValidator
 	}
 	/**
 	 * 文字列長バリデートメソッド(最大)
-	 * @param mixed $descendants このクラスを継承したインスタンス
-	 * @param string $prop descendants でアクセスするプロパティ
+	 * @param string $prop アクセスするプロパティ
 	 * @param int $len この長さ以下の文字列であるかをチェックする
 	 * @throws \Exception 例外の可能性あり
 	 */
-	public function length($descendants, string $prop, int $len): void
+	public function length(string $prop, int $len): void
 	{
-		if ($len <= 0) {//から文字を許可しない 許可したければこのメソッドは呼ばない
+		if ($len <= 0) {//空文字を許可しない 許可したければこのメソッドは呼ばない
 			throw new \Exception("invalid len argument", 1);
 		}
-		self::checkProperty($descendants, $prop);
-		$str = $descendants->$prop;
+		$this->checkProperty($prop);
+		$str = $this->$prop;
 		self::checkUTF8($str);
 		if (mb_strlen($str) > $len) {
 			$this->errors[] = $prop;
@@ -80,18 +77,17 @@ abstract class InputValidator
 	}
 	/**
 	 * 文字列長バリデートメソッド(最小)
-	 * @param mixed $descendants このクラスを継承したインスタンス
-	 * @param string $prop descendants でアクセスするプロパティ
+	 * @param string $prop アクセスするプロパティ
 	 * @param int $len この長さ以上の文字列であるかをチェックする
 	 * @throws \Exception 例外の可能性あり
 	 */
-	public function overLength($descendants, string $prop, int $len): void
+	public function overLength(string $prop, int $len): void
 	{
 		if ($len <= 0) {//から文字を許可しない 許可したければこのメソッドは呼ばない
 			throw new \Exception("invalid len argument", 1);
 		}
-		self::checkProperty($descendants, $prop);
-		$str = $descendants->$prop;
+		$this->checkProperty($prop);
+		$str = $this->$prop;
 		self::checkUTF8($str);
 		if (mb_strlen($str) < $len) {
 			$this->errors[] = $prop;
@@ -99,54 +95,50 @@ abstract class InputValidator
 	}
 	/**
 	 * 数値範囲バリデートメソッド(整数)
-	 * @param mixed $descendants このクラスを継承したインスタンス
-	 * @param string $prop descendants でアクセスするプロパティ
+	 * @param string $prop アクセスするプロパティ
 	 * @param int $from この数値以上の数値であるかをチェックする
 	 * @param int $to この数値以下の数値であるかをチェックする
 	 * @throws \Exception 例外の可能性あり
 	 */
-	public function numRange($descendants, string $prop, int $from, int $to): void
+	public function numRange(string $prop, int $from, int $to): void
 	{
 		if ($from > $to) {
 			throw new \Exception("invalid from_to argument", 1);
 		}
-		self::checkProperty($descendants, $prop);
-		$num = \intval($descendants->$prop);
+		$this->checkProperty($prop);
+		$num = \intval($this->$prop);
 		if ($num < $from || $to < $num) {
 			$this->errors[] = $prop;
 		}
 	}
 	/**
 	 * 電話番号バリデートメソッド
-	 * @param mixed $descendants このクラスを継承したインスタンス
-	 * @param string $prop descendants でアクセスするプロパティ
+	 * @param string $prop アクセスするプロパティ
 	 * @throws \Exception 例外の可能性あり
 	 */
-	public function tel($descendants, string $prop): void
+	public function tel(string $prop): void
 	{
-		$this->regex($descendants, $prop, "/\A[0-9\-]+\z/");
+		$this->regex($prop, "/\A[0-9\-]+\z/");
 	}
 	/**
 	 * 郵便番号バリデートメソッド
-	 * @param mixed $descendants このクラスを継承したインスタンス
-	 * @param string $prop descendants でアクセスするプロパティ
+	 * @param string $prop アクセスするプロパティ
 	 * @throws \Exception 例外の可能性あり
 	 */
-	public function postal($descendants, string $prop): void
+	public function postal(string $prop): void
 	{
-		$this->regex($descendants, $prop, "/\A[0-9]{3}?-[0-9]{4}\z/");
+		$this->regex($prop, "/\A[0-9]{3}-?[0-9]{4}\z/");
 	}
 	/**
 	 * メールバリデートメソッド
-	 * @param mixed $descendants このクラスを継承したインスタンス
-	 * @param string $prop descendants でアクセスするプロパティ
+	 * @param string $prop アクセスするプロパティ
 	 * @param bool $isutf8 メアドを utf8 としてチェックするかのフラグ
 	 * @throws \Exception 例外の可能性あり
 	 */
-	public function mail($descendants, string $prop, bool $isutf8 = true): void
+	public function mail(string $prop, bool $isutf8 = true): void
 	{
-		self::checkProperty($descendants, $prop);
-		$mail = $descendants->$prop;
+		$this->checkProperty($prop);
+		$mail = $this->$prop;
 		self::checkUTF8($mail);
 		if ($isutf8) {
 			if (preg_match(self::RE_MAIL, $mail) !== 1) {
@@ -160,18 +152,17 @@ abstract class InputValidator
 	}
 	/**
 	 * 同一性バリデートメソッド
-	 * @param mixed $descendants このクラスを継承したインスタンス
-	 * @param string $prop1 descendants でアクセスするプロパティ1
-	 * @param string $prop2 descendants でアクセスするプロパティ2
+	 * @param string $prop1 アクセスするプロパティ1
+	 * @param string $prop2 アクセスするプロパティ2
 	 * @param bool $dualError 値が違ったとき、errors に両方の名前を入れるかのフラグ
 	 * @throws \Exception 例外の可能性あり
 	 */
-	public function same($descendants, string $prop1, string $prop2, bool $dualError = true): void
+	public function same(string $prop1, string $prop2, bool $dualError = true): void
 	{
-		self::checkProperty($descendants, $prop1);
-		self::checkProperty($descendants, $prop2);
-		$str1 = $descendants->$prop1;
-		$str2 = $descendants->$prop2;
+		$this->checkProperty($prop1);
+		$this->checkProperty($prop2);
+		$str1 = $this->$prop1;
+		$str2 = $this->$prop2;
 		self::checkUTF8($str1);
 		self::checkUTF8($str2);
 		if ($str1 !== $str2) {
@@ -183,15 +174,14 @@ abstract class InputValidator
 	}
 	/**
 	 * 正規表現でのバリデートメソッド
-	 * @param mixed $descendants このクラスを継承したインスタンス
-	 * @param string $prop descendants でアクセスするプロパティ
+	 * @param string $prop アクセスするプロパティ
 	 * @param string $regex 正規表現
 	 * @throws \Exception 例外の可能性あり
 	 */
-	public function regex($descendants, string $prop, string $regex): void
+	public function regex(string $prop, string $regex): void
 	{
-		self::checkProperty($descendants, $prop);
-		$str = $descendants->$prop;
+		self::checkProperty($prop);
+		$str = $this->$prop;
 		self::checkUTF8($str);
 		if (preg_match($regex, $str) !== 1) {
 			$this->errors[] = $prop;
@@ -218,17 +208,16 @@ abstract class InputValidator
 		}
 	}
 	/**
-	 * 各種針デートメソッドで読んで、継承クラスが指定のプロパティを持っているかチェックするメソッド
-	 * @param mixed $descendants 継承クラスのインスタンス
+	 * 各種バリデートメソッドで呼んで、継承クラスが指定のプロパティを持っているかチェックするメソッド
 	 * @param string $prop プロパティ名
 	 * @throws \Exception プロパティがなければ例外
 	 */
-	public static function checkProperty($descendants, string $prop): void
+	public function checkProperty(string $prop): void
 	{
 		if ($prop === "errors") {
 			throw new \Exception("cant use errors property", 1);
 		}
-		if (!\property_exists($descendants, $prop)) {
+		if (!\property_exists($this, $prop)) {
 			throw new \Exception("property does not exist:" . $prop, 1);
 		}
 	}

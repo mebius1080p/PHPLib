@@ -14,6 +14,16 @@ class InputValidatorxTest extends TestCase
 		$this->assertTrue($result);
 		//$this->assertEquals(0, 0);
 	}
+	public function testValidatePostal()
+	{
+		$io = $this->makeSampleInputObj();
+		$io->postal = "1122580";//ハイフン梨バージョン
+
+		$result = $io->validate();
+
+		$this->assertTrue($result);
+		//$this->assertEquals(0, 0);
+	}
 	public function testSjis()
 	{
 		$this->expectException(Exception::class);
@@ -172,15 +182,15 @@ class InputValidatorxTest extends TestCase
 			public string $date = "2020-05-05";
 			public function validate(): bool
 			{
-				$this->mandatory($this, "name");
-				$this->length($this, "name", 5);
-				$this->overLength($this, "password", 8);
-				$this->tel($this, "tel");
-				$this->postal($this, "postal");
-				$this->mail($this, "mail");
-				$this->same($this, "mail", "mail_r");
-				$this->numRange($this, "rangex", 2, 10);
-				$this->date($this, "date");
+				$this->mandatory("name");
+				$this->length("name", 5);
+				$this->overLength("password", 8);
+				$this->tel("tel");
+				$this->postal("postal");
+				$this->mail("mail");
+				$this->same("mail", "mail_r");
+				$this->numRange("rangex", 2, 10);
+				$this->date("date");
 				return count($this->getErrors()) === 0;
 			}
 		};
@@ -193,7 +203,7 @@ class InputValidatorxTest extends TestCase
 			public string $name = "ほげ";
 			public function validate(): bool
 			{
-				$this->mandatory($this, "namex");//不正プロパティ
+				$this->mandatory("namex");//不正プロパティ
 				return count($this->getErrors()) === 0;
 			}
 		};
@@ -206,7 +216,7 @@ class InputValidatorxTest extends TestCase
 			public string $name = "ほげ";
 			public function validate(): bool
 			{
-				$this->mandatory($this, "errors");//不正プロパティ
+				$this->mandatory("errors");//不正プロパティ
 				return count($this->getErrors()) === 0;
 			}
 		};
@@ -219,7 +229,7 @@ class InputValidatorxTest extends TestCase
 			public string $name = "ほげ";
 			public function validate(): bool
 			{
-				$this->length($this, "name", -1);
+				$this->length("name", -1);
 				return count($this->getErrors()) === 0;
 			}
 		};
@@ -232,7 +242,7 @@ class InputValidatorxTest extends TestCase
 			public string $name = "ほげ";
 			public function validate(): bool
 			{
-				$this->overLength($this, "name", -1);
+				$this->overLength("name", -1);
 				return count($this->getErrors()) === 0;
 			}
 		};
@@ -245,7 +255,7 @@ class InputValidatorxTest extends TestCase
 			public int $num = 3;
 			public function validate(): bool
 			{
-				$this->numRange($this, "num", 5, 2);
+				$this->numRange("num", 5, 2);
 				return count($this->getErrors()) === 0;
 			}
 		};
@@ -258,7 +268,7 @@ class InputValidatorxTest extends TestCase
 			public string $mail = "hoge@example.com";
 			public function validate(): bool
 			{
-				$this->mail($this, "mail", false);
+				$this->mail("mail", false);
 				return count($this->getErrors()) === 0;
 			}
 		};
@@ -271,7 +281,7 @@ class InputValidatorxTest extends TestCase
 			public string $rre = "hoge";
 			public function validate(): bool
 			{
-				$this->regex($this, "rre", "/\A[0-9a-z]{10}\z/");
+				$this->regex("rre", "/\A[0-9a-z]{10}\z/");
 				return count($this->getErrors()) === 0;
 			}
 		};
