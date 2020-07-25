@@ -6,6 +6,7 @@ namespace Mebius\DB;
 
 /**
  * DBHandlerBase データマッパー用モデルクラスの基底クラス
+ * @deprecated
  */
 abstract class DBHandlerBase
 {

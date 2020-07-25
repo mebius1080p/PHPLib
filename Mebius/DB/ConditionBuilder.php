@@ -6,6 +6,7 @@ namespace Mebius\DB;
 
 /**
  * ConditionBuilder 投稿データから sql の where 文とプレースホルダー用データ配列を作成する抽象クラス
+ * @deprecated
  */
 abstract class ConditionBuilder
 {
