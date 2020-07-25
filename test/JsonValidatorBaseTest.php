@@ -6,11 +6,6 @@ use DummyClass\SampleJsonValidator;
 
 class JsonValidatorBaseTest extends TestCase
 {
-	public static function setUpBeforeClass(): void
-	{
-		$sampleClassPath = __DIR__ . DIRECTORY_SEPARATOR . "DummyClass" . DIRECTORY_SEPARATOR . "SampleJsonValidator.php";
-		require_once($sampleClassPath);
-	}
 	public function testEmptyArray()
 	{
 		$json = "[]";

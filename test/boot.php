@@ -14,6 +14,12 @@ foreach ($traitFiles as $file) {
 	require_once($file);
 }
 
+$dummyDIr = __DIR__ . DIRECTORY_SEPARATOR . "DummyClass";
+$dummyClassFiles = glob($dummyDIr . DIRECTORY_SEPARATOR . "*.php");
+foreach ($dummyClassFiles as $clsFile) {
+	require_once($clsFile);
+}
+
 if (!class_exists("\PHPUnit\Framework\TestCase")) {
 	require_once(dirname(__DIR__) . "/vendor/autoload.php");
 }

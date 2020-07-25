@@ -6,11 +6,6 @@ use DummyClass\SampleMailParam;
 
 class MailParamCoreTest extends TestCase
 {
-	public static function setUpBeforeClass(): void
-	{
-		$sampleClassPath = __DIR__ . DIRECTORY_SEPARATOR . "DummyClass" . DIRECTORY_SEPARATOR . "SampleMailParam.php";
-		require_once($sampleClassPath);
-	}
 	public function testNormalParameter()
 	{
 		$from = "dd@dd.com";
