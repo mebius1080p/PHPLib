@@ -11,6 +11,7 @@ use Swift_Mailer;
 
 /**
  * MailSenderSwift2 swift mailer を使用したメール送信クラス
+ * @deprecated
  */
 class MailSenderSwift2
 {
