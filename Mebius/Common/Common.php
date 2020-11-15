@@ -39,6 +39,10 @@ class Common
 		if ($this->debugFilePath === "") {
 			return;
 		}
+		if (!\file_exists($this->debugFilePath)) {
+			return;
+		}
+
 		$dt = new \DateTime();
 		$now = $dt->format("Y-m-d H:i:s");
 		$debugStr = $now . ":" . print_r($obj, true) . "\n";
