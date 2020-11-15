@@ -9,6 +9,7 @@ namespace Mebius\DB;
  * 単独でも機能するが、継承して使用することを想定している
  * laravel のコントローラなどで使用できるよう、コンストラクタの引数を撤廃
  * PDO のスタブを使ってテストできるようにした
+ * @deprecated
  */
 class DBHandlerBase2
 {
