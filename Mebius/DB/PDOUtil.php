@@ -43,7 +43,7 @@ class PDOUtil
 	 * @param string $dsn DB 接続の DSN 文字列
 	 * @param string $user DB 接続のユーザー名
 	 * @param string $pass DB 接続のパスワード
-	 * @return \PDO;
+	 * @return \PDO
 	 * @throws \PDOException db 接続失敗時に例外が出るらしい
 	 */
 	public static function createPDO(string $dsn, string $user, string $pass): \PDO
@@ -54,5 +54,7 @@ class PDOUtil
 		$pdo = new \PDO($dsn, $user, $pass, $pdoOption);
 		$pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false); // 静的プレースホルダを指定
 		$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); // 例外を投げる
+
+		return $pdo;
 	}
 }
