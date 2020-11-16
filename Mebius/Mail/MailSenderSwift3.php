@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Mebius\Mail;
 
-use Swift_SmtpTransport;
-use Swift_SendmailTransport;
-use Swift_Transport_Esmtp_EightBitMimeHandler;
 use Swift_Mailer;
 
 /**
