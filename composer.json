@@ -9,6 +9,9 @@
             "email": "mebius1080p@gmail.com"
         }
     ],
+    "scripts": {
+        "test": ["phpunit"]
+    },
     "minimum-stability": "stable",
     "require": {
          "php": ">= 7.4.0",
