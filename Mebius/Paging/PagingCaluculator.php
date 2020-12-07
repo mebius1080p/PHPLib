@@ -6,6 +6,7 @@ namespace Mebius\Paging;
 
 /**
  * PagingCaluculator ページング周りのもろもろを計算して取り出せるようにするクラス
+ * @deprecated
  */
 class PagingCaluculator
 {
