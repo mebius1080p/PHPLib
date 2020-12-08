@@ -11,7 +11,7 @@ trait TBegin3
 {
 	abstract protected function makeMockSTH(): \PDOStatement;
 	abstract protected function makeMockPDO(): \PDO;
-	abstract public function assertEquals($a, $b);
+	abstract public static function assertEquals($a, $b);
 	abstract public function expectException(string $classname): void;
 	abstract public function expectExceptionMessage(string $message): void;
 
