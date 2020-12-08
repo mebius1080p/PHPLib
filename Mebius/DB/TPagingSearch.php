@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Mebius\DB;
 
-use Mebius\Paging\{PagingSearchResult, PagingCaluculator};
+use Mebius\Paging\{PagingSearchResult, PagingCalculator2};
 
 /**
  * TPagingSearch paging 情報付き検索用トレイト
@@ -35,8 +35,8 @@ trait TPagingSearch
 		$countResults = $this->executeSelectQuery($countSQL, \stdClass::class, $cb->getPlaceholder());
 		$count = $countResults[0]->cnt;
 
-		$pc = new PagingCaluculator($count, $perPage, $page);
-		$psr = $pc->getPagingSearchResult();
+		$pc = new PagingCalculator2($perPage, $page);
+		$psr = $pc->getPagingSearchResult($count);
 
 		$placeHolder = $cb->getPlaceholder();
 		$placeHolder[] = $pc->getOffset();
