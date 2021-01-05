@@ -9,15 +9,16 @@ use Phan\Issue;
  *
  * - Go through this file and verify that there are no missing/unnecessary files/directories.
  *   (E.g. this only includes direct composer dependencies - You may have to manually add indirect composer dependencies to 'directory_list')
- * - Look at 'plugins' and add or remove plugins if appropriate (see https://github.com/phan/phan/tree/master/.phan/plugins#plugins)
+ * - Look at 'plugins' and add or remove plugins if appropriate (see https://github.com/phan/phan/tree/v4/.phan/plugins#plugins)
  * - Add global suppressions for pre-existing issues to suppress_issue_types (https://github.com/phan/phan/wiki/Tutorial-for-Analyzing-a-Large-Sloppy-Code-Base)
+ *   - Consider setting up a baseline if there are a large number of pre-existing issues (see `phan --extended-help`)
  *
  * This configuration will be read and overlaid on top of the
  * default configuration. Command line arguments will be applied
  * after this file is read.
  *
- * @see src/Phan/Config.php
- * See Config for all configurable options.
+ * @see https://github.com/phan/phan/wiki/Phan-Config-Settings for all configurable options
+ * @see https://github.com/phan/phan/tree/v4/src/Phan/Config.php
  *
  * A Note About Paths
  * ==================
@@ -35,6 +36,11 @@ use Phan\Issue;
  */
 return [
 
+    // The PHP version that the codebase will be checked for compatibility against.
+    // For best results, the PHP binary used to run Phan should have the same PHP version.
+    // (Phan relies on Reflection for some types, param counts,
+    // and checks for undefined classes/methods/functions)
+    //
     // Supported values: `'5.6'`, `'7.0'`, `'7.1'`, `'7.2'`, `'7.3'`, `'7.4'`, `null`.
     // If this is set to `null`,
     // then Phan assumes the PHP version which is closest to the minor version
@@ -183,6 +189,9 @@ return [
     // as variables (like `$class->$property` or
     // `$class->$method()`) in ways that we're unable
     // to make sense of.
+    //
+    // To more aggressively detect dead code,
+    // you may want to set `dead_code_detection_prefer_false_negative` to `false`.
     'dead_code_detection' => false,
 
     // Set to true in order to attempt to detect unused variables.
@@ -249,7 +258,7 @@ return [
     'minimum_severity' => Issue::SEVERITY_LOW,
 
     // Add any issue types (such as `'PhanUndeclaredMethod'`)
-    // to this black-list to inhibit them from being reported.
+    // to this list to inhibit them from being reported.
     'suppress_issue_types' => [],
 
     // A regular expression to match files to be excluded
@@ -312,7 +321,7 @@ return [
     //
     // Plugins which are bundled with Phan can be added here by providing their name (e.g. `'AlwaysReturnPlugin'`)
     //
-    // Documentation about available bundled plugins can be found [here](https://github.com/phan/phan/tree/master/.phan/plugins).
+    // Documentation about available bundled plugins can be found [here](https://github.com/phan/phan/tree/v4/.phan/plugins).
     //
     // Alternately, you can pass in the full path to a PHP file with the plugin's implementation (e.g. `'vendor/phan/phan/.phan/plugins/AlwaysReturnPlugin.php'`)
     'plugins' => [
@@ -340,6 +349,7 @@ return [
     'directory_list' => [
         './Mebius',
         'vendor/justinrainbow/json-schema/src/JsonSchema',
+        'vendor/phpunit/phpunit/src',
         'vendor/swiftmailer/swiftmailer/lib',
         'vendor/twig/twig/src',
     ],
