@@ -21,16 +21,23 @@ trait TPagingSearch
 	 * @param string $className 検索結果を保持するためのクラス名 Hoge::class などで指定
 	 * @param int $perPage 一回の検索で取得する件数
 	 * @param int $page 希望の取得ページ数
+	 * @param string $columns sql で取り出すカラム
 	 */
 	public function searchEntity(
 		string $table,
 		ConditionBuilder2 $cb,
 		string $className,
 		int $perPage,
-		int $page
+		int $page,
+		string $columns = "*"
 	): PagingSearchResult {
 		$countSQL = \sprintf("SELECT count(0) AS cnt FROM %s %s", $table, $cb->getWhere());
-		$searchSQL = \sprintf("SELECT * FROM %s %s LIMIT ?,?", $table, $cb->getWhere());
+		$searchSQL = \sprintf(
+			"SELECT %s FROM %s %s LIMIT ?,?",
+			$columns,
+			$table,
+			$cb->getWhere()
+		);
 
 		$countResults = $this->executeSelectQuery($countSQL, \stdClass::class, $cb->getPlaceholder());
 		$count = $countResults[0]->cnt;
