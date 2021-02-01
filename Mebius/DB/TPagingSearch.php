@@ -15,7 +15,7 @@ trait TPagingSearch
 
 	/**
 	 * ページング検索で使用する汎用メソッド
-	 * DBHandlerBase2 を継承したクラスから呼び出すことを想定
+	 * DBHandlerBaseN を継承したクラスから呼び出すことを想定
 	 * @param string $table テーブル名
 	 * @param ConditionBuilder2 $cb 検索条件クラスインスタンス
 	 * @param string $className 検索結果を保持するためのクラス名 Hoge::class などで指定

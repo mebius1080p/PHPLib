@@ -53,7 +53,7 @@ class PDOUtil
 		];
 		$pdo = new \PDO($dsn, $user, $pass, $pdoOption);
 		$pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false); // 静的プレースホルダを指定
-		$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); // 例外を投げる
+		$pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); // php8 ではデフォルトらしいが書いておく
 
 		return $pdo;
 	}

@@ -7,7 +7,6 @@ namespace Mebius\DB;
 /**
  * DBHandlerBase3 データマッパー用モデルクラスの基底クラス
  * 単独でも機能するが、継承して使用することを想定している
- * laravel のコントローラなどで使用できるよう、コンストラクタの引数を撤廃
  * PDO のスタブを使ってテストできるようにした
  */
 class DBHandlerBase3

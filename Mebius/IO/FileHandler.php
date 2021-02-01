@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Mebius\IO;
 
 /**
- * 単純なファイル読み書きクラス
+ * 単純なファイル読み書きクラス 小さめのファイル取り扱いを想定
  */
 class FileHandler
 {
