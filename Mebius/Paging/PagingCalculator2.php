@@ -17,10 +17,6 @@ class PagingCalculator2
 	 * @var int 取り出すページ数。取り出すページが異常な値であってもそれを使用する
 	 */
 	private int $page = 1;
-	/**
-	 * @var int sql で使うデータ取得オフセット値。0 から始まる
-	 */
-	private int $offset = 0;
 
 	/**
 	 * コンストラクタ
