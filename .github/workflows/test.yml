@@ -1,0 +1,22 @@
+name: Test
+
+on: [push]
+
+jobs:
+  test:
+    name: Test
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Install dependencies
+      run: composer install
+
+    - name: Run test suite
+      run: composer run-script test
