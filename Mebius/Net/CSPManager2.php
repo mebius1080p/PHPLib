@@ -9,6 +9,7 @@ namespace Mebius\Net;
  */
 class CSPManager2
 {
+	public const DEFAULT = "default-src";
 	public const CHILD = "child-src";
 	public const CONNECT = "connect-src";
 	public const FONT = "font-src";
@@ -31,6 +32,8 @@ class CSPManager2
 		foreach ($constants as $key => $value) {//@phan-suppress-current-line PhanUnusedVariable
 			$this->directives[] = new DirectiveItem($value);
 		}
+
+		$this->addDirective(self::DEFAULT, DirectiveItem::CSP_SELF);
 	}
 	/**
 	 * ディレクティブ追加メソッド
@@ -50,8 +53,17 @@ class CSPManager2
 	public function getCSPString(): string
 	{
 		// const で書きたいところだが、ReflectionClass を使っているためここに記述
-		$BASE_CSP_HEADER = "Content-Security-Policy: default-src 'self';";
+		$BASE_CSP_HEADER = "Content-Security-Policy";
 
+		$csp = $this->getOnlyCSPValue();
+		return \sprintf("%s: %s", $BASE_CSP_HEADER, $csp);
+	}
+	/**
+	 * CSP ヘッダーの値部分のみを取得するメソッド
+	 * @return string
+	 */
+	public function getOnlyCSPValue(): string
+	{
 		$cspStringArray = [];
 		foreach ($this->directives as $directive) {
 			$directiveString = $directive->getDirectiveString();
@@ -59,6 +71,6 @@ class CSPManager2
 				$cspStringArray[] = $directiveString;
 			}
 		}
-		return $BASE_CSP_HEADER . \implode("", $cspStringArray);
+		return implode("", $cspStringArray);
 	}
 }
