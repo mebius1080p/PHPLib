@@ -22,6 +22,8 @@ trait TPagingSearch
 	 * @param int $perPage 一回の検索で取得する件数
 	 * @param int $page 希望の取得ページ数
 	 * @param string $columns sql で取り出すカラム
+	 * @param string $orderby order by の sql 文。ex) ORDER BY sssss DESC
+	 * @return PagingSearchResult
 	 */
 	public function searchEntity(
 		string $table,
@@ -29,14 +31,16 @@ trait TPagingSearch
 		string $className,
 		int $perPage,
 		int $page,
-		string $columns = "*"
+		string $columns = "*",
+		string $orderby = ""
 	): PagingSearchResult {
 		$countSQL = \sprintf("SELECT count(0) AS cnt FROM %s %s", $table, $cb->getWhere());
 		$searchSQL = \sprintf(
-			"SELECT %s FROM %s %s LIMIT ?,?",
+			"SELECT %s FROM %s %s %s LIMIT ?,?",
 			$columns,
 			$table,
-			$cb->getWhere()
+			$cb->getWhere(),
+			$orderby
 		);
 
 		$countResults = $this->executeSelectQuery($countSQL, \stdClass::class, $cb->getPlaceholder());
