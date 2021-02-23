@@ -63,7 +63,7 @@ class InsertHelper2
 	}
 	/**
 	 * insert, update 両方に使える insert 文を返すメソッド
-	 * @return string 通常の insert 文
+	 * @return string 挿入・更新クエリ
 	 */
 	public function getOnDuplicateSQL(): string
 	{
