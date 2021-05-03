@@ -122,8 +122,22 @@ class DBHandlerBase3
 	 * @param string $sql クエリ
 	 * @param array $placeHolder プレースホルダーの配列
 	 * @return int
+	 * @throws \Exception エラーで例外
 	 */
 	public function executeInsertQuery(string $sql, array $placeHolder = []): int
+	{
+		$this->executeQuery($sql, $placeHolder);
+		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
+		$insertId = self::$pdo->lastInsertId();
+		return (int)$insertId;
+	}
+	/**
+	 * 単純なクエリ実行メソッド
+	 * @param string $sql クエリ
+	 * @param array $placeHolder プレースホルダーの配列
+	 * @throws \Exception エラーで例外
+	 */
+	public function executeQuery(string $sql, array $placeHolder = []): void
 	{
 		if (self::$pdo === null) {
 			throw new \Exception("pdo is null", 1);
@@ -137,9 +151,6 @@ class DBHandlerBase3
 		if ($hasExecuted === false) {
 			throw new \Exception("statement execution failed", 1);
 		}
-		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		$insertId = self::$pdo->lastInsertId();
-		return (int)$insertId;
 	}
 	/**
 	 * pdo 取得メソッド 主にテスト用
