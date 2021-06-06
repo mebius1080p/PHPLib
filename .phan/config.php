@@ -49,7 +49,7 @@ return [
     // Note that the **only** effect of choosing `'5.6'` is to infer that functions removed in php 7.0 exist.
     // (See `backward_compatibility_checks` for additional options)
     // Automatically inferred from composer.json requirement for "php" of ">= 7.4.0"
-    'target_php_version' => '7.4',
+    'target_php_version' => '8.0',
 
     // If enabled, missing properties will be created when
     // they are first seen. If false, we'll report an
@@ -348,10 +348,7 @@ return [
     // your application should be included in this list.
     'directory_list' => [
         './Mebius',
-        'vendor/justinrainbow/json-schema/src/JsonSchema',
-        'vendor/phpunit/phpunit/src',
-        'vendor/swiftmailer/swiftmailer/lib',
-        'vendor/twig/twig/src',
+        'vendor/',
     ],
 
     // A list of individual files to include in analysis
