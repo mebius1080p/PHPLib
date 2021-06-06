@@ -1,3 +1,3 @@
 #!/bin/sh
 
-php ./vendor/bin/phpunit --color $@
+env XDEBUG_MODE=coverage php ./vendor/bin/phpunit --color $@
