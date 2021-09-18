@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use Mebius\DB\DBHandlerBase3;
+use DummyClass\{SampleModel, HogeModel};
 
 class DBHandlerBase3Test extends TestCase
 {
@@ -34,6 +35,17 @@ class DBHandlerBase3Test extends TestCase
 		$pdox = $db->getPDO();
 
 		$this->assertTrue($pdox === null);
+	}
+	public function testSampleClass()
+	{
+		$pdo1 = $this->makeMockPDO();
+		$model = new SampleModel($pdo1);
+		$hoge = new HogeModel($pdo1);
+
+		$this->assertEquals("hoge", $model->getCurrentConnectionName());
+		$this->assertEquals("hoge", $hoge->getCurrentConnectionName());
+		$this->assertTrue($model->getPDO() !== null);
+		$this->assertTrue($hoge->getPDO() !== null);
 	}
 
 	//----------------------

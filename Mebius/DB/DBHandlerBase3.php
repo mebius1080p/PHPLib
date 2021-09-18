@@ -32,10 +32,10 @@ class DBHandlerBase3
 			throw new \Exception("empty connection name", 1);
 		}
 
+		$this->currentConnection = $connectionName;
 		//上書きはしない　設定されていないときだけ格納する
 		if (!array_key_exists($connectionName, self::$pdoAssoc)) {
 			self::$pdoAssoc[$connectionName] = $pdo;
-			$this->currentConnection = $connectionName;
 		}
 	}
 	/**
@@ -180,6 +180,14 @@ class DBHandlerBase3
 		} else {
 			return null;
 		}
+	}
+	/**
+	 * 現在の接続名を返すメソッド
+	 * @return string 現在の接続名
+	 */
+	public function getCurrentConnectionName(): string
+	{
+		return $this->currentConnection;
 	}
 	/**
 	 * PDO 解放メソッド 主にテスト用
