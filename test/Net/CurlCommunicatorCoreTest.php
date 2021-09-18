@@ -12,7 +12,7 @@ class CurlCommunicatorCoreTest extends TestCase
 	public function testCurlInitFail()
 	{
 		$this->expectException(Exception::class);
-		$this->expectExceptionMessage("Could not resolve host: hoge; Unknown error");
+		$this->expectExceptionMessage("Could not resolve host: hoge");
 
 		$ci = $this->makeInstance();
 		$ci->send("hoge", []);
