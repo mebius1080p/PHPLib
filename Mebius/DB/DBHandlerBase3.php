@@ -12,18 +12,30 @@ namespace Mebius\DB;
 class DBHandlerBase3
 {
 	/**
-	 * @var ?\PDO pdo のインスタンス
+	 * @var string $currentConnection 現在の接続名(連想配列のキー)
 	 */
-	protected static ?\PDO $pdo = null;
+	private string $currentConnection = "default";
+	/**
+	 * @var array $pdoAssoc 複数の PDO を保持する連想配列
+	 */
+	private static array $pdoAssoc = [];
 
 	/**
 	 * コンストラクタ
 	 * @param \PDO $pdo pdo オブジェクト
+	 * @param string $connectionName 接続名
+	 * @throws \Exception 接続名が空の時例外
 	 */
-	public function __construct(\PDO $pdo)
+	public function __construct(\PDO $pdo, string $connectionName = "default")
 	{
-		if (self::$pdo === null) {
-			self::$pdo = $pdo;
+		if ($connectionName === "") {
+			throw new \Exception("empty connection name", 1);
+		}
+
+		//上書きはしない　設定されていないときだけ格納する
+		if (!array_key_exists($connectionName, self::$pdoAssoc)) {
+			self::$pdoAssoc[$connectionName] = $pdo;
+			$this->currentConnection = $connectionName;
 		}
 	}
 	/**
@@ -36,12 +48,13 @@ class DBHandlerBase3
 	 */
 	public function executeSelectQuery(string $sql, string $classname, array $placeHolder = []): array
 	{
-		if (self::$pdo === null) {
+		$currentPDO = $this->getPDO();
+		if ($currentPDO === null) {
 			throw new \Exception("pdo is null", 1);
 		}
 
 		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		$sth = self::$pdo->prepare($sql);
+		$sth = $currentPDO->prepare($sql);
 		if ($sth === false) {
 			throw new \Exception("prepare sql failed", 1);
 		}
@@ -65,16 +78,17 @@ class DBHandlerBase3
 	 */
 	public function begin(): void
 	{
-		if (self::$pdo === null) {
+		$currentPDO = $this->getPDO();
+		if ($currentPDO === null) {
 			throw new \Exception("[begin]pdo is null", 1);
 		}
 		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		if (self::$pdo->inTransaction()) {
+		if ($currentPDO->inTransaction()) {
 			//入れ子トランザクションはサポートせず
 			throw new \Exception("nesting transaction not supported", 1);
 		}
 		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		$transactionBegun = self::$pdo->beginTransaction();
+		$transactionBegun = $currentPDO->beginTransaction();
 		if (!$transactionBegun) {
 			throw new \Exception("start transaction failed", 1);
 		}
@@ -85,15 +99,16 @@ class DBHandlerBase3
 	 */
 	public function commit(): void
 	{
-		if (self::$pdo === null) {
+		$currentPDO = $this->getPDO();
+		if ($currentPDO === null) {
 			throw new \Exception("[commit]pdo is null", 1);
 		}
 		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		if (!self::$pdo->inTransaction()) {//非トランザクション
+		if (!$currentPDO->inTransaction()) {//非トランザクション
 			throw new \Exception("not in transaction commit", 1);
 		}
 		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		$hasCommit = self::$pdo->commit();
+		$hasCommit = $currentPDO->commit();
 		if (!$hasCommit) {
 			throw new \Exception("commit failed", 1);
 		}
@@ -104,15 +119,16 @@ class DBHandlerBase3
 	 */
 	public function rollback(): void
 	{
-		if (self::$pdo === null) {
+		$currentPDO = $this->getPDO();
+		if ($currentPDO === null) {
 			throw new \Exception("[rollback]pdo is null", 1);
 		}
 		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		if (!self::$pdo->inTransaction()) {//非トランザクション
+		if (!$currentPDO->inTransaction()) {//非トランザクション
 			throw new \Exception("not in transaction rollback", 1);
 		}
 		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		$hasRolledBack = self::$pdo->rollBack();
+		$hasRolledBack = $currentPDO->rollBack();
 		if (!$hasRolledBack) {
 			throw new \Exception("rollback failed", 1);
 		}
@@ -128,7 +144,7 @@ class DBHandlerBase3
 	{
 		$this->executeQuery($sql, $placeHolder);
 		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		$insertId = self::$pdo->lastInsertId();
+		$insertId = $this->getPDO()->lastInsertId();
 		return (int)$insertId;
 	}
 	/**
@@ -139,11 +155,12 @@ class DBHandlerBase3
 	 */
 	public function executeQuery(string $sql, array $placeHolder = []): void
 	{
-		if (self::$pdo === null) {
+		$currentPDO = $this->getPDO();
+		if ($currentPDO === null) {
 			throw new \Exception("pdo is null", 1);
 		}
 		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		$sth = self::$pdo->prepare($sql);
+		$sth = $currentPDO->prepare($sql);
 		if ($sth === false) {
 			throw new \Exception("prepare sql failed", 1);
 		}
@@ -156,23 +173,19 @@ class DBHandlerBase3
 	 * pdo 取得メソッド 主にテスト用
 	 * @return ?\PDO
 	 */
-	public static function getPDO(): ?\PDO
+	public function getPDO(): ?\PDO
 	{
-		return self::$pdo;
-	}
-	/**
-	 * pdo 入れ替えメソッド 主にテスト用
-	 * @param \PDO $pdo PDO
-	 */
-	public static function replacePDO(\PDO $pdo): void
-	{
-		self::$pdo = $pdo;
+		if (array_key_exists($this->currentConnection, self::$pdoAssoc)) {
+			return self::$pdoAssoc[$this->currentConnection];
+		} else {
+			return null;
+		}
 	}
 	/**
 	 * PDO 解放メソッド 主にテスト用
 	 */
 	public static function resetPDO(): void
 	{
-		self::$pdo = null;
+		self::$pdoAssoc = [];
 	}
 }

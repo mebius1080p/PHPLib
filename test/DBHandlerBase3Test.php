@@ -17,16 +17,13 @@ class DBHandlerBase3Test extends TestCase
 		DBHandlerBase3::resetPDO();
 	}
 
-	public function testReplacePDO()
+	public function testEmptyConnectionName()
 	{
-		$pdo1 = $this->makeMockPDO();
-		$pdo2 = $this->makeMockPDO();
+		$this->expectException(Exception::class);
+		$this->expectExceptionMessage("empty connection name");
 
-		$db = new DBHandlerBase3($pdo1);
-		DBHandlerBase3::replacePDO($pdo2);
-		$pdox = DBHandlerBase3::getPDO();
-		$this->assertTrue($pdo1 !== $pdox);
-		$this->assertTrue($pdo2 === $pdox);
+		$pdo1 = $this->makeMockPDO();
+		$db = new DBHandlerBase3($pdo1, "");
 	}
 	public function testResetPDO()
 	{
@@ -34,7 +31,7 @@ class DBHandlerBase3Test extends TestCase
 		$db = new DBHandlerBase3($pdo1);
 		DBHandlerBase3::resetPDO();
 
-		$pdox = DBHandlerBase3::getPDO();
+		$pdox = $db->getPDO();
 
 		$this->assertTrue($pdox === null);
 	}
