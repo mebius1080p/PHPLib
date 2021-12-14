@@ -67,9 +67,7 @@ class DBHandlerBase3
 			throw new \Exception("statement execution failed", 1);
 		}
 		$fetchedData = $sth->fetchAll();
-		if ($fetchedData === false) {
-			throw new \Exception("fetch all failed", 1);
-		}
+		//v8 より常に配列を返すようになったらしい
 		return $fetchedData;
 	}
 	/**
