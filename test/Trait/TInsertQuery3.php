@@ -61,7 +61,7 @@ trait TInsertQuery3
 		$pdo->method('prepare')
 			->willReturn($sth);
 		$pdo->method('lastInsertId')
-			->willReturn(5);
+			->willReturn("5");
 
 		$db = new DBHandlerBase3($pdo);
 		$insId = $db->executeInsertQuery("INSERT INTO x (a, b) VALUES(?,?)", [1, 2]);

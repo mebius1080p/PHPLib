@@ -68,25 +68,6 @@ trait TExecuteSelectQuery3
 		$db = new DBHandlerBase3($pdo);
 		$db->executeSelectQuery("SELECT * FROM hoge", \stdClass::class);
 	}
-	public function testFetchallFail()
-	{
-		$this->expectException(Exception::class);
-		$this->expectExceptionMessage("fetch all failed");
-
-		$sth = $this->makeMockSTH();
-		$sth->method('setFetchMode')
-			->willReturn(true);
-		$sth->method('execute')
-			->willReturn(true);
-		$sth->method('fetchAll')
-			->willReturn(false);
-		$pdo = $this->makeMockPDO();
-		$pdo->method('prepare')
-			->willReturn($sth);
-
-		$db = new DBHandlerBase3($pdo);
-		$db->executeSelectQuery("SELECT * FROM hoge", \stdClass::class);
-	}
 	public function testFetchallSuccess()
 	{
 		$sth = $this->makeMockSTH();
