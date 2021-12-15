@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Mebius\Mail;
 
-use Swift_Message;
-use Swift_Mime_ContentEncoder_PlainContentEncoder;
+use Symfony\Component\Mime\Email;
 
 /**
  * MailParamCore シンプルなメールパラメーター所持クラス
@@ -34,6 +33,7 @@ abstract class MailParamCore
 	 * @param string $from from メールアドレス
 	 * @param string $to to メールアドレス
 	 * @param string $subject メールタイトル
+	 * @throws \Exception エラーで例外
 	 */
 	public function __construct(string $from, string $to, string $subject)
 	{
@@ -83,19 +83,18 @@ abstract class MailParamCore
 		return $this->message;
 	}
 	/**
-	 * mailsender 側でメッセージ取り出すメソッド
-	 * message に着いては呼び出し前に継承クラスで作っておく
-	 * @return Swift_Message
+	 * symfonymailer 用のメールオブジェクトを返すメソッド
+	 * message については呼び出し前に継承クラスで作っておく
+	 * @return Email
 	 */
-	public function getSwiftMessage(): Swift_Message
+	public function getSymfonyMail(): Email
 	{
-		$message = new Swift_Message($this->getSubject());
-		$plainEncoder = new Swift_Mime_ContentEncoder_PlainContentEncoder('8bit');
-		$message->setEncoder($plainEncoder);
-		$message->setFrom($this->getFrom());
-		$message->setTo($this->getTo());
-		$message->setBody($this->getMessage());
+		$mail = new Email();
+		$mail->from($this->getFrom())
+			->to($this->getTo())
+			->subject($this->getSubject())
+			->text($this->getMessage());
 
-		return $message;
+		return $mail;
 	}
 }

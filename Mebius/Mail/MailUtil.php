@@ -4,45 +4,30 @@ declare(strict_types=1);
 
 namespace Mebius\Mail;
 
-use Swift_SmtpTransport;
-use Swift_SendmailTransport;
-use Swift_Transport_Esmtp_EightBitMimeHandler;
-use Swift_Mailer;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Transport\TransportInterface;
 
 /**
- * MailUtil swiftmailer ユーティリティークラス
+ * MailUtil メールユーティリティークラス
  */
 class MailUtil
 {
 	/**
-	 * sendmail コマンド使用時のための swift 作成メソッド
-	 * @return Swift_Mailer
+	 * symfony mailer 用の DSN を用いて transport を作り出すメソッド
+	 * どんな送信方法を使うかは、DSN の記述により表現する
+	 * @param string $dsn トランスポート作成用 DSN
+	 * @param LoggerInterface|null $logger ロガー
+	 * @return TransportInterface
+	 * @throws \Exception エラーで例外
 	 */
-	public static function createSwiftSendmail(): Swift_Mailer
+	public static function createSymfonyMailerSmtp(string $dsn, LoggerInterface $logger = null): TransportInterface
 	{
-		$transport = new Swift_SendmailTransport();
-		return new Swift_Mailer($transport);
-	}
-	/**
-	 * swift mailer を作成するメソッド。(smtp)
-	 * @param string $ipOrHost 接続する IP アドレス or ホスト名
-	 * @param int $port ポート番号
-	 * @return Swift_Mailer
-	 * @throws \Exception 不正なアドレス or ポート番号で例外
-	 */
-	public static function createSwiftSmtp(string $ipOrHost, int $port = 25): Swift_Mailer
-	{
-		if ($ipOrHost === "") {
-			throw new \Exception("empty ip or host", 1);
-		}
-		if ($port <= 0 || $port >= 65536) {
-			throw new \Exception("invalid port number", 1);
+		if ($dsn === "") {
+			throw new \Exception("mail DSN is empty", 1);
 		}
 
-		$transport = new Swift_SmtpTransport($ipOrHost, $port);
-		$eightBitMime = new Swift_Transport_Esmtp_EightBitMimeHandler();
-		$transport->setExtensionHandlers([$eightBitMime]);
-
-		return new Swift_Mailer($transport);
+		$transport = Transport::fromDsn($dsn, null, null, $logger);
+		return $transport;
 	}
 }

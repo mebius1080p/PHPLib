@@ -1,7 +1,6 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Mebius\Mail\MailParamCore;
 use DummyClass\SampleMailParam;
 
 class MailParamCoreTest extends TestCase
@@ -13,19 +12,11 @@ class MailParamCoreTest extends TestCase
 		$subject = "ほげー";
 
 		$pc = new SampleMailParam($from, $to, $subject);
-		$message = $pc->getSwiftMessage();
 
 		$this->assertEquals($from, $pc->getFrom());
 		$this->assertEquals($to, $pc->getTo());
 		$this->assertEquals($subject, $pc->getSubject());
 		$this->assertEquals("", $pc->getMessage());
-
-		$fromAssoc = $message->getFrom();
-		$this->assertTrue(array_key_exists($from, $fromAssoc));
-		$toAssoc = $message->getTo();
-		$this->assertTrue(array_key_exists($to, $toAssoc));
-		$this->assertEquals($subject, $message->getSubject());
-		$this->assertEquals("", $message->getBody());
 	}
 	public function testInvalidFrom()
 	{
