@@ -46,8 +46,8 @@ trait TPagingSearch
 		$countResults = $this->executeSelectQuery($countSQL, \stdClass::class, $cb->getPlaceholder());
 		$count = $countResults[0]->cnt;
 
-		$pc = new PagingCalculator2($perPage, $page);
-		$psr = $pc->getPagingSearchResult($count);
+		$pc = new PagingCalculator2($perPage, $count, $page);
+		$psr = $pc->getPagingSearchResult();
 
 		$placeHolder = $cb->getPlaceholder();
 		$placeHolder[] = $pc->getOffset();
