@@ -59,9 +59,11 @@ class InputValidatorxTest extends TestCase
 
 		$result = $io->validate();
 		$errors = $io->getErrors();
+		$errorObj = $io->getErrorObject();
 
 		$this->assertFalse($result);
 		$this->assertEquals("date", $errors[0]);
+		$this->assertTrue(property_exists($errorObj, "date"));
 	}
 	public function testEmptyName()
 	{

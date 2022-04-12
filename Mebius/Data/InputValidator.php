@@ -197,6 +197,20 @@ abstract class InputValidator
 		return $this->errors;
 	}
 	/**
+	 * エラーオブジェクトを返すメソッド
+	 * @return \stdClass
+	 */
+	public function getErrorObject(): \stdClass
+	{
+		$obj = new \stdClass();
+		foreach ($this->errors as $er) {
+			if ($er !== "") {
+				$obj->$er = true;
+			}
+		}
+		return $obj;
+	}
+	/**
 	 * 文字列が utf8 かどうか調べるメソッド。
 	 * @param string $str チェックする文字列
 	 * @throws \Exception 文字コードが utf8 でなければ例外
