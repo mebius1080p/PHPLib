@@ -13,6 +13,10 @@ trait TPagingSearch
 {
 	abstract public function executeSelectQuery(string $sql, string $classname, array $placeHolder = []): array;
 
+	private $allowedColumn = [];
+	private $actualColumn = "";
+	private $actualOrder = "ASC";
+
 	/**
 	 * ページング検索で使用する汎用メソッド
 	 * DBHandlerBaseN を継承したクラスから呼び出すことを想定
@@ -57,5 +61,49 @@ trait TPagingSearch
 		$psr->data = $searchResult;
 
 		return $psr;
+	}
+
+	/**
+	 * 許可されたソートカラムをセットするメソッド
+	 * @param string[] $columns カラム名の配列
+	 */
+	public function setAllowedColumn(array $columns)
+	{
+		$this->allowedColumn = $columns;
+	}
+	public function getColumn()
+	{
+		return $this->actualColumn;
+	}
+	public function getOrder()
+	{
+		return $this->actualOrder;
+	}
+
+	/**
+	 * order by の部分を作成するメソッド
+	 * @param string $column ソート対象のカラム
+	 * @param string $order ASC or DESC
+	 * @return string order by のクエリ文字列断片
+	 */
+	public function buildOrder($column, $order)
+	{
+		if ($column === "") {
+			return "";
+		}
+		if (!in_array($column, $this->allowedColumn, true)) {
+			return "";
+		}
+		$allowedOrder = ["ASC", "DESC"];
+		if (!in_array($order, $allowedOrder, true)) {
+			return "";
+		}
+		$this->actualColumn = $column;
+		$this->actualOrder = $order;
+		return sprintf(
+			" ORDER BY %s %s",
+			$column,
+			$order
+		);
 	}
 }
