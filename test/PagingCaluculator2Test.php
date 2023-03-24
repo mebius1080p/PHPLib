@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Mebius\Paging\PagingCalculator2;
 
-class PagingCalculator2Test extends TestCase
+class PagingCaluculator2Test extends TestCase
 {
 	public function testGetOffset()
 	{
