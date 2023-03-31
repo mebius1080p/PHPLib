@@ -28,7 +28,7 @@ class Common
 	public function json($obj): void
 	{
 		header("Content-Type: application/json; charset=utf-8");
-		echo json_encode($obj, JSON_UNESCAPED_UNICODE);
+		echo json_encode($obj, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 	}
 	/**
 	 * デバッグ用メソッド
