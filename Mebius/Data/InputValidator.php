@@ -16,6 +16,7 @@ abstract class InputValidator
 	//http://techracho.bpsinc.jp/hachi8833/2013_09_27/13713
 	//https://stackoverflow.com/questions/5219848/how-to-validate-non-english-utf-8-encoded-email-address-in-javascript-and-php
 	private const RE_MAIL = "/\A([\p{L}\.\-\d_]+)@([\p{L}\-\.\d_]+)((\.(\p{L}){2,63})+)\z/u";
+	private const RE_DATE = "/\A2[0-9]{3}-(0?[1-9]|1[0-2])-(0?[1-9]|[1-2][0-9]|3[0-1])\z/u";
 
 	/**
 	 * @var string[] $errors エラーのあった項目を配列で保持する
@@ -36,7 +37,14 @@ abstract class InputValidator
 		$value = $this->$prop;
 		self::checkUTF8($value);
 		try {
-			$dt = new \DateTime($value);//@phan-suppress-current-line PhanUnusedVariable
+			$matches = [];
+			$matchResult = preg_match(self::RE_DATE, $value, $matches);
+			if ($matchResult !== 1) {
+				throw new \Exception("invalid date", 1);
+			}
+			//念のため datetime でもチェック 06-31 は 07-01 と解釈される
+			$dt = new \DateTimeImmutable($value);//@phan-suppress-current-line PhanUnusedVariable
+			$this->$prop = $dt->format("Y-m-d");
 		} catch (\Exception $e) {//@phan-suppress-current-line PhanUnusedVariableCaughtException
 			$this->errors[] = $prop;
 		}

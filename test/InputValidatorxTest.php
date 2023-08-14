@@ -54,16 +54,33 @@ class InputValidatorxTest extends TestCase
 	}
 	public function testInvalidDate()
 	{
-		$io = $this->makeSampleInputObj();
-		$io->date = "hoge";
+		$datas = [
+			"hoge" => false,
+			"20211001" => false,
+			"2021-10-01" => true,
+			"2021-3-5" => true,
+			"2022-02-30" => true,//2022-03-02 と解釈される
+			"2023-10-10" => true,
+			"2023-11-20" => true,
+			"2023-12-30" => true,
+			"2023-12-32" => false,
+		];
+		foreach ($datas as $dat => $expect) {
+			$io = $this->makeSampleInputObj();
+			$io->date = $dat;
 
-		$result = $io->validate();
-		$errors = $io->getErrors();
-		$errorObj = $io->getErrorObject();
+			$result = $io->validate();
+			$errors = $io->getErrors();
+			$errorObj = $io->getErrorObject();
 
-		$this->assertFalse($result);
-		$this->assertEquals("date", $errors[0]);
-		$this->assertTrue(property_exists($errorObj, "date"));
+			$this->assertSame($expect, $result);
+			if ($result === false) {
+				$this->assertSame("date", $errors[0]);
+				$this->assertTrue(property_exists($errorObj, "date"));
+			} else {
+				// echo $io->date . "\n";
+			}
+		}
 	}
 	public function testEmptyName()
 	{
