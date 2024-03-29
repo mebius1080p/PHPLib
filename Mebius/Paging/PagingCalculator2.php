@@ -39,6 +39,9 @@ class PagingCalculator2
 		$this->page = $postedPage <= 0 ? 1 : $postedPage;
 
 		$this->totalPage = intval(ceil($this->count / $this->perPage));
+		if ($this->totalPage === 0) {
+			$this->totalPage = 1;
+		}
 		if ($postedPage > $this->totalPage) {
 			//投稿されてきた希望ページ数が実ページ数をオーバーしていた場合は 1 に強制リセット
 			$this->page = 1;
