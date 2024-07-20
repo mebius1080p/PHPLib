@@ -16,9 +16,11 @@ class DBHandlerBase3
 	 */
 	private string $currentConnection = "default";
 	/**
-	 * @var array $pdoAssoc 複数の PDO を保持する連想配列
+	 * @var \PDO[] $pdoAssoc 複数の PDO を保持する連想配列
 	 */
 	private static array $pdoAssoc = [];
+
+	private static array $transactionAssoc = [];
 
 	/**
 	 * コンストラクタ
@@ -36,6 +38,7 @@ class DBHandlerBase3
 		//上書きはしない　設定されていないときだけ格納する
 		if (!array_key_exists($connectionName, self::$pdoAssoc)) {
 			self::$pdoAssoc[$connectionName] = $pdo;
+			self::$transactionAssoc[$connectionName] = 0;
 		}
 	}
 	/**
@@ -71,6 +74,36 @@ class DBHandlerBase3
 		return $fetchedData;
 	}
 	/**
+	 * select 系クエリを実行するメソッド (sth 版)
+	 * @param string $sql sql 文
+	 * @param string $classname 完全修飾クラス名
+	 * @param array $placeHolder プレースホルダーに割り当てる配列
+	 * @return \PDOStatement
+	 * @throws \Exception エラーで例外
+	 */
+	public function executeSelectQuerySth(string $sql, string $classname, array $placeHolder = []): \PDOStatement
+	{
+		$currentPDO = $this->getPDO();
+		if ($currentPDO === null) {
+			throw new \Exception("pdo is null", 1);
+		}
+
+		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
+		$sth = $currentPDO->prepare($sql);
+		if ($sth === false) {
+			throw new \Exception("prepare sql failed", 1);
+		}
+		$hasFetched = $sth->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, $classname);
+		if ($hasFetched === false) {
+			throw new \Exception("fetch failed", 1);
+		}
+		$hasExecuted = $sth->execute($placeHolder);
+		if ($hasExecuted === false) {
+			throw new \Exception("statement execution failed", 1);
+		}
+		return $sth;
+	}
+	/**
 	 * トランザクション開始メソッド
 	 * @throws \Exception pdo 未設定や多重トランザクションスタートで例外
 	 */
@@ -80,15 +113,18 @@ class DBHandlerBase3
 		if ($currentPDO === null) {
 			throw new \Exception("[begin]pdo is null", 1);
 		}
-		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		if ($currentPDO->inTransaction()) {
-			//入れ子トランザクションはサポートせず
-			throw new \Exception("nesting transaction not supported", 1);
-		}
-		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		$transactionBegun = $currentPDO->beginTransaction();
-		if (!$transactionBegun) {
-			throw new \Exception("start transaction failed", 1);
+
+		if ($this->getTransactionCount() === 0) {
+			//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
+			$transactionBegun = $currentPDO->beginTransaction();
+			if (!$transactionBegun) {
+				throw new \Exception("start transaction failed", 1);
+			}
+			$this->incrementTransactionCount();
+		} else {
+			$newTransactionCount = $this->getTransactionCount() + 1;
+			$this->executeQuery("SAVEPOINT transaction_{$newTransactionCount}");
+			$this->incrementTransactionCount();//クエリが成功したらインクリメント
 		}
 	}
 	/**
@@ -101,14 +137,20 @@ class DBHandlerBase3
 		if ($currentPDO === null) {
 			throw new \Exception("[commit]pdo is null", 1);
 		}
-		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		if (!$currentPDO->inTransaction()) {//非トランザクション
-			throw new \Exception("not in transaction commit", 1);
-		}
-		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		$hasCommit = $currentPDO->commit();
-		if (!$hasCommit) {
-			throw new \Exception("commit failed", 1);
+
+		if ($this->getTransactionCount() === 1) {
+			//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
+			$hasCommit = $currentPDO->commit();
+			if (!$hasCommit) {
+				throw new \Exception("commit failed", 1);
+			}
+			$this->resetTransactionCount();
+		} else {
+			if ($this->getTransactionCount() === 0) {
+				throw new \Exception("not in transaction", 1);
+			}
+			$this->executeQuery("RELEASE SAVEPOINT transaction_{$this->getTransactionCount()}");
+			$this->decrementTransactionCount();//成功してからデクリメント
 		}
 	}
 	/**
@@ -121,14 +163,20 @@ class DBHandlerBase3
 		if ($currentPDO === null) {
 			throw new \Exception("[rollback]pdo is null", 1);
 		}
-		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		if (!$currentPDO->inTransaction()) {//非トランザクション
-			throw new \Exception("not in transaction rollback", 1);
-		}
-		//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
-		$hasRolledBack = $currentPDO->rollBack();
-		if (!$hasRolledBack) {
-			throw new \Exception("rollback failed", 1);
+
+		if ($this->getTransactionCount() === 1) {
+			//@phan-suppress-next-line PhanPossiblyNonClassMethodCall
+			$hasRolledBack = $currentPDO->rollBack();
+			if (!$hasRolledBack) {
+				throw new \Exception("rollback failed", 1);
+			}
+			$this->resetTransactionCount();
+		} else {
+			if ($this->getTransactionCount() === 0) {
+				throw new \Exception("not in transaction", 1);
+			}
+			$this->executeQuery("ROLLBACK TO transaction_{$this->getTransactionCount()}");
+			$this->decrementTransactionCount();//成功してからデクリメント
 		}
 	}
 	/**
@@ -193,5 +241,21 @@ class DBHandlerBase3
 	public static function resetPDO(): void
 	{
 		self::$pdoAssoc = [];
+	}
+	public function getTransactionCount(): int
+	{
+		return self::$transactionAssoc[$this->getCurrentConnectionName()];
+	}
+	public function incrementTransactionCount(): void
+	{
+		self::$transactionAssoc[$this->getCurrentConnectionName()]++;
+	}
+	public function decrementTransactionCount(): void
+	{
+		self::$transactionAssoc[$this->getCurrentConnectionName()]--;
+	}
+	public function resetTransactionCount(): void
+	{
+		self::$transactionAssoc[$this->getCurrentConnectionName()] = 0;
 	}
 }
