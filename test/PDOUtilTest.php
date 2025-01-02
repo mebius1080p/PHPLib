@@ -2,7 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 use Mebius\DB\PDOUtil;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(PDOUtil::class)]
 class PDOUtilTest extends TestCase
 {
 	public function testbuildMysqlDSN()

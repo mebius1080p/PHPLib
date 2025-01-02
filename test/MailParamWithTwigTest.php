@@ -2,7 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 use Mebius\Mail\MailParamWithTwig;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(MailParamWithTwig::class)]
 class MailParamWithTwigTest extends TestCase
 {
 	public function testHoge()

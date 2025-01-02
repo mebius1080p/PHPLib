@@ -2,7 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 use Mebius\Data\InputValidator;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(InputValidator::class)]
 class InputValidatorxTest extends TestCase
 {
 	public function testValidateOK()

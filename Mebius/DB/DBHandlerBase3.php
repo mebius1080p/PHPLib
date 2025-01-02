@@ -147,7 +147,7 @@ class DBHandlerBase3
 			$this->resetTransactionCount();
 		} else {
 			if ($this->getTransactionCount() === 0) {
-				throw new \Exception("not in transaction", 1);
+				throw new \Exception("not in transaction commit", 1);
 			}
 			$this->executeQuery("RELEASE SAVEPOINT transaction_{$this->getTransactionCount()}");
 			$this->decrementTransactionCount();//成功してからデクリメント
@@ -173,7 +173,7 @@ class DBHandlerBase3
 			$this->resetTransactionCount();
 		} else {
 			if ($this->getTransactionCount() === 0) {
-				throw new \Exception("not in transaction", 1);
+				throw new \Exception("not in transaction rollback", 1);
 			}
 			$this->executeQuery("ROLLBACK TO transaction_{$this->getTransactionCount()}");
 			$this->decrementTransactionCount();//成功してからデクリメント

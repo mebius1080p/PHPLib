@@ -2,7 +2,10 @@
 
 use PHPUnit\Framework\TestCase;
 use Mebius\Net\{DirectiveItem, CSPManager2};
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(DirectiveItem::class)]
+#[CoversClass(CSPManager2::class)]
 class DirectiveItemTest extends TestCase
 {
 	public function testNormal()

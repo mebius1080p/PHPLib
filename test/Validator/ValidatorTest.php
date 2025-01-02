@@ -1,9 +1,25 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Mebius\Validator\{ValidateTrait, Util};
+use Mebius\Validator\Rule\{Date, Mail, MailSimple, Mandatory, NumRange, Postal, Regex, Same, StrGreaterThanEqual, StrLessThanEqual, Tel};
 
 require_once(__DIR__ . "/SampleInput.php");
 
+#[CoversClass(SampleInput::class)]
+#[CoversClass(Util::class)]
+#[CoversClass(Date::class)]
+#[CoversClass(Mail::class)]
+#[CoversClass(MailSimple::class)]
+#[CoversClass(Mandatory::class)]
+#[CoversClass(NumRange::class)]
+#[CoversClass(Postal::class)]
+#[CoversClass(Regex::class)]
+#[CoversClass(Same::class)]
+#[CoversClass(StrGreaterThanEqual::class)]
+#[CoversClass(StrLessThanEqual::class)]
+#[CoversClass(Tel::class)]
 class ValidatorTest extends TestCase
 {
 	public function testValidatorAllOk()

@@ -2,7 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 use Mebius\Mail\MailUtil;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(MailUtil::class)]
 class MailUtilTest extends TestCase
 {
 	public function testEmptyDsn()

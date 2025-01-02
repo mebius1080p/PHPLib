@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Mebius\DB\DBHandlerBase3;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * TCommit3
@@ -40,7 +41,7 @@ trait TCommit3
 	public function testCommitFailed()
 	{
 		$this->expectException(Exception::class);
-		$this->expectExceptionMessage("commit failed");
+		$this->expectExceptionMessage("not in transaction commit");
 
 		$pdo = $this->makeMockPDO();
 		$pdo->method('inTransaction')
@@ -56,10 +57,13 @@ trait TCommit3
 		$pdo = $this->makeMockPDO();
 		$pdo->method('inTransaction')
 			->willReturn(true);
+		$pdo->method('beginTransaction')
+			->willReturn(true);
 		$pdo->method('commit')
 			->willReturn(true);
 
 		$db = new DBHandlerBase3($pdo);
+		$db->begin();
 		$db->commit();
 
 		$this->assertEquals("", "");//ここまで来ること

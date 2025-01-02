@@ -2,7 +2,10 @@
 
 use PHPUnit\Framework\TestCase;
 use Mebius\Paging\{PagingCaluculator, PagingSearchResult};
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(PagingCaluculator::class)]
+#[CoversClass(PagingSearchResult::class)]
 class PagingCaluculatorTest extends TestCase
 {
 	public function testHoge()

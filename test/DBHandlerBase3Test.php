@@ -3,7 +3,9 @@
 use PHPUnit\Framework\TestCase;
 use Mebius\DB\DBHandlerBase3;
 use DummyClass\{SampleModel, HogeModel};
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(DBHandlerBase3::class)]
 class DBHandlerBase3Test extends TestCase
 {
 	use TExecuteSelectQuery3;

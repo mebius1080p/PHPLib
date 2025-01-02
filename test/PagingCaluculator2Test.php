@@ -1,8 +1,11 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Mebius\Paging\PagingCalculator2;
+use Mebius\Paging\{PagingCalculator2, PagingSearchResult};
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(PagingCalculator2::class)]
+#[CoversClass(PagingSearchResult::class)]
 class PagingCaluculator2Test extends TestCase
 {
 	public function testGetOffset()

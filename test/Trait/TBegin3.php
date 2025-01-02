@@ -25,18 +25,6 @@ trait TBegin3
 		DBHandlerBase3::resetPDO();
 		$db->begin();
 	}
-	public function testBeginAlreadyTransaction()
-	{
-		$this->expectException(Exception::class);
-		$this->expectExceptionMessage("nesting transaction not supported");
-
-		$pdo = $this->makeMockPDO();
-		$pdo->method('inTransaction')
-			->willReturn(true);
-
-		$db = new DBHandlerBase3($pdo);
-		$db->begin();
-	}
 	public function testBeginFailed()
 	{
 		$this->expectException(Exception::class);

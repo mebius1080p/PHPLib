@@ -3,7 +3,9 @@
 use PHPUnit\Framework\TestCase;
 use Mebius\Json\JsonValidatorBase;
 use DummyClass\SampleJsonValidator;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(JsonValidatorBase::class)]
 class JsonValidatorBaseTest extends TestCase
 {
 	public function testEmptyArray()

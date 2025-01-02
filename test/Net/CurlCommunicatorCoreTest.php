@@ -2,7 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 use Mebius\Net\CurlCommunicatorCore;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(CurlCommunicatorCore::class)]
 class CurlCommunicatorCoreTest extends TestCase
 {
 	public function testHoge()

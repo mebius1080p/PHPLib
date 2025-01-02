@@ -2,7 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 use DummyClass\SampleMailParam;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(SampleMailParam::class)]
 class MailParamCoreTest extends TestCase
 {
 	public function testNormalParameter()

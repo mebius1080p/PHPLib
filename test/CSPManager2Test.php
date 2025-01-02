@@ -1,8 +1,11 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use Mebius\Net\CSPManager2;
+use Mebius\Net\{CSPManager2, DirectiveItem};
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(CSPManager2::class)]
+#[CoversClass(DirectiveItem::class)]
 class CSPManager2Test extends TestCase
 {
 	public function testNormal()

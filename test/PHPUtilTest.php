@@ -2,7 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 use Mebius\Util\PHPUtil;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(PHPUtil::class)]
 class PHPUtilTest extends TestCase
 {
 	public function testObjectPropertyExist()

@@ -3,7 +3,13 @@
 use PHPUnit\Framework\TestCase;
 use Mebius\Net\Slack\{SlackCommunicator, SlackException};
 use Mebius\Net\CurlCommunicatorCore;
+use Mebius\Util\PHPUtil;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(CurlCommunicatorCore::class)]
+#[CoversClass(SlackCommunicator::class)]
+#[CoversClass(SlackException::class)]
+#[CoversClass(PHPUtil::class)]
 class SlackCommunicatorTest extends TestCase
 {
 	public function testSendMessage()

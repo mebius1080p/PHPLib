@@ -2,7 +2,9 @@
 
 use PHPUnit\Framework\TestCase;
 use Mebius\DB\InsertHelper2;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(InsertHelper2::class)]
 class InsertHelper2Test extends TestCase
 {
 	public function testNormal()

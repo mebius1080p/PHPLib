@@ -2,10 +2,12 @@
 
 use Mebius\IO\FileHandler;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * FileHandlerTest
  */
+#[CoversClass(FileHandler::class)]
 class FileHandlerTest extends TestCase
 {
 	private static $countFile = "";

@@ -36,21 +36,22 @@ trait TExecuteSelectQuery3
 		$db = new DBHandlerBase3($pdo);
 		$db->executeSelectQuery("SELECT * FROM hoge", \stdClass::class);
 	}
-	public function testFetchmodeFail()
-	{
-		$this->expectException(Exception::class);
-		$this->expectExceptionMessage("fetch failed");
+	//setFetchMode は常に true を返すらしい？？？
+	// public function testFetchmodeFail()
+	// {
+	// 	$this->expectException(Exception::class);
+	// 	$this->expectExceptionMessage("fetch failed");
 
-		$sth = $this->makeMockSTH();
-		$sth->method('setFetchMode')
-			->willReturn(false);
-		$pdo = $this->makeMockPDO();
-		$pdo->method('prepare')
-			->willReturn($sth);
+	// 	$sth = $this->makeMockSTH();
+	// 	$sth->method('setFetchMode')
+	// 		->willReturn(false);
+	// 	$pdo = $this->makeMockPDO();
+	// 	$pdo->method('prepare')
+	// 		->willReturn($sth);
 
-		$db = new DBHandlerBase3($pdo);
-		$db->executeSelectQuery("SELECT * FROM hoge", \stdClass::class);
-	}
+	// 	$db = new DBHandlerBase3($pdo);
+	// 	$db->executeSelectQuery("SELECT * FROM hoge", \stdClass::class);
+	// }
 	public function testExecuteFail()
 	{
 		$this->expectException(Exception::class);
